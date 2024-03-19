@@ -1,5 +1,7 @@
 package com.csmtech.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,18 @@ public class UserMasterServiceImpl implements UserMasterService {
 			}
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> getAllUsers() {
+		try {
+			List<Object> userList = userMasterRepository.getAllUsers();
+			System.out.println(userList);
+			return new ResponseEntity<>(userList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

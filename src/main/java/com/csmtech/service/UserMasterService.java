@@ -8,4 +8,6 @@ public interface UserMasterService {
 
 	ResponseEntity<?> loginValidate(UserMasterDTO userMasterDTO);
 
+	ResponseEntity<?> getAllUsers();
+
 }

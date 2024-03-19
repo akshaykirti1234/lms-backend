@@ -23,6 +23,9 @@ public class UserMaster {
 	@Column(name = "USERID")
 	private Integer userId;
 
+	@Column(name = "NORMALPASSWORD")
+	private String normalPassword;
+
 	@Column(name = "UPASSWORD")
 	private String password;
 
@@ -34,6 +37,20 @@ public class UserMaster {
 
 	@Column(name = "EMAILID")
 	private String emailId;
+
+	@Column(name = "DESIGNATION")
+	private String designation;
+
+	@Column(name = "DEPARTMENT")
+	private String department;
+
+	@ManyToOne
+	@JoinColumn(name = "LOCATIONID")
+	private Location location;
+
+	@ManyToOne
+	@JoinColumn(name = "USERTYPEID")
+	private UserType userType;
 
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
@@ -50,10 +67,4 @@ public class UserMaster {
 	@Column(name = "DELETEDFLAG")
 	private boolean deletedFlag;
 
-	@ManyToOne
-	@JoinColumn(name = "USERTYPEID")
-	private UserType userType;
-
-	@Column(name = "LOCATION")
-	private String location;
 }
