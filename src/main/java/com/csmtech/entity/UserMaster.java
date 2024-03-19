@@ -29,17 +29,11 @@ public class UserMaster {
 	@Column(name = "FULLNAME")
 	private String fullName;
 
-	@Column(name = "DESGNID")
-	private Integer designId;
-
 	@Column(name = "CONTACTNO")
 	private String contactNo;
 
 	@Column(name = "EMAILID")
 	private String emailId;
-
-	@Column(name = "NORMALPASS")
-	private String normalPass;
 
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
