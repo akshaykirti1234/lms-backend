@@ -38,8 +38,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 	@Override
 	public ResponseEntity<?> getAllUsers() {
 		try {
-			List<Object> userList = userMasterRepository.getAllUsers();
-			System.out.println(userList);
+			List<UserMaster> userList = userMasterRepository.getAllUsers();
 			return new ResponseEntity<>(userList, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

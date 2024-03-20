@@ -1,6 +1,6 @@
 package com.csmtech.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,13 +25,13 @@ public class Location {
 	private String locationName;
 
 	@Column(name = "CREATEDBY")
-	private String createdBy;
+	private Integer createdBy;
 
 	@Column(name = "CREATEDON")
 	private Date createdOn;
 
 	@Column(name = "UPDATEDBY")
-	private String updatedBy;
+	private Integer updatedBy;
 
 	@Column(name = "UPDATEDON")
 	private Date updatedOn;
