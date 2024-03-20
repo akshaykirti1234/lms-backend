@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +27,8 @@ public class AuthorServiceImpl implements AuthorService {
 		authorEnt.setAuthName(authorDto.getAuthName());
 		authorEnt.setEmail(authorDto.getEmail());
 		authorEnt.setPhone(authorDto.getPhone());
-		authorEnt.setCreatedOn(new Date());
 		authorEnt.setCreatedBy(1);
-		authorEnt.setUpdatedOn(new Date());
 		authorEnt.setUpdatedBy(1);
-		authorEnt.setDeletedFlag(false);
 		return authorRepository.save(authorEnt);
 	}
 

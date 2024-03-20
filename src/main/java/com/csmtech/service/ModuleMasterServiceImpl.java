@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,13 @@ public class ModuleMasterServiceImpl implements ModuleMasterService {
 		ModuleMaster moduleMaster = new ModuleMaster();
 		if (moduleMasterDto.getModuleId() != null) {
 			moduleMaster.setModuleId(moduleMasterDto.getModuleId());
+			moduleMaster.setUpdatedBy(1);
 
 		}
 		moduleMaster.setModuleName(moduleMasterDto.getModuleName());
 		moduleMaster.setModuleDescription(moduleMasterDto.getModuleDescription());
 		moduleMaster.setLogo(moduleMasterDto.getLogo());
 		moduleMaster.setCreatedBy(1);
-		moduleMaster.setCreatedOn(new Date());
-		moduleMaster.setDeletedFlag(false);
 
 		return moduleMasterRepository.save(moduleMaster);
 	}

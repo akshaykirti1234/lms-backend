@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,7 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 		SessionMaster sm = new SessionMaster();
 		if (dto.getSessionid() != 0) {
 			sm.setSessionId(dto.getSessionid());
+			sm.setUpdatedBy(1);
 		}
 		SubModule subModule = subModuleRepo.findById(dto.getSubModuleId()).get();
 		sm.setSubModule(subModule);
@@ -43,8 +43,6 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 		sm.setDocument(dto.getDocument());
 		sm.setSessionDescription(dto.getDescription());
 		sm.setCreatedBy(1);
-		sm.setCreatedOn(new Date());
-		sm.setDeletedFlag(false);
 		return sessionRepo.save(sm);
 	}
 

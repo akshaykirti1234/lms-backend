@@ -1,7 +1,6 @@
 
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,8 @@ public class TechnologyServiceImpl implements TechnologyService {
 		Technology techMas = new Technology();
 		techMas.setTechId(technologyDto.getTechId());
 		techMas.setTechName(technologyDto.getTechName());
-		techMas.setCreatedOn(new Date());
 		techMas.setCreatedBy(1);
-		techMas.setUpdatedOn(new Date());
 		techMas.setUpdatedBy(1);
-		techMas.setDeletedFlag(false);
 		return technologyRepository.save(techMas);
 	}
 

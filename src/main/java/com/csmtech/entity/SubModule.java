@@ -1,7 +1,5 @@
 package com.csmtech.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,15 +30,7 @@ public class SubModule {
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
 
-	@Column(name = "CREATEDON")
-	private Date createdOn;
-
 	@Column(name = "UPDATEDBY")
 	private Integer updatedBy;
 
-	@Column(name = "UPDATEDON")
-	private Date updatedOn;
-
-	@Column(name = "DELETEDFLAG")
-	private boolean deletedFlag;
 }

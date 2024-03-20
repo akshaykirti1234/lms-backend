@@ -1,7 +1,5 @@
 package com.csmtech.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 
@@ -53,20 +47,6 @@ public class ScheduleForMaster {
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATEDON", updatable = false)
-	private Date createdOn;
-
 	@Column(name = "UPDATEDBY")
 	private Integer updatedBy;
-
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATEDON", insertable = false)
-	private Date updatedOn;
-
-	@Column(name = "DELETEDFLAG")
-	private Boolean deletedFlag;
-
 }

@@ -1,7 +1,5 @@
 package com.csmtech.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.Data;
 
@@ -51,18 +47,18 @@ public class SessionMaster {
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATEDON")
-	private Date createdOn;
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@Column(name = "CREATEDON")
+//	private Date createdOn;
 
 	@Column(name = "UPDATEDBY")
 	private Integer updatedBy;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATEDON")
-	private Date updatedOn;
-
-	@Column(name = "DELETEDFLAG")
-	private Boolean deletedFlag;
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@Column(name = "UPDATEDON")
+//	private Date updatedOn;
+//
+//	@Column(name = "DELETEDFLAG")
+//	private Boolean deletedFlag;
 
 }

@@ -37,8 +37,8 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 		scheduleForMaster.setIsAssessmentPrepared(false);
 		scheduleForMaster.setNoOfSession(scheduleForMasterDto.getNoOfSession());
 		scheduleForMaster.setNoOfHours(scheduleForMasterDto.getNoOfHours());
-		scheduleForMaster.setDeletedFlag(false);
-
+		scheduleForMaster.setCreatedBy(1);
+		scheduleForMaster.setUpdatedBy(1);
 		// Save
 		ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
 

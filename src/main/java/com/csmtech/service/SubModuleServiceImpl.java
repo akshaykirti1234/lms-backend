@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +42,11 @@ public class SubModuleServiceImpl implements SubModuleService {
 
 			if (subModuleDto.getSubmoduleId() != null) {
 				entity.setSubmoduleId(subModuleDto.getSubmoduleId());
+				entity.setUpdatedBy(1);
 			}
 			entity.setModuleMaster(moduleMaster);
 			entity.setSubmoduleName(subModuleDto.getSubmoduleName());
 			entity.setCreatedBy(1);
-			entity.setCreatedOn(new Date());
-			entity.setUpdatedBy(1);
-			entity.setUpdatedOn(new Date());
-			entity.setDeletedFlag(false);
 
 			subModuleRepository.save(entity);
 			response.put("status", HttpStatus.CREATED);

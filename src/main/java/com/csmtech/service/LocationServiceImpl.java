@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +26,10 @@ public class LocationServiceImpl implements LocationService {
 			Location entity = new Location();
 			if (locationDto.getLocationId() != null) {
 				entity.setLocationId(locationDto.getLocationId());
+				entity.setUpdatedBy(1);
 			}
 			entity.setLocationName(locationDto.getLocationName());
 			entity.setCreatedBy(1);
-			entity.setCreatedOn(new Date());
-			entity.setUpdatedBy(1);
-			entity.setUpdatedOn(new Date());
-			entity.setDeletedFlag(false);
-
 			locationRepository.save(entity);
 			response.put("status", HttpStatus.CREATED);
 			response.put("message", "Location Master data saved successfully");

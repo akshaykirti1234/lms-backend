@@ -1,6 +1,5 @@
 package com.csmtech.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +32,14 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 			assessmentMaster.setOption4(assessmentDto.getOption4());
 			assessmentMaster.setAnswer(assessmentDto.getAnswer());
 			assessmentMaster.setCreatedBy(1);
-			assessmentMaster.setCreatedOn(new Date());
 			assessmentMaster.setUpdatedBy(1);
-			assessmentMaster.setUpdatedOn(new Date());
-			assessmentMaster.setDeletedFlag(false);
-
 			AssessmentMaster save = assessmentMasterRepository.save(assessmentMaster);
-
 			// Check if assessment is saved successfully
 			if (save != null) {
 				// Update flag in another table
 				int updatedRows = scheduleForMasterRepository.updateFlagByScheduleId(assessmentDto.getScheduleForId());
 				// Handle the update status if needed
 			}
-
 			return save;
 
 		} catch (Exception e) {
