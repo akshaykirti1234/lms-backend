@@ -1,5 +1,8 @@
 package com.csmtech.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,7 @@ public class NotifyUserController {
 
 	@Autowired
 	private UserMasterService userMasterService;
-	
+
 	@Autowired
 	private EmailServiceUtil emailService;
 
@@ -30,18 +33,21 @@ public class NotifyUserController {
 		System.out.println("lhbgvyh");
 		return userMasterService.getAllUsers();
 	}
-	
+
 	@PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestBody EmailDto emailFormDTO) {
-        try {
-            if ("information".equalsIgnoreCase(emailFormDTO.getNotifyStatus())) {
-                emailService.sendInformationEmail(emailFormDTO.getSelectedEmail(), emailFormDTO.getDescription());
-            } else if ("password".equalsIgnoreCase(emailFormDTO.getNotifyStatus())) {
-                emailService.sendPasswordEmail(emailFormDTO.getSelectedEmail());
-            }
-            return ResponseEntity.ok("Email(s) sent successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email(s)");
-        }
-    }
+	public ResponseEntity<Map<String, Object>> sendEmail(@RequestBody EmailDto emailFormDTO) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			if ("information".equalsIgnoreCase(emailFormDTO.getNotifyStatus())) {
+				emailService.sendInformationEmail(emailFormDTO.getSelectedEmails(), emailFormDTO.getDescription());
+			} else if ("password".equalsIgnoreCase(emailFormDTO.getNotifyStatus())) {
+				emailService.sendPasswordEmail(emailFormDTO.getSelectedEmails());
+			}
+			response.put("message", "Email(s) sent successfully");
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			response.put("message", "Failed to send email(s)");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 public class EmailDto {
 
 	private String notifyStatus;
-    private List<String> selectedEmail;
-    private String description;
-	
+	private List<String> selectedEmails;
+	private String description;
+
 }
