@@ -30,7 +30,6 @@ public class NotifyUserController {
 
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<?> getMethodName() {
-		System.out.println("lhbgvyh");
 		return userMasterService.getAllUsers();
 	}
 
