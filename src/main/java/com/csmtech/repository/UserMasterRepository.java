@@ -14,7 +14,7 @@ public interface UserMasterRepository extends JpaRepository<UserMaster, Integer>
 	@Query("from UserMaster where emailId = :emailId AND deletedFlag = false")
 	UserMaster getUserByEmail(String emailId);
 
-	@Query("from UserMaster where deletedFlag = false")
-	List<UserMaster> getAllUsers();
+	@Query("select emailId from UserMaster where deletedFlag = false")
+	List<Object> getAllUsers();
 
 }
