@@ -44,6 +44,4 @@ public class NotifyUserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email(s)");
         }
     }
-	
-
 }
