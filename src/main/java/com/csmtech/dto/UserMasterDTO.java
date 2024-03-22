@@ -7,18 +7,18 @@ import lombok.Data;
 @Data
 public class UserMasterDTO {
 	private Integer userId;
+	private String normalPassword;
 	private String password;
 	private String fullName;
-	private Integer designId;
 	private String contactNo;
 	private String emailId;
-	private String normalPass;
-	private String createdBy;
+	private String designation;
+	private String department;
+	private Integer location;
+	private Integer userType;
+	private Integer createdBy;
 	private Date createdOn;
-	private String updatedBy;
+	private Integer updatedBy;
 	private Date updatedOn;
 	private boolean deletedFlag;
-	private Integer userTypeId;
-	private Integer projectId;
-	private String location;
 }
