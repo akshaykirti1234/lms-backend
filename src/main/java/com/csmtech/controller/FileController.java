@@ -116,7 +116,14 @@ public class FileController {
 	        contentType = "application/vnd.ms-powerpoint";
 	    else if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("avi")) 
 	        contentType = "video/mp4"; // Adjust as needed based on the video format
-	    
+	    else if (fileFormat.equalsIgnoreCase("doc"))
+	        contentType = "application/msword";
+	    else if (fileFormat.equalsIgnoreCase("docx")) 
+	        contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+	    else if (fileFormat.equalsIgnoreCase("txt")) 
+	        contentType = "text/plain";
+	    else
+	    	contentType = "application/octet-stream";
 	}
 	 
 	 
