@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/commonCaptchaGenerator/generate")
 
-				.permitAll().antMatchers("/auth/generate-token").permitAll().antMatchers("/viewFile/*").permitAll()
+				.permitAll().antMatchers("/auth/**").permitAll().antMatchers("/viewFile/*").permitAll()
 				.antMatchers("/viewLogo/*").permitAll().anyRequest().authenticated().and()
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(entry))
 

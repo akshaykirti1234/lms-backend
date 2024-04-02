@@ -55,16 +55,7 @@ public class UserMaster {
 	@Column(name = "CREATEDBY")
 	private Integer createdBy;
 
-	@Column(name = "CREATEDON")
-	private Date createdOn;
-
 	@Column(name = "UPDATEDBY")
 	private Integer updatedBy;
-
-	@Column(name = "UPDATEDON")
-	private Date updatedOn;
-
-	@Column(name = "DELETEDFLAG")
-	private boolean deletedFlag;
 
 }
