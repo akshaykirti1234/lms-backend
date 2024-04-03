@@ -28,4 +28,6 @@ public interface UserMasterService {
 
 	List<Map<String, Object>> gettEmailList();
 
+	ResponseEntity<?> updatePassword(String passwordPayload);
+
 }

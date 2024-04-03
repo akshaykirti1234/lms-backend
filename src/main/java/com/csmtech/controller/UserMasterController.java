@@ -61,9 +61,13 @@ public class UserMasterController {
 	@GetMapping("/emailId")
 	public ResponseEntity<List<Map<String, Object>>> getEmaiLList() {
 		List<Map<String, Object>> emailIdList = userMasterService.gettEmailList();
-
 		return ResponseEntity.ok().body(emailIdList);
+	}
 
+	@PostMapping("/updatePassword")
+	public ResponseEntity<?> updatePassword(@RequestBody String passwordPayload) {
+		ResponseEntity<?> response = userMasterService.updatePassword(passwordPayload);
+		return response;
 	}
 
 }

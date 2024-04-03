@@ -44,4 +44,9 @@ public interface UserMasterRepository extends JpaRepository<UserMaster, Integer>
 
 	boolean existsByEmailId(String emailId);
 
+	@Modifying
+	@Transactional
+	@Query("update UserMaster set normalPassword = :newPassword, password =:password where emailId =:emailId")
+	void updatePassword(String emailId, String newPassword, String password);
+
 }
