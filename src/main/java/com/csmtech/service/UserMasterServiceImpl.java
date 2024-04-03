@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +33,16 @@ import com.csmtech.entity.UserMaster;
 import com.csmtech.entity.UserType;
 import com.csmtech.repository.UserMasterRepository;
 import com.csmtech.util.PasswordGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class UserMasterServiceImpl implements UserMasterService {
 
 	@Autowired
 	private UserMasterRepository userMasterRepository;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserMasterServiceImpl.class);
 
@@ -456,6 +459,39 @@ public class UserMasterServiceImpl implements UserMasterService {
 
 		return password.toString();
 
+	}
+
+	// Update Password
+	@Override
+	public ResponseEntity<?> updatePassword(String passwordPayload) {
+		Map<String, String> passwordData;
+		try {
+			passwordData = objectMapper.readValue(passwordPayload, Map.class);
+			String currentPassword = passwordData.get("currentPassword");
+			String newPassword = passwordData.get("newPassword");
+			String confirmPassword = passwordData.get("confirmPassword");
+			String emailId = passwordData.get("emailId");
+
+			UserMaster userByEmail = userMasterRepository.getUserByEmail(emailId);
+
+			if (userByEmail != null) {
+				if (currentPassword.equals(userByEmail.getNormalPassword()) && newPassword.equals(confirmPassword)) {
+					String password = new BCryptPasswordEncoder().encode(newPassword);
+
+					userMasterRepository.updatePassword(emailId, newPassword, password);
+					return new ResponseEntity<>(HttpStatus.OK);
+				} else {
+					return new ResponseEntity<>("Incorrect Current Password", HttpStatus.UNAUTHORIZED);
+				}
+
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
