@@ -383,42 +383,23 @@ public class UserMasterServiceImpl implements UserMasterService {
 					// Save data to the database
 
 					UserMaster user = new UserMaster();
-
 					user.setPassword(new BCryptPasswordEncoder().encode(password));
-
 					user.setNormalPassword(password);
-
 					user.setFullName(name);
-
 					user.setContactNo(contactNo);
-
 					user.setEmailId(emailId);
-
 					user.setDesignation(designation);
-
 					user.setDepartment(department);
-
 					UserType ut = new UserType();
 					ut.setUserTypeId(2);
 					user.setUserType(ut);
 					Location l = new Location();
 					l.setLocationId(1);
 					user.setLocation(l);
-
 					user.setCreatedBy(1);
-
 					user.setUpdatedBy(1);
-
-					user.setCreatedOn(new Date());
-
-					user.setUpdatedOn(new Date());
-
-					user.setDeletedFlag(false);
-
 					userMasterRepository.save(user);
-
 				}
-
 				// Return success response
 				response.put("message", "User data uploaded successfully.");
 				return ResponseEntity.ok(response);

@@ -1,5 +1,8 @@
 package com.csmtech.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,19 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.csmtech.dto.ForgotPasswordDto;
 import com.csmtech.dto.LoginRequestDto;
+import com.csmtech.dto.OtpCheckDto;
 import com.csmtech.entity.UserMaster;
+import com.csmtech.repository.UserMasterRepository;
 import com.csmtech.service.AuthenticationService;
 import com.csmtech.service.LmsUserDetailsServiceImpl;
 import com.csmtech.util.CommonCaptchaGenerate;
 import com.csmtech.util.CommonConstant;
 import com.csmtech.util.JwtUtil;
+import com.csmtech.util.OTPService;
 
 @RestController
 @CrossOrigin("*")
@@ -39,6 +49,12 @@ public class AuthenticationController {
 
 	@Autowired
 	private AuthenticationService service;
+
+	@Autowired
+	private UserMasterRepository repo;
+
+	@Autowired
+	private OTPService otpService;
 
 	// method will work generate Token and login
 
@@ -99,4 +115,37 @@ public class AuthenticationController {
 		}
 		return validateCaptcha;
 	}
+
+	@GetMapping("/checkEmail/{email}")
+	public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
+		boolean emailExists = service.findByEmail(email) != null;
+		if(emailExists) {
+			String otp = otpService.generateOTP(email);
+		}
+		return ResponseEntity.ok(emailExists);
+	}
+	
+	@PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
+		Map<String, Object> response = new HashMap<>();
+        if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
+        	response.put("message", "OTP verified successfully");
+            return ResponseEntity.ok(response);
+        } else {
+        	response.put("message", "Invalid OTP");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+	@PostMapping("/change-password")
+	public ResponseEntity<?> changePassword(@RequestBody ForgotPasswordDto dto) {
+		UserMaster us = service.findByEmail(dto.getEmail());
+		us.setNormalPassword(dto.getPassword());
+		us.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+		repo.save(us);
+		Map<String, Object> response = new HashMap<>();
+		response.put("message", "Password Changed Successfully.");
+		return ResponseEntity.ok().body(response);
+	}
+
 }
