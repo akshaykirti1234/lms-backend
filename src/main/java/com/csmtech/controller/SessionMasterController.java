@@ -24,7 +24,6 @@ import com.csmtech.dto.SessionMasterDto;
 import com.csmtech.entity.SessionMaster;
 import com.csmtech.service.ScheduleForMasterService;
 import com.csmtech.service.SessionMasterService;
-import com.csmtech.service.SubModuleService;
 
 @RestController
 @CrossOrigin("*")
@@ -38,49 +37,51 @@ public class SessionMasterController {
 
 	@Autowired
 	private SessionMasterService sessionService;
-	@Autowired
-	private SubModuleService subModuleService;
+//	@Autowired
+//	private SubModuleService subModuleService;
 	@Autowired
 	private ScheduleForMasterService scheduleForMasterService;
-
+	
 	@PostMapping("/session-master")
 	public ResponseEntity<SessionMaster> saveSessionMaster(@RequestBody SessionMasterDto dto) throws Exception {
-		SessionMaster sm = sessionService.saveSessionMaster(dto);
-		List<String> fileUploadList = new ArrayList<>();
-		String fileFormat = null;
-		String folderName = null;
-		fileUploadList.add(sm.getVideo());
-		fileUploadList.add(sm.getDocument());
-		for (String fileUpload : fileUploadList) {
-			if (fileUpload != null && (!fileUpload.equals(""))) {
-				int lastDotIndex = fileUpload.lastIndexOf('.');
-				if (lastDotIndex != -1) {
-					fileFormat = fileUpload.substring(lastDotIndex + 1);
-					System.out.println(fileFormat);
-				} else {
-					throw new Exception("No file format found");
-				}
-				if (fileFormat.equals("mp4") || fileFormat.equals("avi") || fileFormat.equals("wmv")
-						|| fileFormat.equals("mov") || fileFormat.equals("flv") || fileFormat.equals("mpeg")
-						|| fileFormat.equals("mkv") || fileFormat.equals("webm") || fileFormat.equals("3gp")) {
-					folderName = "VIDEO";
-				} else {
-					folderName = "DOCUMENT";
-				}
-				File file = new File(tempFilePath + folderName + "/" + fileUpload);
-				if (file.exists()) {
-					File srcFile = new File(tempFilePath + folderName + "/" + fileUpload);
-					File destFile = new File(actualFilePath + folderName + "/" + fileUpload);
-					try {
-						Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-						Files.delete(srcFile.toPath());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		return ResponseEntity.ok().body(sm);
+	    SessionMaster sm = sessionService.saveSessionMaster(dto);
+	    List<String> fileUploadList = new ArrayList<>();
+	    String fileFormat = null;
+	    String folderName = null;
+	    fileUploadList.add(sm.getVideo());
+	    fileUploadList.add(sm.getDocument());
+	    for (String fileUpload : fileUploadList) {
+	        if (fileUpload != null && (!fileUpload.equals(""))) {
+	            int lastDotIndex = fileUpload.lastIndexOf('.');
+	            if (lastDotIndex != -1) {
+	                fileFormat = fileUpload.substring(lastDotIndex + 1);
+	                System.out.println(fileFormat);
+	            } else {
+	                throw new Exception("No file format found");
+	            }
+	            if (fileFormat.equals("mp4") || fileFormat.equals("avi") || fileFormat.equals("wmv")
+	                    || fileFormat.equals("mov") || fileFormat.equals("flv") || fileFormat.equals("mpeg")
+	                    || fileFormat.equals("mkv") || fileFormat.equals("webm") || fileFormat.equals("3gp")) {
+	                folderName = "VIDEO";
+	            } else {
+	                folderName = "DOCUMENT";
+	            }
+	            File folder = new File(actualFilePath + folderName);
+	            if (!folder.exists()) {
+	                folder.mkdirs(); // Create the folder if it doesn't exist
+	            }
+
+	            File srcFile = new File(tempFilePath + folderName + "/" + fileUpload);
+	            File destFile = new File(actualFilePath + folderName + "/" + fileUpload);
+	            try {
+	                Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	                Files.delete(srcFile.toPath());
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    return ResponseEntity.ok().body(sm);
 	}
 
 	@GetMapping("/session-master")

@@ -129,11 +129,13 @@ public class AuthenticationController {
     public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
 		Map<String, Object> response = new HashMap<>();
         if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
+        	response.put("isValid", true);
         	response.put("message", "OTP verified successfully");
             return ResponseEntity.ok(response);
         } else {
+        	response.put("isValid", false);
         	response.put("message", "Invalid OTP");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok().body(response);
         }
     }
 
