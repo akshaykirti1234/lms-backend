@@ -120,8 +120,11 @@ public class ModuleMasterController {
 		if (fileNameType != null) {
 			String[] fileArray = fileNameType.split("[.]");
 			if (fileArray.length > 1) {
-				f1 = new File(tempPath + "/" + fileNameType);
-
+				File folder = new File(tempPath);
+	            if (!folder.exists()) {
+	                folder.mkdirs();
+	            }
+	            f1 = new File(folder.getPath() + "/" + fileNameType);
 				System.out.println(f1.getAbsolutePath());
 				try (FileOutputStream fos = new FileOutputStream(f1);
 						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
