@@ -1,5 +1,6 @@
 package com.csmtech.util;
 
+import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,7 +22,7 @@ public class OTPService {
 
     public String generateOTP(String email) {
         String otp = generateRandomOTP();
-        otpMap.put(email, Map.entry(otp, System.currentTimeMillis() + OTP_EXPIRY_DURATION_MS));
+        otpMap.put(email, new AbstractMap.SimpleEntry<>(otp, System.currentTimeMillis() + OTP_EXPIRY_DURATION_MS));
         sendOTPEmail(email, otp);
         return otp;
     }
