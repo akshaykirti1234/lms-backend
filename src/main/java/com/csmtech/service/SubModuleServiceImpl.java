@@ -21,8 +21,11 @@ public class SubModuleServiceImpl implements SubModuleService {
 	private SubModuleRepository subModuleRepository;
 
 	@Override
-	public ResponseEntity<?> getSubmoduleById(Integer moduleId) {
-		List<SubModule> submoduleList = subModuleRepository.getSubmoduleById(moduleId);
+	public ResponseEntity<?> getSubmoduleByModuleId(Integer moduleId) {
+		List<SubModule> submoduleList = subModuleRepository.getSubmoduleByModuleId(moduleId);
+		if (submoduleList.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<>(submoduleList, HttpStatus.OK);
 	}
 

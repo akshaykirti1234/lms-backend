@@ -13,8 +13,8 @@ import com.csmtech.entity.SubModule;
 
 public interface SubModuleRepository extends JpaRepository<SubModule, Integer> {
 
-	@Query("from SubModule  where moduleMaster.moduleId = :moduleId")
-	List<SubModule> getSubmoduleById(Integer moduleId);
+	@Query("from SubModule  where moduleMaster.moduleId = :moduleId and DELETEDFLAG = 0")
+	List<SubModule> getSubmoduleByModuleId(Integer moduleId);
 
 	@Query(value = "SELECT sub.SUBMODULEID, sub.SUBMODULENAME, m.MODULEID, m.MODULENAME " + "FROM submodulemaster sub "
 			+ "INNER JOIN modulemaster m ON m.MODULEID = sub.MODULEID "

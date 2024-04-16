@@ -59,4 +59,10 @@ public class SubModuleController {
 		return ResponseEntity.ok().body(update);
 	}
 
+	@GetMapping("/getSubModuleByModuleId/{moduleId}")
+	public ResponseEntity<?> getSubModuleByModuleId(@PathVariable Integer moduleId) {
+		ResponseEntity<?> response = subModuleService.getSubmoduleByModuleId(moduleId);
+		return response;
+	}
+
 }

@@ -27,8 +27,9 @@ public interface ScheduleForMasterRepository extends JpaRepository<ScheduleForMa
 	@Query("UPDATE ScheduleForMaster  SET isAssessmentPrepared = true WHERE scheduleForId = :scheduleForId")
 	Integer updateFlagByScheduleId(@Param("scheduleForId") Integer scheduleForId);
 
-	@Query(value = "SELECT SF.SCHEDULEFORID, SF.SCHEDULEFOR, SF.NOOFSESSION\r\n" + "FROM SCHEDULEFORMASTER SF\r\n"
-			+ "INNER JOIN SUBMODULEMASTER SM\r\n" + "ON(SF.SUBMODULEID=SM.SUBMODULEID)\r\n"
+	@Query(value = "SELECT SF.SCHEDULEFORID, SF.SCHEDULEFOR, SF.NOOFSESSION,AU.AUTHNAME\r\n"
+			+ "FROM SCHEDULEFORMASTER SF\r\n" + "INNER JOIN SUBMODULEMASTER SM\r\n"
+			+ "ON(SF.SUBMODULEID=SM.SUBMODULEID)\r\n" + "INNER JOIN AUTHOR AU\r\n" + "ON(SF.AUTHID=AU.AUTHID)\r\n"
 			+ "WHERE SF.SUBMODULEID = :id AND SF.DELETEDFLAG = 0;", nativeQuery = true)
 	List<Map<String, Object>> findBysubModuleId(Integer id);
 

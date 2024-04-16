@@ -10,7 +10,7 @@ import com.csmtech.entity.SubModule;
 
 public interface SubModuleService {
 
-	ResponseEntity<?> getSubmoduleById(Integer moduleId);
+	ResponseEntity<?> getSubmoduleByModuleId(Integer moduleId);
 
 	List<SubModule> getAllSubModules();
 
