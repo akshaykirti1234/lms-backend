@@ -37,4 +37,7 @@ public interface SessionMasterRepository extends JpaRepository<SessionMaster, In
 			+ ", 'true', 'false') Status;\r\n" + "", nativeQuery = true)
 	String checkBoxValidation(Integer id);
 
+	@Query("From SessionMaster where scheduleFor.scheduleForId = :scheduleId and DELETEDFLAG = 0")
+	List<SessionMaster> getSessionByScheduleId(Integer scheduleId);
+
 }

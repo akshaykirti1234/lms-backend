@@ -3,6 +3,8 @@ package com.csmtech.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
 import com.csmtech.dto.SessionMasterDto;
 import com.csmtech.entity.SessionMaster;
 
@@ -19,5 +21,7 @@ public interface SessionMasterService {
 	Boolean checkIsLastSession(Integer id);
 
 	Boolean checkBoxValidation(Integer id);
+
+	ResponseEntity<?> getSessionByScheduleId(Integer scheduleId);
 
 }

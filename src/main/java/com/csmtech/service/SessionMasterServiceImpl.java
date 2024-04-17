@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.csmtech.dto.SessionMasterDto;
@@ -84,6 +85,15 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ResponseEntity<?> getSessionByScheduleId(Integer scheduleId) {
+		List<SessionMaster> sessionMastersList = sessionRepo.getSessionByScheduleId(scheduleId);
+		if (sessionMastersList.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(sessionMastersList);
 	}
 
 }
