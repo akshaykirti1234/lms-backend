@@ -3,6 +3,8 @@ package com.csmtech.service;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import com.csmtech.repository.SubModuleRepository;
 @Service
 public class SessionMasterServiceImpl implements SessionMasterService {
 
+	Logger logger=LoggerFactory.getLogger(SessionMasterServiceImpl.class);
+	
 	@Autowired
 	private SessionMasterRepository sessionRepo;
 
@@ -29,6 +33,7 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 
 	@Override
 	public SessionMaster saveSessionMaster(SessionMasterDto dto) {
+		logger.info("saveSessionMaster method of SessionMasterServiceImpl is executed");
 		SessionMaster sm = new SessionMaster();
 		if (dto.getSessionid() != 0) {
 			sm.setSessionId(dto.getSessionid());
@@ -49,6 +54,7 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 
 	@Override
 	public SessionMasterDto getSessionMasterById(Integer id) {
+		logger.info("getSessionMasterById method of SessionMasterServiceImpl is executed");
 		SessionMaster sm = sessionRepo.findById(id).get();
 		SessionMasterDto dto = new SessionMasterDto();
 		dto.setSessionid(sm.getSessionId());
@@ -64,22 +70,26 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 
 	@Override
 	public void deleteSessionMasterById(Integer id) {
+		logger.info("deleteSessionMasterById method of SessionMasterServiceImpl is executed");
 		sessionRepo.deleteSession(id);
 	}
 
 	@Override
 	public List<Map<String, Object>> getAllSessionMaster() {
+		logger.info("getAllSessionMaster method of SessionMasterServiceImpl is executed");
 		return sessionRepo.getAllSessionMaster();
 	}
 
 	@Override
 	public Boolean checkIsLastSession(Integer id) {
+		logger.info("checkIsLastSession method of SessionMasterServiceImpl is executed");
 		Boolean i = sessionRepo.checkIsLastSession(id);
 		return i;
 	}
 
 	@Override
 	public Boolean checkBoxValidation(Integer id) {
+		logger.info("checkBoxValidation method of SessionMasterServiceImpl is executed");
 		String s = sessionRepo.checkBoxValidation(id);
 		if (s.equals("true")) {
 			return true;
@@ -89,6 +99,7 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 
 	@Override
 	public ResponseEntity<?> getSessionByScheduleId(Integer scheduleId) {
+		logger.info("getSessionByScheduleId method of SessionMasterServiceImpl is executed");
 		List<SessionMaster> sessionMastersList = sessionRepo.getSessionByScheduleId(scheduleId);
 		if (sessionMastersList.isEmpty()) {
 			return ResponseEntity.notFound().build();
