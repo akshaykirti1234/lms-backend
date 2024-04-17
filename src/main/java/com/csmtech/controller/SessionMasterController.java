@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,8 @@ import com.csmtech.service.SessionMasterService;
 @RestController
 @CrossOrigin("*")
 public class SessionMasterController {
+	
+	Logger logger=LoggerFactory.getLogger(SessionMasterController.class);
 
 	@Value("${tempfile.path}")
 	private String tempFilePath;
@@ -44,6 +48,7 @@ public class SessionMasterController {
 
 	@PostMapping("/session-master")
 	public ResponseEntity<SessionMaster> saveSessionMaster(@RequestBody SessionMasterDto dto) throws Exception {
+		logger.info("saveSessionMaster method of SessionMasterController is executed");
 		SessionMaster sm = sessionService.saveSessionMaster(dto);
 		List<String> fileUploadList = new ArrayList<>();
 		String fileFormat = null;
@@ -86,11 +91,13 @@ public class SessionMasterController {
 
 	@GetMapping("/session-master")
 	public List<Map<String, Object>> getAllSessionList() {
+		logger.info("getAllSessionList method of SessionMasterController is executed");
 		return sessionService.getAllSessionMaster();
 	}
 
 	@DeleteMapping("/session-master/{id}")
 	public ResponseEntity<Map<String, Object>> deleteSessionByid(@PathVariable("id") Integer id) {
+		logger.info("deleteSessionByid method of SessionMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		sessionService.deleteSessionMasterById(id);
 		response.put("status", "Deleted Successfully");
@@ -99,11 +106,13 @@ public class SessionMasterController {
 
 	@GetMapping("/session-master/{id}")
 	public SessionMasterDto getSessionById(@PathVariable("id") Integer id) {
+		logger.info("getSessionById method of SessionMasterController is executed");
 		return sessionService.getSessionMasterById(id);
 	}
 
 	@GetMapping("/check-is-last-session/{id}")
 	public ResponseEntity<Map<String, Object>> checkIsLastSession(@PathVariable("id") Integer id) {
+		logger.info("checkIsLastSession method of SessionMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		response.put("isLastSession", sessionService.checkIsLastSession(id));
 		response.put("checkBoxValidation", sessionService.checkBoxValidation(id));
@@ -112,12 +121,14 @@ public class SessionMasterController {
 
 	@GetMapping("/submodule/{id}")
 	public List<Map<String, Object>> getScheduleForBySubModId(@PathVariable("id") Integer id) {
+		logger.info("getScheduleForBySubModId method of SessionMasterController is executed");
 		return scheduleForMasterService.getScheduleForBySubModuleId(id);
 
 	}
 
 	@GetMapping("/getSessionByScheduleId/{scheduleId}")
 	public ResponseEntity<?> getSessionByScheduleId(@PathVariable Integer scheduleId) {
+		logger.info("getSessionByScheduleId method of SessionMasterController is executed");
 		return sessionService.getSessionByScheduleId(scheduleId);
 	}
 

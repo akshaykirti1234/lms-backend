@@ -14,6 +14,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -37,6 +39,7 @@ import com.csmtech.service.ModuleMasterService;
 @RestController
 @CrossOrigin("*")
 public class ModuleMasterController {
+	Logger logger=LoggerFactory.getLogger(ModuleMasterController.class);
 
 	@Value("${actuallogofile.path}")
 	private String actualFilePath;
@@ -50,6 +53,7 @@ public class ModuleMasterController {
 	@PostMapping("/module")
 	public ResponseEntity<ModuleMaster> saveModuleMaster(@RequestBody ModuleMasterDto moduleMasterDto)
 			throws Exception {
+		logger.info("saveModuleMaster method of ModuleMasterController is executed");
 		ModuleMaster moduleMaster = moduleMasterService.saveModule(moduleMasterDto);
 
 // for re;[move the file temppath to actualpath and delete the file from
@@ -89,6 +93,7 @@ public class ModuleMasterController {
 
 	@GetMapping("/module")
 	public ResponseEntity<List<ModuleMaster>> getModule() {
+		logger.info("getModule method of ModuleMasterController is executed");
 		List<ModuleMaster> moduleMasterList = moduleMasterService.getModuleMaster();
 
 		return ResponseEntity.ok().body(moduleMasterList);
@@ -97,6 +102,7 @@ public class ModuleMasterController {
 
 	@GetMapping("/module/{moduleId}")
 	public ModuleMaster getModuleById(@PathVariable("moduleId") Integer moduleId) {
+		logger.info("getModuleById method of ModuleMasterController is executed");
 		ModuleMaster moduleMaster = moduleMasterService.getModuleById(moduleId);
 		return moduleMaster;
 
@@ -104,6 +110,7 @@ public class ModuleMasterController {
 
 	@DeleteMapping("/module/{moduleId}")
 	public ResponseEntity<Map<String, Object>> deleteModule(@PathVariable("moduleId") Integer moduleId) {
+		logger.info("deleteModule method of ModuleMasterController is executed");
 		moduleMasterService.deleteModuleById(moduleId);
 		Map<String, Object> response = new HashMap<>();
 		response.put("status", 200);
@@ -114,6 +121,7 @@ public class ModuleMasterController {
 	@PostMapping("/setlogo")
 	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file)
 			throws IOException {
+		logger.info("setTempFile method of ModuleMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		File f1 = null;
 		String fileNameType = file.getOriginalFilename();
@@ -149,6 +157,7 @@ public class ModuleMasterController {
 	@GetMapping(path = "/viewLogo/{fileName}")
 	public ResponseEntity<?> downloadDocument(HttpServletResponse response, @PathVariable("fileName") String fileName)
 			throws Exception {
+		logger.info("downloadDocument method of ModuleMasterController is executed");
 
 		String filePath = "";
 		String fileFormat = "";

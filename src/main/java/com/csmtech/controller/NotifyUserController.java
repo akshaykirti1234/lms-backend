@@ -3,6 +3,8 @@ package com.csmtech.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import com.csmtech.util.EmailServiceUtil;
 @RestController
 @RequestMapping("/api/notify")
 public class NotifyUserController {
+	
+	Logger logger=LoggerFactory.getLogger(NotifyUserController.class);
 
 	@Autowired
 	private UserMasterService userMasterService;
@@ -30,11 +34,13 @@ public class NotifyUserController {
 
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<?> getMethodName() {
+		logger.info("getMethodName method of NotifyUserController is executed");
 		return userMasterService.getAllUsers();
 	}
 
 	@PostMapping("/send")
 	public ResponseEntity<Map<String, Object>> sendEmail(@RequestBody EmailDto emailFormDTO) {
+		logger.info("sendEmail method of NotifyUserController is executed");
 		Map<String, Object> response = new HashMap<>();
 		try {
 			if ("information".equalsIgnoreCase(emailFormDTO.getNotifyStatus())) {
@@ -46,7 +52,10 @@ public class NotifyUserController {
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.put("message", "Failed to send email(s)");
+			logger.error("error occured in sendEmail method of NotifyUserController");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			
+			
 		}
 	}
 }

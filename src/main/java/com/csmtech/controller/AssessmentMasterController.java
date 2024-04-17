@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import com.csmtech.service.ScheduleForMasterService;
 @CrossOrigin
 @RestController
 public class AssessmentMasterController {
+	
+	Logger logger=LoggerFactory.getLogger(AssessmentMasterController.class);
 
 	@Autowired
 	private AssessmentMasterService assessmentMasterService;
@@ -32,12 +36,14 @@ public class AssessmentMasterController {
 
 	@GetMapping("/getAllScheduleNames")
 	public ResponseEntity<?> getAllScheduleNames() {
+		logger.info("getAllScheduleNames method of AssessmentMasterController is executed");
 		List<ScheduleForMaster> scheduleForMasters = scheduleForMasterService.getAllScheduleForm();
 		return new ResponseEntity<>(scheduleForMasters, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/assessmentSave")
 	public ResponseEntity<AssessmentMaster> saveAssessment(@RequestBody AssessmentMasterDto assessmentDto) {
+		logger.info("saveAssessment method of AssessmentMasterController is executed");
 		try {
 			AssessmentMaster assesmentM = assessmentMasterService.saveAssessment(assessmentDto);
 			return ResponseEntity.ok().body(assesmentM);
@@ -50,6 +56,7 @@ public class AssessmentMasterController {
 
 	@GetMapping("/viewAssessment")
 	public ResponseEntity<List<Map<String, Object>>> viewAssessmentData() {
+		logger.info("viewAssessmentData method of AssessmentMasterController is executed");
 		List<Map<String, Object>> assessmentData = assessmentMasterService.viewAssessmentData();
 		return ResponseEntity.ok().body(assessmentData);
 
@@ -57,6 +64,7 @@ public class AssessmentMasterController {
 
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Map<String, Object>> deleteAssessment(@PathVariable("id") Integer id) {
+		logger.info("deleteAssessment method of AssessmentMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		System.out.println(response);
 		assessmentMasterService.deleteAssessment(id);
@@ -66,6 +74,7 @@ public class AssessmentMasterController {
 
 	@GetMapping("edit/{id}")
 	public ResponseEntity<Map<String, Object>> getAssessmentById(@PathVariable("id") Integer id) {
+		logger.info("getAssessmentById method of AssessmentMasterController is executed");
 		Map<String, Object> update = assessmentMasterService.getAssessmentById(id);
 		System.err.println(update);
 		return ResponseEntity.ok().body(update);
