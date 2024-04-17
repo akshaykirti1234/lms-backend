@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,12 +32,14 @@ import com.csmtech.service.UserMasterService;
 @RestController
 @CrossOrigin("*")
 public class ExcelController {
+	Logger logger=LoggerFactory.getLogger(ExcelController.class);
 
 	@Autowired
 	private UserMasterService userService;
 
 	@GetMapping("/generate-excel")
 	public ResponseEntity<byte[]> generateExcel() throws IOException {
+		logger.info("generateExcel method of ExcelController is executed");
 		try (Workbook workbook = new XSSFWorkbook()) {
 
 			Sheet sheet = workbook.createSheet("Template");
@@ -85,6 +89,8 @@ public class ExcelController {
 	@PostMapping("/upload")
 
 	public ResponseEntity<?> uploadExcelData(@RequestParam("file") MultipartFile file) {
+		
+		logger.info("uploadExcelData method of ExcelController is executed");
 
 		try {
 

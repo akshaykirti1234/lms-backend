@@ -38,7 +38,7 @@ public class FileController {
 	private String finalUploadPath;
 
 	@PostMapping("/setTempFile")
-	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file)
+	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file,@RequestParam("name") String name)
 			throws IOException {
 		logger.info("setTempFile method of FileController is executed");
 		Map<String, Object> response = new HashMap<>();
@@ -58,7 +58,7 @@ public class FileController {
 					folder.mkdirs(); // Create the folder if it doesn't exist
 				}
 
-				f1 = new File(folder.getPath() + "/" + fileNameType);
+				f1 = new File(folder.getPath() + "/" + name + "." + actualType);
 				try (FileOutputStream fos = new FileOutputStream(f1);
 						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
