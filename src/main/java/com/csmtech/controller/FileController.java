@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin("*")
 public class FileController {
 
+	Logger logger=LoggerFactory.getLogger(FileController.class);
+	
 	@Value("${tempfile.path}")
 	private String tempPath;
 
@@ -36,6 +40,7 @@ public class FileController {
 	@PostMapping("/setTempFile")
 	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file)
 			throws IOException {
+		logger.info("setTempFile method of FileController is executed");
 		Map<String, Object> response = new HashMap<>();
 		File f1 = null;
 		String fileNameType = file.getOriginalFilename();
@@ -77,7 +82,7 @@ public class FileController {
 	@GetMapping(path = "/viewFile/{fileName}")
 	public ResponseEntity<?> downloadDocument(HttpServletResponse response, @PathVariable("fileName") String fileName)
 			throws Exception {
-
+		logger.info("downloadDocument method of FileController is executed");
 		String filePath = "";
 		String fileFormat = "";
 		String folderName = "";
