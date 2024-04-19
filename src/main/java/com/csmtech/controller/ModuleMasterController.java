@@ -68,7 +68,6 @@ public class ModuleMasterController {
 				int lastDotIndex = fileUpload.lastIndexOf('.');
 				if (lastDotIndex != -1) {
 					fileFormat = fileUpload.substring(lastDotIndex + 1);
-					System.out.println(fileFormat);
 				} else {
 					throw new Exception("No file format found");
 				}
@@ -134,7 +133,6 @@ public class ModuleMasterController {
 	                folder.mkdirs();
 	            }
 	            f1 = new File(folder.getPath() + "/" + fileNameType);
-				System.out.println(f1.getAbsolutePath());
 				try (FileOutputStream fos = new FileOutputStream(f1);
 						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
@@ -169,7 +167,6 @@ public class ModuleMasterController {
 		int lastDotIndex = fileName.lastIndexOf('.');
 		if (lastDotIndex != -1) {
 			fileFormat = fileName.substring(lastDotIndex + 1);
-			System.out.println(fileFormat);
 		} else {
 			throw new Exception("No file format found");
 		}

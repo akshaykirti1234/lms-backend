@@ -60,7 +60,6 @@ public class SessionMasterController {
 				int lastDotIndex = fileUpload.lastIndexOf('.');
 				if (lastDotIndex != -1) {
 					fileFormat = fileUpload.substring(lastDotIndex + 1);
-					System.out.println(fileFormat);
 				} else {
 					throw new Exception("No file format found");
 				}

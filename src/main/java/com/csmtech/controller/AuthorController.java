@@ -55,7 +55,6 @@ public class AuthorController {
 	public ResponseEntity<Author> getAuthorById(@PathVariable("auId") Integer auId) {
 		logger.info("getAuthorById method of AuthorController is executed");
 		Author update = authorService.getAuthorById(auId);
-		System.out.println(update);
 		return ResponseEntity.ok().body(update);
 	}
 }

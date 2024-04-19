@@ -67,7 +67,6 @@ public class AssessmentMasterController {
 	public ResponseEntity<Map<String, Object>> deleteAssessment(@PathVariable("id") Integer id) {
 		logger.info("deleteAssessment method of AssessmentMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
-		System.out.println(response);
 		assessmentMasterService.deleteAssessment(id);
 		response.put("status", "deleted");
 		return ResponseEntity.ok().body(response);
