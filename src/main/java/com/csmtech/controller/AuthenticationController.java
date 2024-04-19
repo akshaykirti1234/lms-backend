@@ -118,6 +118,7 @@ public class AuthenticationController {
 
 	@GetMapping("/checkEmail/{email}")
 	public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
+		log.info("inside checkEmail method of AuthenticationController");
 		boolean emailExists = service.findByEmail(email) != null;
 		if(emailExists) {
 			String otp = otpService.generateOTP(email);
@@ -141,6 +142,7 @@ public class AuthenticationController {
 
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ForgotPasswordDto dto) {
+		log.info("inside changePassword method of AuthenticationController");
 		UserMaster us = service.findByEmail(dto.getEmail());
 		us.setNormalPassword(dto.getPassword());
 		us.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));

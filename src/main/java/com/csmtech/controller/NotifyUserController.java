@@ -52,7 +52,7 @@ public class NotifyUserController {
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.put("message", "Failed to send email(s)");
-			logger.error("error occured in sendEmail method of NotifyUserController");
+			logger.error("error occured in sendEmail method of NotifyUserController:"+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 			
 			

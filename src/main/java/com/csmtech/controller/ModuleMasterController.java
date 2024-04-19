@@ -81,6 +81,7 @@ public class ModuleMasterController {
 						Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						Files.delete(srcFile.toPath());
 					} catch (IOException e) {
+						logger.info("IOException occured while delete file inside saveModuleMaster method of ModuleMasterController:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -144,6 +145,7 @@ public class ModuleMasterController {
 					response.put("fileName", f1.getName());
 
 				} catch (Exception e) {
+					logger.info("IOException occured inside setTempFile method of ModuleMasterController:"+e.getMessage());
 					response.put("status", 500);
 					response.put("message", e.getMessage());
 				}
