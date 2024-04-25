@@ -20,4 +20,6 @@ public interface ScheduleForMasterService {
 
 	List<Map<String, Object>> getScheduleForBySubModuleId(Integer id);
 
+	ResponseEntity<?> getScheduleBySubModuleId(Integer submoduleId);
+
 }

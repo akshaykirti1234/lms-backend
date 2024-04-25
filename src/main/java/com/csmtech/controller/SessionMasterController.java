@@ -30,8 +30,8 @@ import com.csmtech.service.SessionMasterService;
 @RestController
 @CrossOrigin("*")
 public class SessionMasterController {
-	
-	Logger logger=LoggerFactory.getLogger(SessionMasterController.class);
+
+	Logger logger = LoggerFactory.getLogger(SessionMasterController.class);
 
 	@Value("${tempfile.path}")
 	private String tempFilePath;
@@ -123,6 +123,13 @@ public class SessionMasterController {
 		logger.info("getScheduleForBySubModId method of SessionMasterController is executed");
 		return scheduleForMasterService.getScheduleForBySubModuleId(id);
 
+	}
+
+	// Get ScheduleList By SubModuleId Using JPQL
+	@GetMapping("/getScheduleBySubModuleId/{submoduleId}")
+	public ResponseEntity<?> getScheduleBySubModuleId(@PathVariable Integer submoduleId) {
+		logger.info("getScheduleBySubModuleId method of SessionMasterController is executed");
+		return scheduleForMasterService.getScheduleBySubModuleId(submoduleId);
 	}
 
 	@GetMapping("/getSessionByScheduleId/{scheduleId}")
