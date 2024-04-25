@@ -48,6 +48,7 @@ public class AssessmentMasterController {
 			AssessmentMaster assesmentM = assessmentMasterService.saveAssessment(assessmentDto);
 			return ResponseEntity.ok().body(assesmentM);
 		} catch (Exception e) {
+			logger.info("Exception occured in saveAssessment method of AssessmentMasterController:"+e.getMessage());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -66,7 +67,6 @@ public class AssessmentMasterController {
 	public ResponseEntity<Map<String, Object>> deleteAssessment(@PathVariable("id") Integer id) {
 		logger.info("deleteAssessment method of AssessmentMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
-		System.out.println(response);
 		assessmentMasterService.deleteAssessment(id);
 		response.put("status", "deleted");
 		return ResponseEntity.ok().body(response);

@@ -109,13 +109,13 @@ public class ExcelController {
 			}
 
 		} catch (IOException e) {
-
+			logger.info("IOException occured inside uploadExcelData method of AuthenticationController:"+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
 					.body("Failed to upload Excel data: " + e.getMessage());
 
 		} catch (Exception e) {
-
+			logger.info("unexpected error occured inside uploadExcelData method of AuthenticationController:"+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
 					.body("An unexpected error occurred: " + e.getMessage());

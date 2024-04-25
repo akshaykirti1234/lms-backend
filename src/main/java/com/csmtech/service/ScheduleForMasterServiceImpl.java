@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,14 @@ import com.csmtech.repository.ScheduleForMasterRepository;
 @Service
 public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
+	Logger logger=LoggerFactory.getLogger(ScheduleForMasterServiceImpl.class);
+	
 	@Autowired
 	private ScheduleForMasterRepository scheduleForMasterRepository;
 
 	@Override
 	public ResponseEntity<?> saveScheduleForm(ScheduleForMasterDto scheduleForMasterDto) {
-
+		logger.info("saveScheduleForm method of ScheduleForMasterServiceImpl is executed");
 		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
 		scheduleForMaster.setScheduleForId(scheduleForMasterDto.getScheduleForId());
 		scheduleForMaster.setScheduleForName(scheduleForMasterDto.getScheduleForName());
@@ -51,11 +55,13 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
 	@Override
 	public List<ScheduleForMaster> getAllScheduleForm() {
+		logger.info("getAllScheduleForm method of ScheduleForMasterServiceImpl is executed");
 		return scheduleForMasterRepository.getAllScheduleForm();
 	}
 
 	@Override
 	public ResponseEntity<?> updateScheduleFor(Integer scheduleForId) {
+		logger.info("updateScheduleFor method of ScheduleForMasterServiceImpl is executed");
 		if (scheduleForId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -72,6 +78,7 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 	@Override
 	@Transactional
 	public ResponseEntity<?> deleteScheduleFor(Integer scheduleForId) {
+		logger.info("deleteScheduleFor method of ScheduleForMasterServiceImpl is executed");
 		if (scheduleForId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -83,6 +90,7 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
 	@Override
 	public List<Map<String, Object>> getScheduleForBySubModuleId(Integer id) {
+		logger.info("getScheduleForBySubModuleId method of ScheduleForMasterServiceImpl is executed");
 		return scheduleForMasterRepository.findBysubModuleId(id);
 	}
 

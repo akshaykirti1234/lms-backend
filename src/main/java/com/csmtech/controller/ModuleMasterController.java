@@ -68,7 +68,6 @@ public class ModuleMasterController {
 				int lastDotIndex = fileUpload.lastIndexOf('.');
 				if (lastDotIndex != -1) {
 					fileFormat = fileUpload.substring(lastDotIndex + 1);
-					System.out.println(fileFormat);
 				} else {
 					throw new Exception("No file format found");
 				}
@@ -81,6 +80,7 @@ public class ModuleMasterController {
 						Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						Files.delete(srcFile.toPath());
 					} catch (IOException e) {
+						logger.info("IOException occured while delete file inside saveModuleMaster method of ModuleMasterController:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -133,7 +133,6 @@ public class ModuleMasterController {
 	                folder.mkdirs();
 	            }
 	            f1 = new File(folder.getPath() + "/" + fileNameType);
-				System.out.println(f1.getAbsolutePath());
 				try (FileOutputStream fos = new FileOutputStream(f1);
 						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
@@ -144,6 +143,7 @@ public class ModuleMasterController {
 					response.put("fileName", f1.getName());
 
 				} catch (Exception e) {
+					logger.info("IOException occured inside setTempFile method of ModuleMasterController:"+e.getMessage());
 					response.put("status", 500);
 					response.put("message", e.getMessage());
 				}
@@ -167,7 +167,6 @@ public class ModuleMasterController {
 		int lastDotIndex = fileName.lastIndexOf('.');
 		if (lastDotIndex != -1) {
 			fileFormat = fileName.substring(lastDotIndex + 1);
-			System.out.println(fileFormat);
 		} else {
 			throw new Exception("No file format found");
 		}
