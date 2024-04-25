@@ -93,6 +93,7 @@ public class AuthenticationController {
 		log.info(" :: Execution end tookan return");
 		JSONObject response = new JSONObject();
 		response.put(CommonConstant.STATUS_KEY, 200);
+		response.put("userId", getalldata.getUserId());
 		response.put("fullName", getalldata.getFullName());
 		response.put("emailId", getalldata.getEmailId());
 		response.put("mobileNo", getalldata.getContactNo());
@@ -120,25 +121,25 @@ public class AuthenticationController {
 	public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
 		log.info("inside checkEmail method of AuthenticationController");
 		boolean emailExists = service.findByEmail(email) != null;
-		if(emailExists) {
+		if (emailExists) {
 			String otp = otpService.generateOTP(email);
 		}
 		return ResponseEntity.ok(emailExists);
 	}
-	
+
 	@PostMapping("/verify-otp")
-    public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
+	public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
 		Map<String, Object> response = new HashMap<>();
-        if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
-        	response.put("isValid", true);
-        	response.put("message", "OTP verified successfully");
-            return ResponseEntity.ok(response);
-        } else {
-        	response.put("isValid", false);
-        	response.put("message", "Invalid OTP");
-            return ResponseEntity.ok().body(response);
-        }
-    }
+		if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
+			response.put("isValid", true);
+			response.put("message", "OTP verified successfully");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("isValid", false);
+			response.put("message", "Invalid OTP");
+			return ResponseEntity.ok().body(response);
+		}
+	}
 
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ForgotPasswordDto dto) {

@@ -33,4 +33,7 @@ public interface ScheduleForMasterRepository extends JpaRepository<ScheduleForMa
 			+ "WHERE SF.SUBMODULEID = :id AND SF.DELETEDFLAG = 0;", nativeQuery = true)
 	List<Map<String, Object>> findBysubModuleId(Integer id);
 
+	@Query("from ScheduleForMaster where subModule.submoduleId = :submoduleId and deletedFlag = false ")
+	List<ScheduleForMaster> getScheduleBySubModuleId(Integer submoduleId);
+
 }
