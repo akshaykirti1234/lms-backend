@@ -19,8 +19,8 @@ import com.csmtech.repository.SubModuleRepository;
 @Service
 public class SubModuleServiceImpl implements SubModuleService {
 
-	Logger logger=LoggerFactory.getLogger(SubModuleServiceImpl.class);
-	
+	Logger logger = LoggerFactory.getLogger(SubModuleServiceImpl.class);
+
 	@Autowired
 	private SubModuleRepository subModuleRepository;
 
@@ -29,7 +29,7 @@ public class SubModuleServiceImpl implements SubModuleService {
 		logger.info("getSubmoduleByModuleId method of SubModuleServiceImpl is executed");
 		List<SubModule> submoduleList = subModuleRepository.getSubmoduleByModuleId(moduleId);
 		if (submoduleList.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(submoduleList, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(submoduleList, HttpStatus.OK);
 	}
@@ -63,7 +63,7 @@ public class SubModuleServiceImpl implements SubModuleService {
 			response.put("message", "Sub-Module data saved successfully");
 
 		} catch (Exception e) {
-			logger.info("Error occured in saveSubModule method of SubModuleServiceImpl"+e.getMessage());
+			logger.info("Error occured in saveSubModule method of SubModuleServiceImpl" + e.getMessage());
 			e.printStackTrace();
 			response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
 			response.put("message", "Something went wrong");
