@@ -16,7 +16,7 @@ import com.csmtech.entity.SessionAssessmentSetting;
 public interface SessionAssessmentSettingRepository extends JpaRepository<SessionAssessmentSetting, Integer> {
 
 	
-	@Query(value="select m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
+	@Query(value="select se.SESSIONASSESSMENTSETTINGID,m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
 			+ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
 			+ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
 			+ "join scheduleformaster sc on se.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
