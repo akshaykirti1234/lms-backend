@@ -29,7 +29,7 @@ public class ModuleMasterServiceImpl implements ModuleMasterService {
 	public ModuleMaster saveModule(ModuleMasterDto moduleMasterDto) {
 		logger.info("saveModule method of ModuleMasterServiceImpl is executed");
 		ModuleMaster moduleMaster = new ModuleMaster();
-		if (moduleMasterDto.getModuleId() != null) {
+		if (moduleMasterDto.getModuleId() != 0) {
 			moduleMaster.setModuleId(moduleMasterDto.getModuleId());
 			moduleMaster.setUpdatedBy(1);
 
