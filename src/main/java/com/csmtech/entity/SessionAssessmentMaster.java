@@ -18,23 +18,20 @@ public class SessionAssessmentMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "SESSIONASSESSMENTMASTERID")
-	private Integer sessionAssessmentMasterId;
+	private Integer sessionAssesmentMasterId;
+	
+	
+	@Column(name = "MODULEID")
+	private Integer moduleId;
 
-	@ManyToOne
-	@JoinColumn(name = "MODULEID")
-	private ModuleMaster moduleMaster;
+	@Column(name = "SUBMODULEID")
+	private Integer submoduleId;
+	
+	@Column(name = "SESSIONID")
+	private Integer sessionId;
 
-	@ManyToOne
-	@JoinColumn(name = "SUBMODULEID")
-	private SubModule subModule;
-
-	@ManyToOne
-	@JoinColumn(name = "SCHEDULEFORID")
-	private ScheduleForMaster scheduleForMaster;
-
-	@ManyToOne
-	@JoinColumn(name = "SESSIONID")
-	private SessionMaster sessionMaster;
+	@Column(name = "SCHEDULEFORID")
+	private Integer scheduleForId;
 
 	@Column(name = "QUESTION")
 	private String question;
@@ -53,5 +50,11 @@ public class SessionAssessmentMaster {
 
 	@Column(name = "ANSWER")
 	private String answer;
+
+	@Column(name = "CREATEDBY")
+	private Integer createdBy;
+
+	@Column(name = "UPDATEDBY")
+	private Integer updatedBy;
 
 }
