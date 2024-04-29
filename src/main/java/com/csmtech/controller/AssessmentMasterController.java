@@ -79,4 +79,31 @@ public class AssessmentMasterController {
 		System.err.println(update);
 		return ResponseEntity.ok().body(update);
 	}
+	
+	// For Session by schedule in assessment screen
+	
+	@GetMapping("/viewAssessmentForSession")
+	public ResponseEntity<List<Map<String, Object>>> viewAssessmentForSessionData() {
+		logger.info("viewAssessmentForSessionData method of AssessmentMasterController is executed");
+		List<Map<String, Object>> assessmentSessData = assessmentMasterService.viewAssessmentForSessionData();
+		return ResponseEntity.ok().body(assessmentSessData);
+
+	}
+
+	@DeleteMapping("deleteAssSession/{id}")
+	public ResponseEntity<Map<String, Object>> deleteAssessmentSession(@PathVariable("id") Integer id) {
+		logger.info("deleteAssessmentSession method of AssessmentMasterController is executed");
+		Map<String, Object> responseSe = new HashMap<>();
+		assessmentMasterService.deleteAssessmentSession(id);
+		responseSe.put("status", "deleted");
+		return ResponseEntity.ok().body(responseSe);
+	}
+	
+	@GetMapping("editAssessmentSession/{id}")
+	public ResponseEntity<Map<String, Object>> getAssessmentSessionById(@PathVariable("id") Integer id) {
+		logger.info("getAssessmentById method of AssessmentMasterController is executed");
+		Map<String, Object> updateSes = assessmentMasterService.getAssessmentSessionById(id);
+		System.err.println(updateSes);
+		return ResponseEntity.ok().body(updateSes);
+	}
 }
