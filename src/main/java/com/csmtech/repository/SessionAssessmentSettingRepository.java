@@ -6,4 +6,6 @@ import com.csmtech.entity.SessionAssessmentSetting;
 
 public interface SessionAssessmentSettingRepository extends JpaRepository<SessionAssessmentSetting, Integer> {
 
+	SessionAssessmentSetting findFirst1BySessionMaster_SessionId(Integer sessionId);
+
 }
