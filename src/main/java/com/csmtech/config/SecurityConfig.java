@@ -56,7 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/commonCaptchaGenerator/generate")
 
 				.permitAll().antMatchers("/auth/**").permitAll().antMatchers("/viewFile/*").permitAll()
-				.antMatchers("/viewLogo/*").permitAll().anyRequest().authenticated().and()
+				.antMatchers("/viewLogo/*").permitAll()
+				.antMatchers("/v3/api-docs/**","/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" ,"/swagger-resources/**").permitAll()
+				.anyRequest().authenticated().and()
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(entry))
 
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
