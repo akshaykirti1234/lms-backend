@@ -15,6 +15,7 @@ import com.csmtech.entity.SessionAssessmentSetting;
 @Repository
 public interface SessionAssessmentSettingRepository extends JpaRepository<SessionAssessmentSetting, Integer> {
 
+<<<<<<< HEAD
 	@Query(value = "select se.SESSIONASSESSMENTSETTINGID,m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
 			+ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
 			+ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
@@ -43,4 +44,32 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 
 	SessionAssessmentSetting findFirst1BySessionMaster_SessionId(Integer sessionId);
 
+=======
+@Query(value="select se.SESSIONASSESSMENTSETTINGID,m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
++ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
++ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
++ "join scheduleformaster sc on se.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
++ "join sessionmaster ses on se.SESSIONID=ses.SESSIONID\r\n"
++ "where se.DELETEDFLAG=0;",nativeQuery=true)
+List<Map<String, Object>> getSessionAssessmentSetting();
+@Query(value="se.SESSIONASSESSMENTSETTINGID,select m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
++ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
++ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
++ "join scheduleformaster sc on se.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
++ "join sessionmaster ses on se.SESSIONID=ses.SESSIONID\r\n"
++ "where se.SESSIONASSESSMENTSETTINGID=:sessionAssessmentSettingId",nativeQuery=true)
+Map<String, Object> getSessionAssessmentSettingById(Integer sessionAssessmentSettingId);
+
+
+@Modifying
+@Transactional
+@Query(value = "update sessionassessmentsetting set DELETEDFLAG=1 where SESSIONASSESSMENTSETTINGID=:sessionAssessmentSettingId", nativeQuery = true)
+void deleteSessionAssessmentSetting(Integer sessionAssessmentSettingId);
+
+@Modifying
+@Transactional
+@Query(value = "update sessionassessmentsetting set NOOFQUESTION=:noOfQuestions where SESSIONASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
+    void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions);
+
+>>>>>>> bf37f2936742cc78c4064da7e0253fd8933d4f70
 }
