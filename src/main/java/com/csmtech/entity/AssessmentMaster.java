@@ -16,8 +16,14 @@ import lombok.Data;
 public class AssessmentMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ASSESSMENTID")
-	private Integer assessmentId;
+	@Column(name = "ASSESSMENTMASTERID")
+	private Integer assessmentMasterId;
+	
+	@Column(name = "MODULEID")
+	private Integer moduleId;
+
+	@Column(name = "SUBMODULEID")
+	private Integer submoduleId;
 
 	@Column(name = "SCHEDULEFORID")
 	private Integer scheduleForId;

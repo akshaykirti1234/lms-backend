@@ -6,15 +6,23 @@ import lombok.Data;
 
 @Data
 public class AssessmentMasterDto {
-	private Integer assessmentId;
+private Integer assessmentId;
+	
+	private Integer sessionAssesmentMasterId;
+	
+	private Integer moduleId;
+
+	private Integer submoduleId;
 
 	private Integer scheduleForId;
+	
+	private Integer sessionId;
 
-	private String question;
+	private String  question;
 
-	private String option1;
+	private String  option1;
 
-	private String option2;
+	private String  option2;
 
 	private String option3;
 

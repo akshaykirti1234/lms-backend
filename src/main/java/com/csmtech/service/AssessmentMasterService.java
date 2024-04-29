@@ -14,4 +14,10 @@ public interface AssessmentMasterService {
 	void deleteAssessment(Integer id);
 
 	Map<String, Object> getAssessmentById(Integer id);
+
+	List<Map<String, Object>> viewAssessmentForSessionData();
+
+	void deleteAssessmentSession(Integer id);
+
+	Map<String, Object> getAssessmentSessionById(Integer id);
 }
