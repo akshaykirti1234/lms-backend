@@ -23,7 +23,7 @@ public interface AssessmentSettingRespository extends JpaRepository<AssessmentSe
 	List<Map<String, Object>> getAssessmentSetting();
 	
 	
-    @Query(value="select m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,a.NOOFQUESTION from assessmentsetting a\r\n"
+    @Query(value="select a.ASSESSMENTSETTINGID, m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,a.NOOFQUESTION from assessmentsetting a\r\n"
     		+ "join modulemaster m on a.MODULEID=m.MODULEID\r\n"
     		+ "join submodulemaster s on a.SUBMODULEID=s.SUBMODULEID\r\n"
     		+ "join scheduleformaster sc on a.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
