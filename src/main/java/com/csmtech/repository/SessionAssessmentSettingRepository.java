@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.csmtech.entity.SessionAssessmentSetting;
@@ -23,13 +24,14 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 			+ "where se.DELETEDFLAG=0;", nativeQuery = true)
 	List<Map<String, Object>> getSessionAssessmentSetting();
 
-	@Query(value = "se.SESSIONASSESSMENTSETTINGID,select m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
-			+ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
-			+ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
-			+ "join scheduleformaster sc on se.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
-			+ "join sessionmaster ses on se.SESSIONID=ses.SESSIONID\r\n"
-			+ "where se.SESSIONASSESSMENTSETTINGID=:sessionAssessmentSettingId", nativeQuery = true)
-	Map<String, Object> getSessionAssessmentSettingById(Integer sessionAssessmentSettingId);
+	@Query(value = "SELECT se.SESSIONASSESSMENTSETTINGID, m.MODULENAME, s.SUBMODULENAME, sc.SCHEDULEFOR, ses.SESSIONNAME, se.NOOFQUESTION "
+			+ "FROM sessionassessmentsetting se " + "JOIN modulemaster m ON se.MODULEID = m.MODULEID "
+			+ "JOIN submodulemaster s ON se.SUBMODULEID = s.SUBMODULEID "
+			+ "JOIN scheduleformaster sc ON se.SCHEDULEFORID = sc.SCHEDULEFORID "
+			+ "JOIN sessionmaster ses ON se.SESSIONID = ses.SESSIONID "
+			+ "WHERE se.SESSIONASSESSMENTSETTINGID = :sessionAssessmentSettingId", nativeQuery = true)
+	Map<String, Object> getSessionAssessmentSettingById(
+			@Param("sessionAssessmentSettingId") Integer sessionAssessmentSettingId);
 
 	@Modifying
 	@Transactional
