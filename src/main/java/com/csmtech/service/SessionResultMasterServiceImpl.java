@@ -8,11 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.csmtech.dto.SessionResultDto;
+import com.csmtech.entity.ModuleMaster;
+import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.SessionAssessmentMaster;
+import com.csmtech.entity.SessionMaster;
 import com.csmtech.entity.SessionResultMaster;
+import com.csmtech.entity.SessionResultStatus;
+import com.csmtech.entity.SubModule;
 import com.csmtech.entity.UserMaster;
 import com.csmtech.repository.SessionAssessmentMasterRepository;
 import com.csmtech.repository.SessionResultMasterRepository;
+import com.csmtech.repository.SessionResultStatusRepository;
 
 @Service
 public class SessionResultMasterServiceImpl implements SessionResultMasterService {
@@ -21,6 +27,8 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 	private SessionResultMasterRepository sessionResultMasterRepository;
 	@Autowired
 	private SessionAssessmentMasterRepository sessionAssessmentMasterRepository;
+	@Autowired
+	private SessionResultStatusRepository sessionResultStatusRepository;
 
 	@Override
 	@Transactional
@@ -28,6 +36,9 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 
 		Integer userId = 0;
 		Integer sessionId = 0;
+		Integer moduleId = 0;
+		Integer subModuleId = 0;
+		Integer scheduleForId = 0;
 
 		for (SessionResultDto value : responsePayload) {
 			// Retrieve sessionAssessmentMaster from repository
@@ -38,10 +49,17 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 			// get userId and sessionId
 			userId = value.getUserId();
 			sessionId = sessionAssessmentMaster.getSessionMaster().getSessionId();
+			moduleId = sessionAssessmentMaster.getModuleMaster().getModuleId();
+			subModuleId = sessionAssessmentMaster.getSubModule().getSubmoduleId();
+			scheduleForId = sessionAssessmentMaster.getScheduleForMaster().getScheduleForId();
 
 //			Delete sessionResultMaster by userId and sessionId
 			sessionResultMasterRepository.deleteResultBySessionIdAndUserId(sessionId, userId);
+
 		}
+
+//		Delete sessionResultStatusMaster by userId and sessionId
+		sessionResultStatusRepository.deleteResultStatusBySessionIdAndUserId(sessionId, userId);
 
 		for (SessionResultDto value : responsePayload) {
 			// Retrieve sessionAssessmentMaster from repository
@@ -53,7 +71,7 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 			UserMaster userMaster = new UserMaster();
 			userMaster.setUserId(value.getUserId());
 
-			// get userId and sessionId
+			// get userId,moduleId,subModuleid,schedukeForId,sessionId
 			userId = value.getUserId();
 			sessionId = sessionAssessmentMaster.getSessionMaster().getSessionId();
 
@@ -80,17 +98,47 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 
 		List<SessionResultMaster> results = sessionResultMasterRepository.getResultBySessionIdAndUserID(sessionId,
 				userId);
-		int s = 0;
+
+		// ************************************************
+		// Save SessionResultStatus
+		// ************************************************
+		int sum = 0;
 		for (SessionResultMaster sessionResultMaster : results) {
 			if (sessionResultMaster.getResultStatus() == true) {
-				s += 1;
+				sum += 1;
 			}
 		}
 
-		Double resultCal = (double) (s * 100 / results.size());
-		System.out.println(resultCal);
+		Double percentage = (double) (sum * 100 / results.size());
 
-		return ResponseEntity.ok(resultCal);
+		SessionResultStatus sessionResultStatus = new SessionResultStatus();
+
+		ModuleMaster moduleMaster = new ModuleMaster();
+		moduleMaster.setModuleId(moduleId);
+		SubModule subModule = new SubModule();
+		subModule.setSubmoduleId(subModuleId);
+		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
+		scheduleForMaster.setScheduleForId(scheduleForId);
+		SessionMaster sessionMaster = new SessionMaster();
+		sessionMaster.setSessionId(sessionId);
+		UserMaster userMaster = new UserMaster();
+		userMaster.setUserId(userId);
+
+		sessionResultStatus.setModuleMaster(moduleMaster);
+		sessionResultStatus.setSubModule(subModule);
+		sessionResultStatus.setScheduleForMaster(scheduleForMaster);
+		sessionResultStatus.setSessionMaster(sessionMaster);
+		sessionResultStatus.setUserMaster(userMaster);
+		sessionResultStatus.setPercentage(percentage);
+		if (percentage >= 60) {
+			sessionResultStatus.setStatusOfResult(true);
+		} else {
+			sessionResultStatus.setStatusOfResult(false);
+		}
+
+		SessionResultStatus save = sessionResultStatusRepository.save(sessionResultStatus);
+
+		return ResponseEntity.ok(percentage);
 	}
 
 }

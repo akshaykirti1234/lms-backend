@@ -12,16 +12,18 @@ import org.springframework.stereotype.Service;
 import com.csmtech.dto.SessionMasterDto;
 import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.SessionMaster;
+import com.csmtech.entity.SessionResultStatus;
 import com.csmtech.entity.SubModule;
 import com.csmtech.repository.ScheduleForMasterRepository;
 import com.csmtech.repository.SessionMasterRepository;
+import com.csmtech.repository.SessionResultStatusRepository;
 import com.csmtech.repository.SubModuleRepository;
 
 @Service
 public class SessionMasterServiceImpl implements SessionMasterService {
 
-	Logger logger=LoggerFactory.getLogger(SessionMasterServiceImpl.class);
-	
+	Logger logger = LoggerFactory.getLogger(SessionMasterServiceImpl.class);
+
 	@Autowired
 	private SessionMasterRepository sessionRepo;
 
@@ -30,6 +32,9 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 
 	@Autowired
 	private ScheduleForMasterRepository schRepo;
+
+	@Autowired
+	private SessionResultStatusRepository sessionResultStatusRepository;
 
 	@Override
 	public SessionMaster saveSessionMaster(SessionMasterDto dto) {
@@ -101,6 +106,27 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 	public ResponseEntity<?> getSessionByScheduleId(Integer scheduleId) {
 		logger.info("getSessionByScheduleId method of SessionMasterServiceImpl is executed");
 		List<SessionMaster> sessionMastersList = sessionRepo.getSessionByScheduleId(scheduleId);
+		if (sessionMastersList.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(sessionMastersList);
+	}
+
+	@Override
+	public ResponseEntity<?> getSessionByscheduleForIdAndUserId(Integer scheduleId, Integer userId) {
+		logger.info("getSessionByScheduleId method of SessionMasterServiceImpl is executed");
+		List<SessionMaster> sessionMastersList = sessionRepo.getSessionByScheduleId(scheduleId);
+//		boolean previous=false;
+		for (SessionMaster sessionMaster : sessionMastersList) {
+			System.out.println(sessionMaster.isResultStatus());
+			System.out.println(userId);
+			SessionResultStatus bySessionResult = sessionResultStatusRepository
+					.findBySessionMaster_SessionIdAndUserMaster_UserId(sessionMaster.getSessionId(), userId);
+			if (bySessionResult != null) {
+//				previous=bySessionResult.getStatusOfResult();
+				sessionMaster.setResultStatus(bySessionResult.getStatusOfResult());
+			}
+		}
 		if (sessionMastersList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

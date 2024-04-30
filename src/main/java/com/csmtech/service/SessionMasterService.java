@@ -24,4 +24,6 @@ public interface SessionMasterService {
 
 	ResponseEntity<?> getSessionByScheduleId(Integer scheduleId);
 
+	ResponseEntity<?> getSessionByscheduleForIdAndUserId(Integer scheduleId, Integer userId);
+
 }
