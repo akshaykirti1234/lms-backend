@@ -65,4 +65,7 @@ public class SessionMaster {
 	@Transient
 	private boolean resultStatus;
 
+	@Transient
+	private boolean accessStatus;
+
 }

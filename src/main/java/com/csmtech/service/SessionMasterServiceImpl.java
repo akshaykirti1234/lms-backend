@@ -116,16 +116,23 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 	public ResponseEntity<?> getSessionByscheduleForIdAndUserId(Integer scheduleId, Integer userId) {
 		logger.info("getSessionByScheduleId method of SessionMasterServiceImpl is executed");
 		List<SessionMaster> sessionMastersList = sessionRepo.getSessionByScheduleId(scheduleId);
-//		boolean previous=false;
+		boolean previous = true;
 		for (SessionMaster sessionMaster : sessionMastersList) {
 			System.out.println(sessionMaster.isResultStatus());
-			System.out.println(userId);
 			SessionResultStatus bySessionResult = sessionResultStatusRepository
 					.findBySessionMaster_SessionIdAndUserMaster_UserId(sessionMaster.getSessionId(), userId);
 			if (bySessionResult != null) {
-//				previous=bySessionResult.getStatusOfResult();
 				sessionMaster.setResultStatus(bySessionResult.getStatusOfResult());
+				sessionMaster.setAccessStatus(bySessionResult.getStatusOfResult());
 			}
+		}
+		for (SessionMaster sessionMaster : sessionMastersList) {
+//			sessionMaster.setResultStatus(previous);
+			if (sessionMaster.isResultStatus() != previous) {
+				sessionMaster.setAccessStatus(previous);
+				break;
+			}
+			previous = sessionMaster.isResultStatus();
 		}
 		if (sessionMastersList.isEmpty()) {
 			return ResponseEntity.notFound().build();
