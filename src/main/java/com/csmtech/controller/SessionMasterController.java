@@ -138,4 +138,11 @@ public class SessionMasterController {
 		return sessionService.getSessionByScheduleId(scheduleId);
 	}
 
+	@GetMapping("/getSessionByscheduleForIdAndUserId/{scheduleId}/{userId}")
+	public ResponseEntity<?> getSessionByscheduleForIdAndUserId(@PathVariable Integer scheduleId,
+			@PathVariable Integer userId) {
+		logger.info("getSessionByScheduleId method of SessionMasterController is executed");
+		return sessionService.getSessionByscheduleForIdAndUserId(scheduleId, userId);
+	}
+
 }

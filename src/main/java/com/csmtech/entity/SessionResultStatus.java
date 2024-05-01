@@ -13,12 +13,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "sessionassessmentmaster")
-public class SessionAssessmentMaster {
+@Table(name = "sessionresultstatus")
+public class SessionResultStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "SESSIONASSESSMENTMASTERID")
-	private Integer sessionAssessmentMasterId;
+	@Column(name = "SESSIONRESULTSTATUSID")
+	private Integer sessionResultStatusId;
 
 	@ManyToOne
 	@JoinColumn(name = "MODULEID")
@@ -36,22 +36,14 @@ public class SessionAssessmentMaster {
 	@JoinColumn(name = "SESSIONID")
 	private SessionMaster sessionMaster;
 
-	@Column(name = "QUESTION")
-	private String question;
+	@ManyToOne
+	@JoinColumn(name = "USERID")
+	private UserMaster userMaster;
 
-	@Column(name = "OPTION1")
-	private String option1;
+	@Column(name = "PERCENTAGE")
+	private Double percentage;
 
-	@Column(name = "OPTION2")
-	private String option2;
-
-	@Column(name = "OPTION3")
-	private String option3;
-
-	@Column(name = "OPTION4")
-	private String option4;
-
-	@Column(name = "ANSWER")
-	private String answer;
+	@Column(name = "STATUSOFRESULT")
+	private Boolean statusOfResult;
 
 }
