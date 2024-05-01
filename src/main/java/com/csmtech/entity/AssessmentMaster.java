@@ -17,7 +17,7 @@ public class AssessmentMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ASSESSMENTMASTERID")
-	private Integer assessmentMasterId;
+	private Integer assessmentId;
 	
 	@Column(name = "MODULEID")
 	private Integer moduleId;

@@ -8,7 +8,7 @@ import lombok.Data;
 public class AssessmentMasterDto {
 private Integer assessmentId;
 	
-	private Integer sessionAssesmentMasterId;
+	//private Integer sessionAssesmentMasterId;
 	
 	private Integer moduleId;
 
@@ -16,7 +16,7 @@ private Integer assessmentId;
 
 	private Integer scheduleForId;
 	
-	private Integer sessionId;
+	//private Integer sessionId;
 
 	private String  question;
 
