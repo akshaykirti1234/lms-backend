@@ -19,16 +19,18 @@ public interface SessionAssessmentMasterService {
 
 	Map<String, Object> getAssessmentSessionById(Integer id);
 
-	//ResponseEntity<?> getQuestionarBySessionId(Integer sessionId);
-	
+	ResponseEntity<?> getQuestionarBySessionId(Integer sessionId);
+
 	// For upload excel
-	
+
 	List<Map<String, Object>> retriveModuleTypeList();
 
 	List<Map<String, Object>> retriveSubModuleList();
 
 	List<Map<String, Object>> retriveScheduleForList();
+
 	List<Map<String, Object>> retriveSessionList();
-		ResponseEntity<Map<String, Object>> uploadSessionExcelData(MultipartFile file);
+
+	ResponseEntity<Map<String, Object>> uploadSessionExcelData(MultipartFile file);
 
 }

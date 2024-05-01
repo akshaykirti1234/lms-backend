@@ -26,66 +26,65 @@ import com.csmtech.service.SessionAssessmentMasterService;
 @RestController
 @RequestMapping("/api/sessionAssessment")
 public class SessionAssessmentMasterController {
-	Logger logger=LoggerFactory.getLogger(SessionAssessmentMasterController.class);
+	Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
 
 	@Autowired
 	private SessionAssessmentMasterService sessionAssessmentMasterService;
 
-	
 	@GetMapping("/getApi")
-    public ResponseEntity<String> getApi(){
+	public ResponseEntity<String> getApi() {
 		return ResponseEntity.ok().body("Hii Assessment Setting is working");
-    	
-    }
-	/*
-	 * @GetMapping("/getQuestionarBySessionId/{sessionId}") public ResponseEntity<?>
-	 * getQuestionarBySessionId(@PathVariable Integer sessionId) {
-	 * System.out.println(sessionId); return
-	 * sessionAssessmentMasterService.getQuestionarBySessionId(sessionId); }
-	 */
-	
+
+	}
+
+	@GetMapping("/getQuestionarBySessionId/{sessionId}")
+	public ResponseEntity<?> getQuestionarBySessionId(@PathVariable Integer sessionId) {
+		System.out.println(sessionId);
+		return sessionAssessmentMasterService.getQuestionarBySessionId(sessionId);
+	}
+
 	@PostMapping(value = "/assessmentSessionSave")
-	public ResponseEntity<SessionAssessmentMaster> saveAssessmentSession(@RequestBody SessionAssessmentMasterDto assessmentSessionDto) {
+	public ResponseEntity<SessionAssessmentMaster> saveAssessmentSession(
+			@RequestBody SessionAssessmentMasterDto assessmentSessionDto) {
 		logger.info("saveAssessmentSession method of SessionAssessmentMasterController is executed");
 		try {
-			SessionAssessmentMaster assesmentSesM = sessionAssessmentMasterService.saveAssessmentSession(assessmentSessionDto);
-			//System.out.println(assessmentSessionDto);
+			SessionAssessmentMaster assesmentSesM = sessionAssessmentMasterService
+					.saveAssessmentSession(assessmentSessionDto);
+			// System.out.println(assessmentSessionDto);
 
 			return ResponseEntity.ok().body(assesmentSesM);
 		} catch (Exception e) {
-			logger.info("Exception occured in saveAssessmentSession method of SessionAssessmentMasterController:"+e.getMessage());
+			logger.info("Exception occured in saveAssessmentSession method of SessionAssessmentMasterController:"
+					+ e.getMessage());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 
 	}
-	
-	
-		@GetMapping("/viewAssessmentForSession")
-		public ResponseEntity<List<Map<String, Object>>> viewAssessmentForSessionData() {
-			logger.info("viewAssessmentForSessionData method of AssessmentMasterController is executed");
-			List<Map<String, Object>> assessmentSessData = sessionAssessmentMasterService.viewAssessmentForSessionData();
-			return ResponseEntity.ok().body(assessmentSessData);
 
-		}
+	@GetMapping("/viewAssessmentForSession")
+	public ResponseEntity<List<Map<String, Object>>> viewAssessmentForSessionData() {
+		logger.info("viewAssessmentForSessionData method of AssessmentMasterController is executed");
+		List<Map<String, Object>> assessmentSessData = sessionAssessmentMasterService.viewAssessmentForSessionData();
+		return ResponseEntity.ok().body(assessmentSessData);
 
-		@DeleteMapping("deleteAssSession/{id}")
-		public ResponseEntity<Map<String, Object>> deleteAssessmentSession(@PathVariable("id") Integer id) {
-			logger.info("deleteAssessmentSession method of AssessmentMasterController is executed");
-			Map<String, Object> responseSe = new HashMap<>();
-			sessionAssessmentMasterService.deleteAssessmentSession(id);
-			responseSe.put("status", "deleted");
-			return ResponseEntity.ok().body(responseSe);
-		}
-		
-		@GetMapping("editAssessmentSession/{id}")
-		public ResponseEntity<Map<String, Object>> getAssessmentSessionById(@PathVariable("id") Integer id) {
-			logger.info("getAssessmentById method of AssessmentMasterController is executed");
-			Map<String, Object> updateSes = sessionAssessmentMasterService.getAssessmentSessionById(id);
-			System.err.println(updateSes);
-			return ResponseEntity.ok().body(updateSes);
-		}
-		
-		
+	}
+
+	@DeleteMapping("deleteAssSession/{id}")
+	public ResponseEntity<Map<String, Object>> deleteAssessmentSession(@PathVariable("id") Integer id) {
+		logger.info("deleteAssessmentSession method of AssessmentMasterController is executed");
+		Map<String, Object> responseSe = new HashMap<>();
+		sessionAssessmentMasterService.deleteAssessmentSession(id);
+		responseSe.put("status", "deleted");
+		return ResponseEntity.ok().body(responseSe);
+	}
+
+	@GetMapping("editAssessmentSession/{id}")
+	public ResponseEntity<Map<String, Object>> getAssessmentSessionById(@PathVariable("id") Integer id) {
+		logger.info("getAssessmentById method of AssessmentMasterController is executed");
+		Map<String, Object> updateSes = sessionAssessmentMasterService.getAssessmentSessionById(id);
+		System.err.println(updateSes);
+		return ResponseEntity.ok().body(updateSes);
+	}
 
 }
