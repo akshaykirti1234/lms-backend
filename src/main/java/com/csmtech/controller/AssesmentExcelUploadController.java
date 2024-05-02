@@ -53,7 +53,7 @@ public class AssesmentExcelUploadController {
 			Cell headingCell = headingRow.createCell(0);
 			headingCell.setCellValue("Assesment Data");
 			headingCell.setCellStyle(boldStyle);
-			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 6));
+			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
 
 			Row headerRow = sheet.createRow(1);
 			String[] headers = { "Question", "Option-1", "Option-2", "Option-3", "Option-4", "Answer" };
