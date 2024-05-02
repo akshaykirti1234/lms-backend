@@ -16,9 +16,9 @@ import com.csmtech.entity.SessionMaster;
 @Repository
 public interface SessionAssessmentMasterRepository extends JpaRepository<SessionAssessmentMaster, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM sessionassessmentmaster WHERE SESSIONID = ?1 ORDER BY RAND() LIMIT ?2")
+	@Query(nativeQuery = true, value = "SELECT * FROM sessionassessmentmaster WHERE SESSIONID = ?1 AND DELETEDFLAG = 0 ORDER BY RAND() LIMIT ?2")
 	List<SessionAssessmentMaster> getQuestionarBySessionId(Integer sessionId, Integer noOfQuestion);
-	
+
 	@Query(value = "SELECT ss.sessionid,ss.sessionname, sm.submodulename, sc.schedulefor, ss.vedio, ss.document, ss.sessiondescription\r\n"
 			+ "FROM sessionmaster ss\r\n" + "JOIN submodulemaster sm ON ss.SUBMODULEID = sm.SUBMODULEID\r\n"
 			+ "JOIN scheduleformaster sc ON ss.SCHEDULEFORID = sc.SCHEDULEFORID\r\n"
@@ -43,47 +43,46 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 
 	@Query("From SessionMaster where scheduleFor.scheduleForId = :scheduleId and DELETEDFLAG = 0")
 	List<SessionMaster> getSessionByScheduleId(Integer scheduleId);
-	
-	
-	@Query(value="SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
+
+	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
 			+ "			 FROM sessionassessmentmaster sa\r\n"
 			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
 			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
 			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
 			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
-			+ "			 WHERE sa.DELETEDFLAG = 0" , nativeQuery = true)
+			+ "			 WHERE sa.DELETEDFLAG = 0", nativeQuery = true)
 	List<Map<String, Object>> viewAssessmentForSessionData();
-  
+
 	@Transactional
 	@Modifying
 	@Query(value = "update sessionassessmentmaster set DELETEDFLAG=1 where SESSIONASSESSMENTMASTERID=:id", nativeQuery = true)
 	void deleteAssessmentSession(Integer id);
-    
-	@Query(value="SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
+
+	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
 			+ "			 FROM sessionassessmentmaster sa\r\n"
 			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
 			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
 			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
 			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
-			+ "			 WHERE sa.SESSIONASSESSMENTMASTERID = :id" , nativeQuery = true)
+			+ "			 WHERE sa.SESSIONASSESSMENTMASTERID = :id", nativeQuery = true)
 	Map<String, Object> getAssessmentSessionById(Integer id);
-	
+
 	// For upload Excel
-	
-		@Query(value = "SELECT m.MODULEID, m.MODULENAME" + " FROM modulemaster m"
-				+ " WHERE m.DELETEDFLAG = 0", nativeQuery = true)
-		List<Map<String, Object>> retriveModuleTypeList();
 
-		@Query(value = "SELECT sm.SUBMODULEID, sm.MODULEID,sm.SUBMODULENAME" + " FROM submodulemaster sm"
-				+ " WHERE sm.DELETEDFLAG = 0", nativeQuery = true)
-		List<Map<String, Object>> retriveSubModuleList();
+	@Query(value = "SELECT m.MODULEID, m.MODULENAME" + " FROM modulemaster m"
+			+ " WHERE m.DELETEDFLAG = 0", nativeQuery = true)
+	List<Map<String, Object>> retriveModuleTypeList();
 
-		@Query(value = "SELECT sf.SCHEDULEFORID, sf.SUBMODULEID,sf.SCHEDULEFOR" + " FROM scheduleformaster sf"
-				+ " WHERE sf.DELETEDFLAG = 0", nativeQuery = true)
-		List<Map<String, Object>> retriveScheduleForList();
+	@Query(value = "SELECT sm.SUBMODULEID, sm.MODULEID,sm.SUBMODULENAME" + " FROM submodulemaster sm"
+			+ " WHERE sm.DELETEDFLAG = 0", nativeQuery = true)
+	List<Map<String, Object>> retriveSubModuleList();
 
-		@Query(value = "SELECT ss.SESSIONID, ss.SUBMODULEID,ss.SESSIONNAME,ss.SCHEDULEFORID" + " FROM sessionmaster ss"
-				+ " WHERE ss.DELETEDFLAG = 0", nativeQuery = true)
-		List<Map<String, Object>> retriveSessionList();
+	@Query(value = "SELECT sf.SCHEDULEFORID, sf.SUBMODULEID,sf.SCHEDULEFOR" + " FROM scheduleformaster sf"
+			+ " WHERE sf.DELETEDFLAG = 0", nativeQuery = true)
+	List<Map<String, Object>> retriveScheduleForList();
+
+	@Query(value = "SELECT ss.SESSIONID, ss.SUBMODULEID,ss.SESSIONNAME,ss.SCHEDULEFORID" + " FROM sessionmaster ss"
+			+ " WHERE ss.DELETEDFLAG = 0", nativeQuery = true)
+	List<Map<String, Object>> retriveSessionList();
 
 }
