@@ -15,12 +15,13 @@ import com.csmtech.entity.AssessmentMaster;
 @Repository
 public interface AssessmentMasterRepository extends JpaRepository<AssessmentMaster, Integer> {
 
-	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,a.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
-			+ "			 FROM assessmentmaster a\r\n"
-			+ "             INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
-			+ "             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
-			+ "             INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
-			+ "			 WHERE a.DELETEDFLAG = 0 ", nativeQuery = true)
+	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
+			+ "					 FROM assessmentmaster a\r\n"
+			+ "			            INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
+			+ "			             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
+			+ "			            INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
+			+ "                        \r\n"
+			+ "					 WHERE a.DELETEDFLAG = 0 order by a.ASSESSMENTMASTERID  desc", nativeQuery = true)
 	List<Map<String, Object>> getAllAssesmentdata();
 
 	@Transactional
@@ -28,7 +29,7 @@ public interface AssessmentMasterRepository extends JpaRepository<AssessmentMast
 	@Query(value = "update assessmentmaster set DELETEDFLAG=1 where ASSESSMENTMASTERID=:id", nativeQuery = true)
 	void deleteAssessment(Integer id);
 	
-	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,a.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
+	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
 			+ "			 FROM assessmentmaster a\r\n"
 			+ "             INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
 			+ "             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"

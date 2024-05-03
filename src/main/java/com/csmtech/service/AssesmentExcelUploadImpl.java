@@ -91,8 +91,8 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 						sessionAssessment.setOption3(option3);
 						sessionAssessment.setOption4(option4);
 						sessionAssessment.setAnswer(answer);
-						//sessionAssessment.setCreatedBy(1);
-						//sessionAssessment.setUpdatedBy(1);
+						// sessionAssessment.setCreatedBy(1);
+						// sessionAssessment.setUpdatedBy(1);
 
 						// Save to database
 						sessionAssessmentMasterRepository.save(sessionAssessment);
@@ -114,29 +114,69 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 
 	// Method to retrieve cell value as String, handling numeric and string values
 	private String getCellValueAsString(Cell cell) {
+
 		if (cell == null) {
+
 			return null;
+
 		}
+
 		switch (cell.getCellType()) {
+
 		case NUMERIC:
+
 			// Check if the cell contains a numeric value
+
 			if (DateUtil.isCellDateFormatted(cell)) {
+
 				// Handle date cells if needed
+
 				return cell.getDateCellValue().toString();
+
 			} else {
+
 				// Convert numeric value to string
-				return String.valueOf(cell.getNumericCellValue());
+
+				double numericValue = cell.getNumericCellValue();
+
+				long intValue = (long) numericValue;
+
+				if (numericValue == intValue) {
+
+					// If the numeric value has no decimal part, return it as integer string
+
+					return String.valueOf(intValue);
+
+				} else {
+
+					// If the numeric value has a decimal part, return it as a string
+
+					return String.valueOf(numericValue);
+
+				}
+
 			}
+
 		case STRING:
+
 			// Retrieve string value directly
+
 			return cell.getStringCellValue();
+
 		case BLANK:
+
 			// Return null for blank cells
+
 			return null;
+
 		default:
+
 			// Handle other cell types if needed
+
 			return null;
+
 		}
+
 	}
 
 	@Override
