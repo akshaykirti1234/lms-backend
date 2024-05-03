@@ -16,7 +16,7 @@ import com.csmtech.entity.SessionAssessmentSetting;
 @Repository
 public interface SessionAssessmentSettingRepository extends JpaRepository<SessionAssessmentSetting, Integer> {
 
-	@Query(value = "select se.SESSIONASSESSMENTSETTINGID,m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION from sessionassessmentsetting se\r\n"
+	@Query(value = "select se.SESSIONASSESSMENTSETTINGID,m.MODULENAME,s.SUBMODULENAME,sc.SCHEDULEFOR,ses.SESSIONNAME,se.NOOFQUESTION,se.PASSINGPERCENTAGE from sessionassessmentsetting se\r\n"
 			+ "join modulemaster m on se.MODULEID=m.MODULEID\r\n"
 			+ "join submodulemaster s on se.SUBMODULEID=s.SUBMODULEID\r\n"
 			+ "join scheduleformaster sc on se.SCHEDULEFORID=sc.SCHEDULEFORID \r\n"
@@ -24,7 +24,7 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 			+ "where se.DELETEDFLAG=0;", nativeQuery = true)
 	List<Map<String, Object>> getSessionAssessmentSetting();
 
-	@Query(value = "SELECT se.SESSIONASSESSMENTSETTINGID, m.MODULENAME, s.SUBMODULENAME, sc.SCHEDULEFOR, ses.SESSIONNAME, se.NOOFQUESTION "
+	@Query(value = "SELECT se.SESSIONASSESSMENTSETTINGID, m.MODULENAME, s.SUBMODULENAME, sc.SCHEDULEFOR, ses.SESSIONNAME, se.NOOFQUESTION , se.PASSINGPERCENTAGE "
 			+ "FROM sessionassessmentsetting se " + "JOIN modulemaster m ON se.MODULEID = m.MODULEID "
 			+ "JOIN submodulemaster s ON se.SUBMODULEID = s.SUBMODULEID "
 			+ "JOIN scheduleformaster sc ON se.SCHEDULEFORID = sc.SCHEDULEFORID "

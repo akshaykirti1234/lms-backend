@@ -8,6 +8,8 @@ public class SessionAssessmentSettingSessionDto {
 	private Integer sessionId;
 
 	private Integer numberOfQuestions;
+	
+	private Double passingPercentage;
 
 
 }

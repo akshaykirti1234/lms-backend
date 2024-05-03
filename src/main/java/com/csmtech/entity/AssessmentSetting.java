@@ -35,4 +35,7 @@ public class AssessmentSetting {
 
 	@Column(name = "NOOFQUESTION")
 	private Integer numberOfQuestion;
+	
+	@Column(name = "PASSINGPERCENTAGE")
+	private Double passingPercentage;
 }
