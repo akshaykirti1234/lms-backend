@@ -50,7 +50,7 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
 			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
 			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
-			+ "			 WHERE sa.DELETEDFLAG = 0", nativeQuery = true)
+			+ "			 WHERE sa.DELETEDFLAG = 0 order by sa.SESSIONASSESSMENTMASTERID  desc", nativeQuery = true)
 	List<Map<String, Object>> viewAssessmentForSessionData();
 
 	@Transactional
