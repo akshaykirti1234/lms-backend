@@ -7,5 +7,6 @@ public class AssessmentSettingScheduleDto {
 	
 	    private Integer scheduleForId;
 	    private Integer numberOfQuestions;
+	    private Double passingPercentage;
 
 }

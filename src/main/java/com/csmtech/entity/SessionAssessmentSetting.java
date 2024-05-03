@@ -39,5 +39,8 @@ public class SessionAssessmentSetting {
 
 	@Column(name = "NOOFQUESTION")
 	private Integer numberOfQuestion;
+	
+	@Column(name = "PASSINGPERCENTAGE")
+	private Double passingPercentage;
 
 }

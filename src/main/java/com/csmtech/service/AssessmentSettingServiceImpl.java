@@ -46,7 +46,7 @@ public class AssessmentSettingServiceImpl implements AssessmentSettingService {
          	 scheduleForMaster.setScheduleForId(scheduleDto.getScheduleForId());
              assessmentSetting.setScheduleForMaster(scheduleForMaster);
              assessmentSetting.setNumberOfQuestion(scheduleDto.getNumberOfQuestions());
-             
+             assessmentSetting.setPassingPercentage(scheduleDto.getPassingPercentage());
              assessmentSettingRespository.save(assessmentSetting);
         }
 

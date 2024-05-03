@@ -51,7 +51,7 @@ public class SessionAssessmentSettingServiceImpl implements SessionAssessmentSet
 			sessionAssessmentSetting.setSessionMaster(sessionMaster);
 			
 			sessionAssessmentSetting.setNumberOfQuestion(SessionDto.getNumberOfQuestions());
-			
+			sessionAssessmentSetting.setPassingPercentage(SessionDto.getPassingPercentage());
 			sessionAssessmentSettingRepository.save(sessionAssessmentSetting);
 		}
 		
