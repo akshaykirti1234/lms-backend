@@ -33,11 +33,11 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 	@Autowired
 	private SessionAssessmentMasterRepository sessionAssessmentMasterRepository;
 	@Autowired
-	private SessionAssessmentSettingRepository assessmentSettingRepository;
+	private SessionAssessmentSettingRepository sessionAssessmentSettingRepository;
 
 	@Override
 	public ResponseEntity<?> getQuestionarBySessionId(Integer sessionId) {
-		SessionAssessmentSetting sessionSessionAssessmentSetting = assessmentSettingRepository
+		SessionAssessmentSetting sessionSessionAssessmentSetting = sessionAssessmentSettingRepository
 				.findFirst1BySessionMaster_SessionId(sessionId);
 
 		Integer noOfQuestion = sessionSessionAssessmentSetting.getNumberOfQuestion();

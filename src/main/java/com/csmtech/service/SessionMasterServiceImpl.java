@@ -120,14 +120,13 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 		for (SessionMaster sessionMaster : sessionMastersList) {
 			System.out.println(sessionMaster.isResultStatus());
 			SessionResultStatus bySessionResult = sessionResultStatusRepository
-					.findBySessionMaster_SessionIdAndUserMaster_UserId(sessionMaster.getSessionId(), userId);
+					.findSessionMasterBySessionIdAndUserId(sessionMaster.getSessionId(), userId);
 			if (bySessionResult != null) {
 				sessionMaster.setResultStatus(bySessionResult.getStatusOfResult());
 				sessionMaster.setAccessStatus(bySessionResult.getStatusOfResult());
 			}
 		}
 		for (SessionMaster sessionMaster : sessionMastersList) {
-//			sessionMaster.setResultStatus(previous);
 			if (sessionMaster.isResultStatus() != previous) {
 				sessionMaster.setAccessStatus(previous);
 				break;
