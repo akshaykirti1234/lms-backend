@@ -33,8 +33,8 @@ public interface AssessmentSettingRespository extends JpaRepository<AssessmentSe
     
     @Modifying
    	@Transactional
-   	@Query(value = "update assessmentsetting set NOOFQUESTION=:noOfQuestions where ASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
-   	void updateAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions);
+   	@Query(value = "update assessmentsetting set NOOFQUESTION=:noOfQuestions , PASSINGPERCENTAGE =:passingPercentage where ASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
+   	void updateAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage);
 
 
     @Modifying

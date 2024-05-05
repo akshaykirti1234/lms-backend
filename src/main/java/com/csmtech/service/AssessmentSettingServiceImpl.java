@@ -71,8 +71,8 @@ public class AssessmentSettingServiceImpl implements AssessmentSettingService {
 	}
 
 	@Override
-	public void updateAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions) {
-		assessmentSettingRespository.updateAssessmentSetting(assessmentSettingId,noOfQuestions);
+	public void updateAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage) {
+		assessmentSettingRespository.updateAssessmentSetting(assessmentSettingId,noOfQuestions,passingPercentage);
 	}
 
 }
