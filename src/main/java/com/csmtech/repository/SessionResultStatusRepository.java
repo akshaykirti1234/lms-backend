@@ -1,5 +1,7 @@
 package com.csmtech.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +21,11 @@ public interface SessionResultStatusRepository extends JpaRepository<SessionResu
 			+ "WHERE sm.SESSIONID = :sessionId AND um.USERID = :userId "
 			+ "ORDER BY srs.CREATEDON DESC LIMIT 1", nativeQuery = true)
 	SessionResultStatus findSessionMasterBySessionIdAndUserId(Integer sessionId, Integer userId);
+	
+	@Query(value = "select * FROM SessionResultStatus WHERE USERID = :userId", nativeQuery = true)
+	List<SessionResultStatus> getSessionResultStatus(Integer userId);
+
+	@Query(value = "select * FROM SessionResultStatus WHERE SESSIONID = :sessionId and USERID = :userId", nativeQuery = true)
+	List<SessionResultStatus> getSessionResultBySessionIdUserId(Integer sessionId, Integer userId);
 
 }
