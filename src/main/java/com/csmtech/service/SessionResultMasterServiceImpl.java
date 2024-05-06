@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -140,10 +141,14 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 		SessionAssessmentSetting sessionAssessmentSetting = sessionAssessmentSettingRepository
 				.findBySessionId(sessionId);
 
-		if (percentage >= sessionAssessmentSetting.getPassingPercentage()) {
-			sessionResultStatus.setStatusOfResult(true);
+		if (sessionAssessmentSetting.getPassingPercentage() != null) {
+			if (percentage >= sessionAssessmentSetting.getPassingPercentage()) {
+				sessionResultStatus.setStatusOfResult(true);
+			} else {
+				sessionResultStatus.setStatusOfResult(false);
+			}
 		} else {
-			sessionResultStatus.setStatusOfResult(false);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		SessionResultStatus save = sessionResultStatusRepository.save(sessionResultStatus);

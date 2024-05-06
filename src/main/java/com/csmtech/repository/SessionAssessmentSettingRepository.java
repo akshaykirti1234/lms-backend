@@ -45,6 +45,8 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 
 	SessionAssessmentSetting findFirst1BySessionMaster_SessionId(Integer sessionId);
 
-	@Query("from SessionAssessmentSetting where sessionMaster.sessionId = :sessionId and DELETEDFLAG = false")
+	@Query(value = "SELECT * FROM sessionassessmentsetting s "
+			+ "WHERE s.sessionId = :sessionId AND s.DELETEDFLAG = false "
+			+ "ORDER BY s.SESSIONASSESSMENTSETTINGID DESC LIMIT 1", nativeQuery = true)
 	SessionAssessmentSetting findBySessionId(Integer sessionId);
 }
