@@ -58,7 +58,8 @@ public class SessionAssessmentSettingController {
 	@PutMapping("/sessionAssessmentSetting/{sessionAssessmentSettingId}")
 	public ResponseEntity<Map<String,Object>> updateSessionAssessmentSetting(@PathVariable("sessionAssessmentSettingId") Integer assessmentSettingId, @RequestBody SessionAssessmentSettingSessionDto sessionDto ){
 	    Integer noOfQuestions=sessionDto.getNumberOfQuestions();
-	    sessionAssessmentSettingService.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions);
+	    Double passingPercentage = sessionDto.getPassingPercentage();
+	    sessionAssessmentSettingService.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions, passingPercentage);
 	    
 	        Map<String,Object> response = new HashMap<>();
 	        response.put("status", 200);

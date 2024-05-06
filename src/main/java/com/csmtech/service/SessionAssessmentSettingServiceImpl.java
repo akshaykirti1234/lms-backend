@@ -75,8 +75,8 @@ public class SessionAssessmentSettingServiceImpl implements SessionAssessmentSet
 	}
 
 	@Override
-	public void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions) {
-		sessionAssessmentSettingRepository.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions);
+	public void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage) {
+		sessionAssessmentSettingRepository.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions ,passingPercentage);
 	}
 
 }

@@ -40,8 +40,8 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 
 	@Modifying
 	@Transactional
-	@Query(value = "update sessionassessmentsetting set NOOFQUESTION=:noOfQuestions where SESSIONASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
-	void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions);
+	@Query(value = "update sessionassessmentsetting set NOOFQUESTION=:noOfQuestions , PASSINGPERCENTAGE =:passingPercentage where SESSIONASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
+	void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions, Double passingPercentage);
 
 	SessionAssessmentSetting findFirst1BySessionMaster_SessionId(Integer sessionId);
 

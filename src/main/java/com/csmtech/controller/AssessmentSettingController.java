@@ -59,7 +59,8 @@ public class AssessmentSettingController {
 	@PutMapping("/assessmentSetting/{assessmentSettingId}")
 	public ResponseEntity<Map<String,Object>> updateAssessmentSetting(@PathVariable("assessmentSettingId") Integer assessmentSettingId, @RequestBody AssessmentSettingScheduleDto scheduleDto ){
 	    Integer noOfQuestions=scheduleDto.getNumberOfQuestions();
-	    assessmentSettingService.updateAssessmentSetting(assessmentSettingId, noOfQuestions);
+	    Double passingPercentage = scheduleDto.getPassingPercentage();
+	    assessmentSettingService.updateAssessmentSetting(assessmentSettingId, noOfQuestions , passingPercentage);
 	    
 	        Map<String,Object> response = new HashMap<>();
 	        response.put("status", 200);

@@ -16,6 +16,6 @@ public interface SessionAssessmentSettingService {
 
 	void deleteSessionAssessmentSetting(Integer sessionAssessmentSettingId);
 
-	void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions);
+	void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage);
 
 }
