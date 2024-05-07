@@ -42,5 +42,9 @@ public interface AssessmentSettingRespository extends JpaRepository<AssessmentSe
 	@Query(value = "update assessmentsetting set DELETEDFLAG=1 where ASSESSMENTSETTINGID=:assessmentSettingId", nativeQuery = true)
 	void deleteAssessmentSetting(Integer assessmentSettingId);
 
+
+	@Query(value="select sm.SCHEDULEFORID as scheduleForId,sm.SCHEDULEFOR as scheduleForName from scheduleformaster sm where sm.SUBMODULEID=:submoduleId and sm.SCHEDULEFORID not in(select SCHEDULEFORID from assessmentsetting where DELETEDFLAG=0 )",nativeQuery=true)
+	List<Map<String, Object>> getScheduleforAssessmentSetting(Integer submoduleId);
+
    
 }

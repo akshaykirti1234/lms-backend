@@ -19,4 +19,6 @@ public interface AssessmentSettingService {
 
 	void updateAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions, Double passingPercentage);
 
+	List<Map<String, Object>> getScheduleforAssessmentSetting(Integer submoduleId);
+
 }

@@ -75,4 +75,9 @@ public class AssessmentSettingServiceImpl implements AssessmentSettingService {
 		assessmentSettingRespository.updateAssessmentSetting(assessmentSettingId,noOfQuestions,passingPercentage);
 	}
 
+	@Override
+	public List<Map<String, Object>> getScheduleforAssessmentSetting(Integer submoduleId) {
+		return assessmentSettingRespository.getScheduleforAssessmentSetting(submoduleId);
+	}
+
 }

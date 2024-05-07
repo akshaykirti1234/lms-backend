@@ -33,6 +33,14 @@ public class AssessmentSettingController {
     	
     }
 	
+   //for shedulewise data
+	
+	@GetMapping("/scheduleForAssessmentSetting/{submoduleId}")
+		public ResponseEntity<List<Map<String,Object>>> getScheduleforAssessmentSetting(@PathVariable Integer submoduleId){
+			List<Map<String,Object>> sheduleList=assessmentSettingService.getScheduleforAssessmentSetting(submoduleId);
+			return ResponseEntity.ok().body(sheduleList);
+		}
+	
 	@PostMapping("/assessmentSetting")
 	public ResponseEntity<AssessmentSetting> saveAssessmentSetting(@RequestBody AssessmentSettingDto assessmentSettingDto){
 		AssessmentSetting assessmentSetting  =assessmentSettingService.saveAssessmentSetting(assessmentSettingDto);
