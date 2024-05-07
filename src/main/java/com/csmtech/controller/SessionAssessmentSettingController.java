@@ -34,6 +34,14 @@ public class SessionAssessmentSettingController {
     	
     }
 	
+	//for sessionewise data
+	  @GetMapping("/sessionForAssessmentSetting/{scheduleForId}")
+			public ResponseEntity<List<Map<String,Object>>> getSessionforAssessmentSetting(@PathVariable Integer scheduleForId){
+				List<Map<String,Object>> sessionList=sessionAssessmentSettingService.getSessionforAssessmentSetting(scheduleForId);
+				return ResponseEntity.ok().body(sessionList);
+			}
+		
+	
 	@PostMapping("/sessionAssessmentSetting")
 	public ResponseEntity<SessionAssessmentSetting> saveSessionAssessmentSetting(@RequestBody SessionAssessmentSettingDto sessionAssessmentSettingDto){
 		SessionAssessmentSetting sessionAssessmentSetting=sessionAssessmentSettingService.saveSessionAssessmentSetting(sessionAssessmentSettingDto);

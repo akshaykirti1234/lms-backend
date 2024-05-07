@@ -79,4 +79,9 @@ public class SessionAssessmentSettingServiceImpl implements SessionAssessmentSet
 		sessionAssessmentSettingRepository.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions ,passingPercentage);
 	}
 
+	@Override
+	public List<Map<String, Object>> getSessionforAssessmentSetting(Integer scheduleForId) {
+		return sessionAssessmentSettingRepository.getSessionforAssessmentSetting(scheduleForId);
+	}
+
 }

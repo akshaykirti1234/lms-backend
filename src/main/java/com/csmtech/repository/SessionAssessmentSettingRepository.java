@@ -49,4 +49,8 @@ public interface SessionAssessmentSettingRepository extends JpaRepository<Sessio
 			+ "WHERE s.sessionId = :sessionId AND s.DELETEDFLAG = false "
 			+ "ORDER BY s.SESSIONASSESSMENTSETTINGID DESC LIMIT 1", nativeQuery = true)
 	SessionAssessmentSetting findBySessionId(Integer sessionId);
+
+	
+	@Query(value = "select sm.SESSIONID as sessionId,sm.SESSIONNAME as sessionName from sessionmaster sm where sm.SCHEDULEFORID=:scheduleForId and sm.SESSIONID not in(select SESSIONID from sessionassessmentsetting where DELETEDFLAG=0 )", nativeQuery = true)
+	List<Map<String, Object>> getSessionforAssessmentSetting(Integer scheduleForId);
 }

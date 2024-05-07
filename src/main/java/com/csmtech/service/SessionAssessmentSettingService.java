@@ -18,4 +18,6 @@ public interface SessionAssessmentSettingService {
 
 	void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage);
 
+	List<Map<String, Object>> getSessionforAssessmentSetting(Integer scheduleForId);
+
 }
