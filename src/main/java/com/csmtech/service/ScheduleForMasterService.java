@@ -22,4 +22,6 @@ public interface ScheduleForMasterService {
 
 	ResponseEntity<?> getScheduleBySubModuleId(Integer submoduleId);
 
+	ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto);
+
 }

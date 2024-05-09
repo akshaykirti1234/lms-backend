@@ -32,7 +32,7 @@ import com.csmtech.service.TechnologyService;
 @RequestMapping("/api/schedule")
 public class ScheduleController {
 
-	Logger logger=LoggerFactory.getLogger(ScheduleController.class);
+	Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 
 	@Autowired
 	private ScheduleForMasterService scheduleForMasterService;
@@ -71,10 +71,16 @@ public class ScheduleController {
 		return new ResponseEntity<>(authorsList, HttpStatus.OK);
 	}
 
+	@SuppressWarnings("unused")
 	@PostMapping("/saveScheduleForm")
 	public ResponseEntity<?> saveScheduleForm(@RequestBody ScheduleForMasterDto scheduleForMasterDto) {
 		logger.info("saveScheduleForm method of ScheduleController is executed");
-		ResponseEntity<?> response = scheduleForMasterService.saveScheduleForm(scheduleForMasterDto);
+		ResponseEntity<?> response = null;
+		if (scheduleForMasterDto.getScheduleForId() != null) {
+			response = scheduleForMasterService.updateScheduleForm(scheduleForMasterDto);
+		} else {
+			response = scheduleForMasterService.saveScheduleForm(scheduleForMasterDto);
+		}
 		return response;
 	}
 

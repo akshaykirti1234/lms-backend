@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.csmtech.dto.ScheduleForMasterDto;
 import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.repository.ScheduleForMasterRepository;
+import com.csmtech.repository.SessionMasterRepository;
 
 @Service
 public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
@@ -24,6 +25,10 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
 	@Autowired
 	private ScheduleForMasterRepository scheduleForMasterRepository;
+	
+	@Autowired
+	private SessionMasterRepository sessionMasterRepository;
+	
 
 	@Override
 	public ResponseEntity<?> saveScheduleForm(ScheduleForMasterDto scheduleForMasterDto) {
@@ -46,6 +51,40 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 		// Save
 		ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
 
+		if (savedSchedule.getScheduleForId() != null) {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@Override
+	public ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto) {
+		logger.info("updateScheduleForm method of ScheduleForMasterServiceImpl is executed");
+		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
+		scheduleForMaster.setScheduleForId(scheduleForMasterDto.getScheduleForId());
+		scheduleForMaster.setScheduleForName(scheduleForMasterDto.getScheduleForName());
+		scheduleForMaster.setSubModule(scheduleForMasterDto.getSubModule());
+		scheduleForMaster.setAuthor(scheduleForMasterDto.getAuthor());
+		if (scheduleForMasterDto.getTechnology().getTechId() != null) {
+			scheduleForMaster.setTechnology(scheduleForMasterDto.getTechnology());
+		}else {
+			scheduleForMaster.setTechnology(null);
+		}
+		scheduleForMaster.setIsAssessmentPrepared(false);
+		scheduleForMaster.setNoOfSession(scheduleForMasterDto.getNoOfSession());
+		scheduleForMaster.setNoOfHours(scheduleForMasterDto.getNoOfHours());
+		scheduleForMaster.setCreatedBy(1);
+		scheduleForMaster.setUpdatedBy(1);
+		
+		ScheduleForMaster sm = scheduleForMasterRepository.getById(scheduleForMasterDto.getScheduleForId());
+		
+		if(scheduleForMasterDto.getNoOfSession() > sm.getNoOfSession()) {
+			sessionMasterRepository.updateIsLastSession(scheduleForMasterDto.getScheduleForId());
+		}
+		// Update
+		ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
+		
 		if (savedSchedule.getScheduleForId() != null) {
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} else {
@@ -103,5 +142,7 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 			return ResponseEntity.ok(scheduleForList);
 		}
 	}
+
+	
 
 }

@@ -25,6 +25,11 @@ public interface SessionMasterRepository extends JpaRepository<SessionMaster, In
 	@Transactional
 	@Query(value = "update sessionmaster set DELETEDFLAG=1 where sessionid=:id", nativeQuery = true)
 	void deleteSession(Integer id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update sessionmaster set ISLASTSESSION=0 where SCHEDULEFORID=:id and DELETEDFLAG=0", nativeQuery = true)
+	void updateIsLastSession(Integer id);
 
 	@Query(value = "select ISLASTSESSION \r\n" + "from SESSIONMASTER\r\n"
 			+ "where SCHEDULEFORID=:id and DELETEDFLAG=0\r\n" + "ORDER BY ISLASTSESSION desc\r\n"
