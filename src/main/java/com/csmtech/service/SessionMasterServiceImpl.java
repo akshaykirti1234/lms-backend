@@ -2,6 +2,8 @@ package com.csmtech.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.SessionMaster;
 import com.csmtech.entity.SessionResultStatus;
 import com.csmtech.entity.SubModule;
+import com.csmtech.exceptions.SessionNotFoundException;
 import com.csmtech.repository.ScheduleForMasterRepository;
 import com.csmtech.repository.SessionMasterRepository;
 import com.csmtech.repository.SessionResultStatusRepository;
@@ -58,9 +61,11 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 	}
 
 	@Override
-	public SessionMasterDto getSessionMasterById(Integer id) {
+	public SessionMasterDto getSessionMasterById(Integer id) throws SessionNotFoundException {
 		logger.info("getSessionMasterById method of SessionMasterServiceImpl is executed");
-		SessionMaster sm = sessionRepo.findById(id).get();
+		Optional<SessionMaster> osm = sessionRepo.findById(id);
+		if(osm.isPresent()) {
+		SessionMaster sm = osm.get();
 		SessionMasterDto dto = new SessionMasterDto();
 		dto.setSessionid(sm.getSessionId());
 		dto.setSessionName(sm.getSessionName());
@@ -71,12 +76,21 @@ public class SessionMasterServiceImpl implements SessionMasterService {
 		dto.setDescription(sm.getSessionDescription());
 		dto.setIsLastSession(sm.getIsLastSession());
 		return dto;
+		}
+		else {
+			throw new SessionNotFoundException("session not found with the id : "+id);
+		}
 	}
 
 	@Override
-	public void deleteSessionMasterById(Integer id) {
+	public void deleteSessionMasterById(Integer id) throws SessionNotFoundException {
 		logger.info("deleteSessionMasterById method of SessionMasterServiceImpl is executed");
+		Optional<SessionMaster> sm = sessionRepo.findById(id);
+		if(sm.isPresent()) {
 		sessionRepo.deleteSession(id);
+		}else {
+			throw new SessionNotFoundException("session not found with the id : "+id);
+		}
 	}
 
 	@Override

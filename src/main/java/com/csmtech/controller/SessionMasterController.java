@@ -9,10 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.csmtech.dto.SessionMasterDto;
 import com.csmtech.entity.SessionMaster;
+import com.csmtech.exceptions.SessionNotFoundException;
 import com.csmtech.service.ScheduleForMasterService;
 import com.csmtech.service.SessionMasterService;
 
@@ -47,7 +51,7 @@ public class SessionMasterController {
 	private ScheduleForMasterService scheduleForMasterService;
 
 	@PostMapping("/session-master")
-	public ResponseEntity<SessionMaster> saveSessionMaster(@RequestBody SessionMasterDto dto) throws Exception {
+	public ResponseEntity<SessionMaster> saveSessionMaster(@RequestBody @Valid SessionMasterDto dto) throws Exception {
 		logger.info("saveSessionMaster method of SessionMasterController is executed");
 		SessionMaster sm = sessionService.saveSessionMaster(dto);
 		List<String> fileUploadList = new ArrayList<>();
@@ -81,11 +85,11 @@ public class SessionMasterController {
 					Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					Files.delete(srcFile.toPath());
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("error" , e);
 				}
 			}
 		}
-		return ResponseEntity.ok().body(sm);
+		return new ResponseEntity<>(sm , HttpStatus.CREATED);
 	}
 
 	@GetMapping("/session-master")
@@ -95,7 +99,7 @@ public class SessionMasterController {
 	}
 
 	@DeleteMapping("/session-master/{id}")
-	public ResponseEntity<Map<String, Object>> deleteSessionByid(@PathVariable("id") Integer id) {
+	public ResponseEntity<Map<String, Object>> deleteSessionByid(@PathVariable("id") Integer id) throws SessionNotFoundException {
 		logger.info("deleteSessionByid method of SessionMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		sessionService.deleteSessionMasterById(id);
@@ -104,7 +108,7 @@ public class SessionMasterController {
 	}
 
 	@GetMapping("/session-master/{id}")
-	public SessionMasterDto getSessionById(@PathVariable("id") Integer id) {
+	public SessionMasterDto getSessionById(@PathVariable("id") Integer id) throws SessionNotFoundException {
 		logger.info("getSessionById method of SessionMasterController is executed");
 		return sessionService.getSessionMasterById(id);
 	}
