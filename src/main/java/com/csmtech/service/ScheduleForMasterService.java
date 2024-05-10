@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.csmtech.dto.ScheduleForMasterDto;
 import com.csmtech.entity.ScheduleForMaster;
+import com.csmtech.exceptions.IsLastSessionException;
 
 public interface ScheduleForMasterService {
 
@@ -22,6 +23,6 @@ public interface ScheduleForMasterService {
 
 	ResponseEntity<?> getScheduleBySubModuleId(Integer submoduleId);
 
-	ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto);
+	ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto) throws IsLastSessionException;
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.csmtech.dto.ScheduleForMasterDto;
 import com.csmtech.entity.ScheduleForMaster;
+import com.csmtech.exceptions.IsLastSessionException;
 import com.csmtech.repository.ScheduleForMasterRepository;
 import com.csmtech.repository.SessionMasterRepository;
 
@@ -59,7 +60,7 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 	}
 	
 	@Override
-	public ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto) {
+	public ResponseEntity<?> updateScheduleForm(ScheduleForMasterDto scheduleForMasterDto) throws IsLastSessionException {
 		logger.info("updateScheduleForm method of ScheduleForMasterServiceImpl is executed");
 		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
 		scheduleForMaster.setScheduleForId(scheduleForMasterDto.getScheduleForId());
@@ -77,18 +78,30 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 		scheduleForMaster.setCreatedBy(1);
 		scheduleForMaster.setUpdatedBy(1);
 		
+		@SuppressWarnings("deprecation")
 		ScheduleForMaster sm = scheduleForMasterRepository.getById(scheduleForMasterDto.getScheduleForId());
 		
 		if(scheduleForMasterDto.getNoOfSession() > sm.getNoOfSession()) {
 			sessionMasterRepository.updateIsLastSession(scheduleForMasterDto.getScheduleForId());
+			ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
+			
+			if (savedSchedule.getScheduleForId() != null) {
+				return new ResponseEntity<>(HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
-		// Update
-		ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
-		
-		if (savedSchedule.getScheduleForId() != null) {
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		else if(scheduleForMasterDto.getNoOfSession() == sm.getNoOfSession()) {
+			ScheduleForMaster savedSchedule = scheduleForMasterRepository.save(scheduleForMaster);
+			if (savedSchedule.getScheduleForId() != null) {
+				return new ResponseEntity<>(HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}
+		else {
+			logger.error("You can not enter number which is less than previous number.");
+			throw new IsLastSessionException("You can not enter number which is less than previous number.");
 		}
 	}
 

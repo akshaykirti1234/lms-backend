@@ -22,6 +22,7 @@ import com.csmtech.entity.Author;
 import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.SubModule;
 import com.csmtech.entity.Technology;
+import com.csmtech.exceptions.IsLastSessionException;
 import com.csmtech.service.AuthorService;
 import com.csmtech.service.ScheduleForMasterService;
 import com.csmtech.service.SubModuleService;
@@ -77,7 +78,11 @@ public class ScheduleController {
 		logger.info("saveScheduleForm method of ScheduleController is executed");
 		ResponseEntity<?> response = null;
 		if (scheduleForMasterDto.getScheduleForId() != null) {
-			response = scheduleForMasterService.updateScheduleForm(scheduleForMasterDto);
+			try {
+				response = scheduleForMasterService.updateScheduleForm(scheduleForMasterDto);
+			} catch (IsLastSessionException e) {
+				return ResponseEntity.badRequest().build();
+			}
 		} else {
 			response = scheduleForMasterService.saveScheduleForm(scheduleForMasterDto);
 		}
