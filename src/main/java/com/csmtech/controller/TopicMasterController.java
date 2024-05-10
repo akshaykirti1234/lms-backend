@@ -50,8 +50,8 @@ public class TopicMasterController {
 	}
 	
 	@GetMapping("/getTopic/{topicId}")
-	public ResponseEntity<List<TopicMaster>> getTopicById(@PathVariable("topicId") Integer topicId) {
-		List<TopicMaster> TopicData = topicMasterService.getTopicById(topicId);
+	public ResponseEntity<TopicMaster> getTopicById(@PathVariable("topicId") Integer topicId) {
+		TopicMaster TopicData = topicMasterService.getTopicById(topicId);
 		return ResponseEntity.ok().body(TopicData);
 
 	}

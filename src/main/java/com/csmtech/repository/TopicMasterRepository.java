@@ -24,7 +24,7 @@ public interface TopicMasterRepository extends JpaRepository<TopicMaster, Intege
 
 	
 	@Query("from TopicMaster where topicId=:topicId")
-	List<TopicMaster> getTopicById(Integer topicId);
+	TopicMaster getTopicById(Integer topicId);
 
 	
 

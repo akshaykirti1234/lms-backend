@@ -12,5 +12,5 @@ public interface TopicMasterService {
 
 	void deleteTopic(Integer topicId);
 
-	List<TopicMaster> getTopicById(Integer topicId);
+	TopicMaster getTopicById(Integer topicId);
 }

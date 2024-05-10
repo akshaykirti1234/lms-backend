@@ -28,7 +28,7 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 		userMaster.setUserId(topicDto.getUserId());
 
 		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
-		scheduleForMaster.setScheduleForId(topicDto.getScheduleForMaster());
+		scheduleForMaster.setScheduleForId(1);
 
 		topic.setUserMaster(userMaster);
 		topic.setScheduleForMaster(scheduleForMaster);
@@ -49,7 +49,7 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 	}
 
 	@Override
-	public List<TopicMaster> getTopicById(Integer topicId) {
+	public TopicMaster getTopicById(Integer topicId) {
 		return topicMasterRepository.getTopicById(topicId);
 	}
 	
