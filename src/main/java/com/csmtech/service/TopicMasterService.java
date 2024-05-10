@@ -11,4 +11,6 @@ public interface TopicMasterService {
 	List<TopicMaster> viewTopicData();
 
 	void deleteTopic(Integer topicId);
+
+	List<TopicMaster> getTopicById(Integer topicId);
 }

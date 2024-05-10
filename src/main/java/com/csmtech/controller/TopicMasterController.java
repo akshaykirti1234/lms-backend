@@ -29,20 +29,7 @@ public class TopicMasterController {
 	@Autowired
 	private TopicMasterService topicMasterService;
 
-	@Autowired
-	private UserMasterService userMasterService;
-
-	@GetMapping("/usersByUserType")
-	public ResponseEntity<?> getUsersByUserTypeNotEqualToOne() {
-		try {
-			List<Map<String, Object>> users = userMasterService.getUseMasterList();
-			return new ResponseEntity<>(users, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
+	
 	@PostMapping("/saveTopic")
 	public ResponseEntity<?> saveTopic(@RequestBody TopicMasterDto topicDto) {
 		try {
@@ -62,6 +49,12 @@ public class TopicMasterController {
 
 	}
 	
+	@GetMapping("/getTopic/{topicId}")
+	public ResponseEntity<List<TopicMaster>> getTopicById(@PathVariable("topicId") Integer topicId) {
+		List<TopicMaster> TopicData = topicMasterService.getTopicById(topicId);
+		return ResponseEntity.ok().body(TopicData);
+
+	}
 	
 	
 	@DeleteMapping("deleteTopic/{topicId}")

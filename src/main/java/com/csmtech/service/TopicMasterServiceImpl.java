@@ -20,11 +20,12 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 	@Override
 	public TopicMaster saveTopic(TopicMasterDto topicDto) {
 		TopicMaster topic = new TopicMaster();
+		topic.setTopicId(topicDto.getTopicId());
 		topic.setTopicName(topicDto.getTopicName());
 		topic.setReferTo(topicDto.getReferTo());
 
 		UserMaster userMaster = new UserMaster();
-		userMaster.setUserId(topicDto.getUserMaster());
+		userMaster.setUserId(topicDto.getUserId());
 
 		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
 		scheduleForMaster.setScheduleForId(topicDto.getScheduleForMaster());
@@ -45,6 +46,11 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 	@Override
 	public void deleteTopic(Integer topicId) {
 		 topicMasterRepository.deleteTopic(topicId);
+	}
+
+	@Override
+	public List<TopicMaster> getTopicById(Integer topicId) {
+		return topicMasterRepository.getTopicById(topicId);
 	}
 	
 
