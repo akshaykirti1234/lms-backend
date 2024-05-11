@@ -29,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin("*")
 public class FileController {
 
-	Logger logger=LoggerFactory.getLogger(FileController.class);
-	
+	Logger logger = LoggerFactory.getLogger(FileController.class);
+
 	@Value("${tempfile.path}")
 	private String tempPath;
 
@@ -38,8 +38,8 @@ public class FileController {
 	private String finalUploadPath;
 
 	@PostMapping("/setTempFile")
-	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file,@RequestParam("name") String name)
-			throws IOException {
+	public ResponseEntity<Map<String, Object>> setTempFile(@RequestParam("file") MultipartFile file,
+			@RequestParam("name") String name) throws IOException {
 		logger.info("setTempFile method of FileController is executed");
 		Map<String, Object> response = new HashMap<>();
 		File f1 = null;
@@ -99,6 +99,8 @@ public class FileController {
 				|| fileFormat.equals("flv") || fileFormat.equals("mpeg") || fileFormat.equals("mkv")
 				|| fileFormat.equals("webm") || fileFormat.equals("3gp")) {
 			folderName = "VIDEO";
+		} else if (fileFormat.equals("mp3") || fileFormat.equals("wav")) {
+			folderName = "AUDIO";
 		} else {
 			folderName = "DOCUMENT";
 		}
@@ -107,28 +109,35 @@ public class FileController {
 		String contentType = "";
 		if (null != fileName && fileName.contains(".")) {
 			String fileExtension = fileName.split("\\.")[1];
-			if (fileExtension.equalsIgnoreCase("pdf"))
+			if (fileExtension.equalsIgnoreCase("pdf")) {
 				contentType = "application/pdf";
-			if (fileExtension.equalsIgnoreCase("xls"))
+			}
+			if (fileExtension.equalsIgnoreCase("xls")) {
 				contentType = "application/vnd.ms-excel";
-			if (fileExtension.equalsIgnoreCase("xlsx"))
+			}
+			if (fileExtension.equalsIgnoreCase("xlsx")) {
 				contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-			else if (fileExtension.equalsIgnoreCase("png"))
+			} else if (fileExtension.equalsIgnoreCase("png")) {
 				contentType = "image/png";
-			else if (fileExtension.equalsIgnoreCase("jpg") || fileExtension.equalsIgnoreCase("jpeg"))
+			} else if (fileExtension.equalsIgnoreCase("jpg") || fileExtension.equalsIgnoreCase("jpeg")) {
 				contentType = "image/jpeg";
-			else if (fileExtension.equalsIgnoreCase("ppt") || fileExtension.equalsIgnoreCase("pptx"))
+			} else if (fileExtension.equalsIgnoreCase("ppt") || fileExtension.equalsIgnoreCase("pptx")) {
 				contentType = "application/vnd.ms-powerpoint";
-			else if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("avi"))
+			} else if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("avi")) {
 				contentType = "video/mp4"; // Adjust as needed based on the video format
-			else if (fileFormat.equalsIgnoreCase("doc"))
+			} else if (fileExtension.equalsIgnoreCase("mp3")) {
+				contentType = "audio/mpeg";
+			} else if (fileExtension.equalsIgnoreCase("wav")) {
+				contentType = "audio/wav";
+			} else if (fileFormat.equalsIgnoreCase("doc")) {
 				contentType = "application/msword";
-			else if (fileFormat.equalsIgnoreCase("docx"))
+			} else if (fileFormat.equalsIgnoreCase("docx")) {
 				contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-			else if (fileFormat.equalsIgnoreCase("txt"))
+			} else if (fileFormat.equalsIgnoreCase("txt")) {
 				contentType = "text/plain";
-			else
+			} else {
 				contentType = "application/octet-stream";
+			}
 		}
 
 		return ResponseEntity.ok().headers(headers).contentLength(file.length())
