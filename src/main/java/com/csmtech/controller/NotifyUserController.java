@@ -24,7 +24,7 @@ import com.csmtech.util.EmailServiceUtil;
 @RequestMapping("/api/notify")
 public class NotifyUserController {
 	
-	Logger logger=LoggerFactory.getLogger(NotifyUserController.class);
+	private static final  Logger logger=LoggerFactory.getLogger(NotifyUserController.class);
 
 	@Autowired
 	private UserMasterService userMasterService;

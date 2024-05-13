@@ -2,6 +2,8 @@ package com.csmtech.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import com.csmtech.repository.TopicMasterRepository;
 @Service
 public class TopicMasterServiceImpl implements TopicMasterService {
 
+	private static final Logger logger=LoggerFactory.getLogger(TopicMasterServiceImpl.class);
+	
 	@Autowired
 	private TopicMasterRepository topicMasterRepository;
 

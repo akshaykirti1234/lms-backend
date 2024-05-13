@@ -18,7 +18,8 @@ import com.csmtech.service.UserMasterService;
 @RequestMapping("/api/login")
 public class LoginController {
 
-	Logger logger=LoggerFactory.getLogger(LoginController.class);
+	private static final  Logger logger=LoggerFactory.getLogger(LoginController.class);
+	
 	@Autowired
 	private UserMasterService userMasterService;
 

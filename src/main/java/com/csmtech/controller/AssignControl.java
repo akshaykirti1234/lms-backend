@@ -22,7 +22,7 @@ import com.csmtech.service.SubModuleService;
 @RequestMapping("/assign")
 public class AssignControl {
 	
-	Logger logger=LoggerFactory.getLogger(AssignControl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AssignControl.class);
 
 	@Autowired
 	private SubModuleService subModuleService;

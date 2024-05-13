@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin("*")
 public class FileController {
 
-	Logger logger=LoggerFactory.getLogger(FileController.class);
+	private static final Logger logger=LoggerFactory.getLogger(FileController.class);
 	
 	@Value("${tempfile.path}")
 	private String tempPath;

@@ -16,7 +16,7 @@ import com.csmtech.repository.UserTranInfoRepository;
 @Service
 public class UserTranInfoServiceImpl implements UserTranInfoService {
 
-	Logger logger = LoggerFactory.getLogger(UserTranInfoService.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserTranInfoService.class);
 
 	@Autowired
 	private UserTranInfoRepository userTranInfoRepository;

@@ -25,7 +25,7 @@ import com.csmtech.repository.SubModuleRepository;
 @Service
 public class SessionMasterServiceImpl implements SessionMasterService {
 
-	Logger logger = LoggerFactory.getLogger(SessionMasterServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionMasterServiceImpl.class);
 
 	@Autowired
 	private SessionMasterRepository sessionRepo;

@@ -35,7 +35,7 @@ import com.csmtech.service.SessionMasterService;
 @CrossOrigin("*")
 public class SessionMasterController {
 
-	Logger logger = LoggerFactory.getLogger(SessionMasterController.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionMasterController.class);
 
 	@Value("${tempfile.path}")
 	private String tempFilePath;

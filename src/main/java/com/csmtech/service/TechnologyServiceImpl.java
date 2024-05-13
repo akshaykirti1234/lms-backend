@@ -15,7 +15,7 @@ import com.csmtech.repository.TechnologyRepository;
 @Service
 public class TechnologyServiceImpl implements TechnologyService {
 	
-	Logger logger=LoggerFactory.getLogger(TechnologyServiceImpl.class);
+	private static final Logger logger=LoggerFactory.getLogger(TechnologyServiceImpl.class);
 
 	@Autowired
 	private TechnologyRepository technologyRepository;

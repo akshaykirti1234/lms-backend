@@ -39,12 +39,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class UserMasterServiceImpl implements UserMasterService {
 
+	private static final Logger logger = LoggerFactory.getLogger(UserMasterServiceImpl.class);
 	@Autowired
 	private UserMasterRepository userMasterRepository;
 	@Autowired
 	private ObjectMapper objectMapper;
-
-	private static final Logger logger = LoggerFactory.getLogger(UserMasterServiceImpl.class);
 
 	@Override
 	public ResponseEntity<?> loginValidate(UserMasterDTO userMasterDTO) {

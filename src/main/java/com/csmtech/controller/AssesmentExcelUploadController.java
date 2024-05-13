@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ import com.csmtech.service.AssesmentExcelUpload;
 @RestController
 @CrossOrigin("*")
 public class AssesmentExcelUploadController {
+	
+	private static final Logger log = LoggerFactory.getLogger(AssesmentExcelUploadController.class);
 
 	@Autowired
 	private AssesmentExcelUpload assesmentExcelUpload;

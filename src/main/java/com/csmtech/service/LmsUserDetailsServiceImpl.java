@@ -19,19 +19,19 @@ public class LmsUserDetailsServiceImpl implements UserDetailsService {
 
 	private UserMasterRepository repo;
 
-	private static final Logger log = LoggerFactory.getLogger(LmsUserDetailsServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(LmsUserDetailsServiceImpl.class);
 
 	@Override
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		log.info("::  execution start of loadUserByUsername method");
+		logger.info("::  execution start of loadUserByUsername method");
 
 		UserMaster entity = repo.getUserByEmail(username);
 
-		log.info(entity.toString());
+		logger.info(entity.toString());
 
-		log.info(":: execution end of loadUserByUsername method return to controller");
+		logger.info(":: execution end of loadUserByUsername method return to controller");
 
 		return new org.springframework.security.core.userdetails.User(entity.getEmailId(), entity.getPassword(),
 

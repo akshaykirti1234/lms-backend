@@ -1,5 +1,7 @@
 package com.csmtech.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +17,8 @@ import com.csmtech.service.UserTranInfoService;
 @RestController
 @RequestMapping("/api/userInfo")
 public class UserTranInfoController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserTranInfoController.class);
 
 	@Autowired
 	private UserTranInfoService userTranInfoService;

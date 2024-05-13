@@ -28,7 +28,7 @@ import com.csmtech.repository.SessionAssessmentMasterRepository;
 @Service
 public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 
-	Logger logger = LoggerFactory.getLogger(AssessmentMasterServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AssessmentMasterServiceImpl.class);
 
 	@Autowired
 	private AssessmentMasterRepository assessmentMasterRepository;

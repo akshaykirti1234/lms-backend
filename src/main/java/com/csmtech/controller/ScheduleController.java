@@ -33,7 +33,7 @@ import com.csmtech.service.TechnologyService;
 @RequestMapping("/api/schedule")
 public class ScheduleController {
 
-	Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+	private static final  Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 
 	@Autowired
 	private ScheduleForMasterService scheduleForMasterService;

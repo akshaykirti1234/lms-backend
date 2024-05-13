@@ -26,7 +26,7 @@ import com.csmtech.service.SessionAssessmentMasterService;
 @RestController
 @RequestMapping("/api/sessionAssessment")
 public class SessionAssessmentMasterController {
-	Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
+	private static final  Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
 
 	@Autowired
 	private SessionAssessmentMasterService sessionAssessmentMasterService;

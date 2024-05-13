@@ -23,8 +23,8 @@ import com.csmtech.service.AuthorService;
 @CrossOrigin("*")
 @RestController
 public class AuthorController {
-	Logger logger=LoggerFactory.getLogger(AuthorController.class);
-	
+	private static final Logger logger=LoggerFactory.getLogger(AuthorController.class);
+
 	@Autowired
 	private AuthorService authorService;
 
