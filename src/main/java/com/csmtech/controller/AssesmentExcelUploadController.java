@@ -33,13 +33,14 @@ import com.csmtech.service.AssesmentExcelUpload;
 @CrossOrigin("*")
 public class AssesmentExcelUploadController {
 	
-	private static final Logger log = LoggerFactory.getLogger(AssesmentExcelUploadController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AssesmentExcelUploadController.class);
 
 	@Autowired
 	private AssesmentExcelUpload assesmentExcelUpload;
 
 	@GetMapping("/generateSAssesmentExcel")
 	public ResponseEntity<byte[]> generateAssesmentExcel() throws IOException {
+		logger.info("generateAssesmentExcel method of AssesmentExcelUploadController is executed");
 		try (Workbook workbook = new XSSFWorkbook()) {
 
 			Sheet sheet = workbook.createSheet("Template");
@@ -91,6 +92,7 @@ public class AssesmentExcelUploadController {
 			@RequestParam("moduleId") Integer moduleId, @RequestParam("subModuleId") Integer submoduleId,
 			@RequestParam("scheduleId") Integer scheduleForId,
 			@RequestParam(name = "sessionId", required = false) Integer sessionId) {
+		logger.info("uploadExcelSession method of AssesmentExcelUploadController is executed");
 		if (file.isEmpty()) {
 			return ResponseEntity.badRequest().body("Please select a file to upload.");
 		}

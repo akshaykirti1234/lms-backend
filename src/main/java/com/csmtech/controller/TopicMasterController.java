@@ -35,6 +35,7 @@ public class TopicMasterController {
 	
 	@PostMapping("/saveTopic")
 	public ResponseEntity<?> saveTopic(@RequestBody TopicMasterDto topicDto) {
+		logger.info("saveTopic method of TopicMasterController is executed");
 		try {
 			// Call the service method to save the topic
 			TopicMaster savedTopic = topicMasterService.saveTopic(topicDto);
@@ -47,6 +48,7 @@ public class TopicMasterController {
 
 	@GetMapping("/getTopic")
 	public ResponseEntity<List<TopicMaster>> viewTopicData() {
+		logger.info("viewTopicData method of TopicMasterController is executed");
 		List<TopicMaster> TopicData = topicMasterService.viewTopicData();
 		return ResponseEntity.ok().body(TopicData);
 
@@ -54,6 +56,7 @@ public class TopicMasterController {
 	
 	@GetMapping("/getTopic/{topicId}")
 	public ResponseEntity<TopicMaster> getTopicById(@PathVariable("topicId") Integer topicId) {
+		logger.info("getTopicById method of TopicMasterController is executed");
 		TopicMaster TopicData = topicMasterService.getTopicById(topicId);
 		return ResponseEntity.ok().body(TopicData);
 
@@ -62,6 +65,7 @@ public class TopicMasterController {
 	
 	@DeleteMapping("deleteTopic/{topicId}")
 	public ResponseEntity<Map<String, Object>> deleteTopic(@PathVariable("topicId") Integer topicId) {
+		logger.info("deleteTopic method of TopicMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		topicMasterService.deleteTopic(topicId);
 		response.put("status", "deleted");

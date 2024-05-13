@@ -27,6 +27,7 @@ public class SessionResultMasterController {
 
 	@PostMapping("/saveSessionResult")
 	public ResponseEntity<?> saveSessionResult(@RequestBody List<SessionResultDto> responsePayload) {
+		logger.info("saveSessionResult method of SessionResultMasterController is executed");
 		ResponseEntity<?> response = sessionResultMasterService.saveSessionResult(responsePayload);
 		return response;
 	}

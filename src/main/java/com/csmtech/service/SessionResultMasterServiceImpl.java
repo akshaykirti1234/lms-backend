@@ -44,6 +44,7 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 	@Override
 	@Transactional
 	public ResponseEntity<?> saveSessionResult(List<SessionResultDto> responsePayload) {
+		logger.info("saveSessionResult method of SessionResultMasterServiceImpl is executed");
 
 		Integer userId = 0;
 		Integer sessionId = 0;

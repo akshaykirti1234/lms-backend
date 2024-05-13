@@ -23,6 +23,7 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 
 	@Override
 	public TopicMaster saveTopic(TopicMasterDto topicDto) {
+		logger.info("saveTopic method of TopicMasterServiceImpl is executed");
 		TopicMaster topic = new TopicMaster();
 		topic.setTopicId(topicDto.getTopicId());
 		topic.setTopicName(topicDto.getTopicName());
@@ -44,16 +45,19 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 
 	@Override
 	public List<TopicMaster> viewTopicData() {
+		logger.info("viewTopicData method of TopicMasterServiceImpl is executed");
 		return topicMasterRepository.viewTopicData();
 	}
 
 	@Override
 	public void deleteTopic(Integer topicId) {
+		logger.info("deleteTopic method of TopicMasterServiceImpl is executed");
 		 topicMasterRepository.deleteTopic(topicId);
 	}
 
 	@Override
 	public TopicMaster getTopicById(Integer topicId) {
+		logger.info("getTopicById method of TopicMasterServiceImpl is executed");
 		return topicMasterRepository.getTopicById(topicId);
 	}
 	

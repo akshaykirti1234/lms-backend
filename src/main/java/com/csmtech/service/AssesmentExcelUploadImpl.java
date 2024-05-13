@@ -41,6 +41,7 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadExcelSessionExcelData(MultipartFile file, Integer moduleId,
 			Integer submoduleId, Integer scheduleForId, Integer sessionId) {
+		logger.info("uploadExcelSessionExcelData method of AssesmentExcelUploadImpl is executed");
 		Map<String, Object> response = new HashMap<>();
 		try {
 			// Load Excel file
@@ -186,6 +187,7 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadExcelSessionExcelData(MultipartFile file, Integer moduleId,
 			Integer submoduleId, Integer scheduleForId) {
+		logger.info("uploadExcelSessionExcelData method of AssesmentExcelUploadImpl is executed");
 		Map<String, Object> response = new HashMap<>();
 		try {
 			// Load Excel file

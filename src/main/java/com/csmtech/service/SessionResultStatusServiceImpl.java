@@ -20,11 +20,13 @@ public class SessionResultStatusServiceImpl implements SessionResultStatusServic
 
 	@Override
 	public List<SessionResultStatus> getSessionResultStatus(Integer userId) {
+		logger.info("getSessionResultStatus method of SessionResultStatusServiceImpl is executed");
 		return sessionResultStatusRepository.getSessionResultStatus(userId);
 	}
 
 	@Override
-	public List<SessionResultStatus> getSessionResultBySessionIdUserId(Integer sessionId, Integer userId) {		// TODO Auto-generated method stub
+	public List<SessionResultStatus> getSessionResultBySessionIdUserId(Integer sessionId, Integer userId) {
+		logger.info("getSessionResultBySessionIdUserId method of SessionResultStatusServiceImpl is executed");// TODO Auto-generated method stub
 		return sessionResultStatusRepository.getSessionResultBySessionIdUserId(sessionId,userId);
 	}
 

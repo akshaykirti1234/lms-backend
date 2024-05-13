@@ -39,6 +39,7 @@ public class SessionAssessmentMasterController {
 
 	@GetMapping("/getQuestionarBySessionId/{sessionId}")
 	public ResponseEntity<?> getQuestionarBySessionId(@PathVariable Integer sessionId) {
+		logger.info("getQuestionarBySessionId method of SessionAssessmentMasterController is executed");
 		System.out.println(sessionId);
 		return sessionAssessmentMasterService.getQuestionarBySessionId(sessionId);
 	}
