@@ -22,7 +22,7 @@ import com.csmtech.repository.SessionMasterRepository;
 @Service
 public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
-	Logger logger = LoggerFactory.getLogger(ScheduleForMasterServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleForMasterServiceImpl.class);
 
 	@Autowired
 	private ScheduleForMasterRepository scheduleForMasterRepository;
