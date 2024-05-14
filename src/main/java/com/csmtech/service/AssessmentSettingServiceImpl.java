@@ -3,6 +3,8 @@ package com.csmtech.service;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import com.csmtech.repository.AssessmentSettingRespository;
 
 @Service
 public class AssessmentSettingServiceImpl implements AssessmentSettingService {
+	
+	private static final Logger logger=LoggerFactory.getLogger(AssessmentSettingServiceImpl.class);
 
 	@Autowired
 	private AssessmentSettingRespository assessmentSettingRespository;

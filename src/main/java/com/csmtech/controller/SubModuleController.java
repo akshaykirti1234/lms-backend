@@ -24,7 +24,7 @@ import com.csmtech.service.SubModuleService;
 @RestController
 public class SubModuleController {
 	
-	Logger logger=LoggerFactory.getLogger(SubModuleController.class);
+	private static final Logger logger=LoggerFactory.getLogger(SubModuleController.class);
 
 	@Autowired
 	private ModuleMasterService moduleMasterService;

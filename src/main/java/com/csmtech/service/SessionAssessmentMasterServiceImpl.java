@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,8 @@ import com.csmtech.repository.SessionAssessmentSettingRepository;
 
 @Service
 public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMasterService {
-
+	private static final Logger logger=LoggerFactory.getLogger(SessionAssessmentMasterServiceImpl.class);
+	
 	@Autowired
 	private SessionAssessmentMasterRepository sessionAssessmentMasterRepository;
 	@Autowired
@@ -37,6 +40,7 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 
 	@Override
 	public ResponseEntity<?> getQuestionarBySessionId(Integer sessionId) {
+		logger.info("getQuestionarBySessionId method of SessionAssessmentMasterServiceImpl is executed");
 		SessionAssessmentSetting sessionSessionAssessmentSetting = sessionAssessmentSettingRepository
 				.findFirst1BySessionMaster_SessionId(sessionId);
 
@@ -54,6 +58,7 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 
 	@Override
 	public SessionAssessmentMaster saveAssessmentSession(SessionAssessmentMasterDto assessmentSessionDto) {
+		logger.info("saveAssessmentSession method of SessionAssessmentMasterServiceImpl is executed");
 		SessionAssessmentMaster sessionAs = new SessionAssessmentMaster();
 
 		sessionAs.setSessionAssessmentMasterId(assessmentSessionDto.getAssessmentId());
@@ -85,16 +90,19 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 
 	@Override
 	public List<Map<String, Object>> viewAssessmentForSessionData() {
+		logger.info("viewAssessmentForSessionData method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.viewAssessmentForSessionData();
 	}
 
 	@Override
 	public void deleteAssessmentSession(Integer id) {
+		logger.info("deleteAssessmentSession method of SessionAssessmentMasterServiceImpl is executed");
 		sessionAssessmentMasterRepository.deleteAssessmentSession(id);
 	}
 
 	@Override
 	public Map<String, Object> getAssessmentSessionById(Integer id) {
+		logger.info("getAssessmentSessionById method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.getAssessmentSessionById(id);
 	}
 
@@ -102,28 +110,32 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 
 	@Override
 	public List<Map<String, Object>> retriveModuleTypeList() {
+		logger.info("retriveModuleTypeList method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.retriveModuleTypeList();
 	}
 
 	@Override
 	public List<Map<String, Object>> retriveSubModuleList() {
+		logger.info("retriveSubModuleList method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.retriveSubModuleList();
 	}
 
 	@Override
 	public List<Map<String, Object>> retriveScheduleForList() {
+		logger.info("retriveScheduleForList method of SessionAssessmentMasterServiceImpl is executed");
 
 		return sessionAssessmentMasterRepository.retriveScheduleForList();
 	}
 
 	@Override
 	public List<Map<String, Object>> retriveSessionList() {
-
+		logger.info("retriveSessionList method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.retriveSessionList();
 	}
 
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadSessionExcelData(MultipartFile file) {
+		logger.info("uploadSessionExcelData method of SessionAssessmentMasterServiceImpl is executed");
 		Map<String, Object> responseMap = new HashMap<>();
 		try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
 			Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
@@ -218,6 +230,7 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 
 	// Method to find ID from list based on name
 	private int findIdFromList(String name, List<Map<String, Object>> list, String nameKey, String idKey) {
+		logger.info("findIdFromList method of SessionAssessmentMasterServiceImpl is executed");
 		for (Map<String, Object> item : list) {
 			if (name.equals(item.get(nameKey))) {
 				return (int) item.get(idKey);

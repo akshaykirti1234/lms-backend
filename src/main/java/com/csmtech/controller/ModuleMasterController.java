@@ -39,7 +39,7 @@ import com.csmtech.service.ModuleMasterService;
 @RestController
 @CrossOrigin("*")
 public class ModuleMasterController {
-	Logger logger=LoggerFactory.getLogger(ModuleMasterController.class);
+	private static final  Logger logger=LoggerFactory.getLogger(ModuleMasterController.class);
 
 	@Value("${actuallogofile.path}")
 	private String actualFilePath;

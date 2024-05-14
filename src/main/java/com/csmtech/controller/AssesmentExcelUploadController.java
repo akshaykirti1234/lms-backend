@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,12 +32,15 @@ import com.csmtech.service.AssesmentExcelUpload;
 @RestController
 @CrossOrigin("*")
 public class AssesmentExcelUploadController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AssesmentExcelUploadController.class);
 
 	@Autowired
 	private AssesmentExcelUpload assesmentExcelUpload;
 
 	@GetMapping("/generateSAssesmentExcel")
 	public ResponseEntity<byte[]> generateAssesmentExcel() throws IOException {
+		logger.info("generateAssesmentExcel method of AssesmentExcelUploadController is executed");
 		try (Workbook workbook = new XSSFWorkbook()) {
 
 			Sheet sheet = workbook.createSheet("Template");
@@ -87,6 +92,7 @@ public class AssesmentExcelUploadController {
 			@RequestParam("moduleId") Integer moduleId, @RequestParam("subModuleId") Integer submoduleId,
 			@RequestParam("scheduleId") Integer scheduleForId,
 			@RequestParam(name = "sessionId", required = false) Integer sessionId) {
+		logger.info("uploadExcelSession method of AssesmentExcelUploadController is executed");
 		if (file.isEmpty()) {
 			return ResponseEntity.badRequest().body("Please select a file to upload.");
 		}

@@ -21,7 +21,7 @@ import com.csmtech.service.LocationService;
 @CrossOrigin
 @RestController
 public class LocationController {
-	Logger logger=LoggerFactory.getLogger(LocationController.class);
+	private static final Logger logger=LoggerFactory.getLogger(LocationController.class);
 
 	@Autowired
 	private LocationService locationService;

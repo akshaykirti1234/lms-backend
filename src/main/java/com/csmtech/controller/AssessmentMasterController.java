@@ -27,7 +27,7 @@ import com.csmtech.service.ScheduleForMasterService;
 @RestController
 public class AssessmentMasterController {
 	
-	Logger logger=LoggerFactory.getLogger(AssessmentMasterController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AssesmentExcelUploadController.class);
 
 	@Autowired
 	private AssessmentMasterService assessmentMasterService;

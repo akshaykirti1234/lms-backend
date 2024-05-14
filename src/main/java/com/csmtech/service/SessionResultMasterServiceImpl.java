@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,9 @@ import com.csmtech.repository.SessionResultStatusRepository;
 
 @Service
 public class SessionResultMasterServiceImpl implements SessionResultMasterService {
-
+	
+	private static final Logger logger=LoggerFactory.getLogger(SessionResultMasterServiceImpl.class);
+	
 	@Autowired
 	private SessionResultMasterRepository sessionResultMasterRepository;
 	@Autowired
@@ -40,6 +44,7 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 	@Override
 	@Transactional
 	public ResponseEntity<?> saveSessionResult(List<SessionResultDto> responsePayload) {
+		logger.info("saveSessionResult method of SessionResultMasterServiceImpl is executed");
 
 		Integer userId = 0;
 		Integer sessionId = 0;

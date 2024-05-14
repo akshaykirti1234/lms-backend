@@ -18,11 +18,11 @@ import com.csmtech.util.CommonCaptchaGenerate;
 @CrossOrigin("*")
 @RequestMapping("/commonCaptchaGenerator")
 public class CommonCaptchaGenerateController {
-	private static final Logger log = LoggerFactory.getLogger(CommonCaptchaGenerateController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CommonCaptchaGenerateController.class);
 
 	@GetMapping("/generate")
 	public CommonCaptcha generateCaptcha() throws NoSuchAlgorithmException {
-		log.info("Execute  generateCaptcha() Method ..!!");
+		logger.info("Execute  generateCaptcha() Method ..!!");
 		SecureRandom rand = SecureRandom.getInstanceStrong();
 		Integer number1 = rand.nextInt(9) + 1;
 		Integer number2 = rand.nextInt(9) + 1;

@@ -14,7 +14,7 @@ import com.csmtech.repository.AuthorRepository;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-	Logger logger=LoggerFactory.getLogger(AuthorServiceImpl.class);
+	private static final Logger logger=LoggerFactory.getLogger(AuthorServiceImpl.class);
 	
 	@Autowired
 	private AuthorRepository authorRepository;

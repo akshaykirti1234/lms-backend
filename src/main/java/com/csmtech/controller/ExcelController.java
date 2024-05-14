@@ -32,7 +32,7 @@ import com.csmtech.service.UserMasterService;
 @RestController
 @CrossOrigin("*")
 public class ExcelController {
-	Logger logger=LoggerFactory.getLogger(ExcelController.class);
+	private static final Logger logger=LoggerFactory.getLogger(ExcelController.class);
 
 	@Autowired
 	private UserMasterService userService;

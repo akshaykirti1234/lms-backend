@@ -28,7 +28,7 @@ import com.csmtech.repository.SessionAssessmentMasterRepository;
 @Service
 public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 
-	Logger logger = LoggerFactory.getLogger(AssessmentMasterServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AssessmentMasterServiceImpl.class);
 
 	@Autowired
 	private AssessmentMasterRepository assessmentMasterRepository;
@@ -41,6 +41,7 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 
 	@Override
 	public AssessmentMaster saveAssessment(AssessmentMasterDto assessmentDto) {
+		logger.info("saveAssessment method of AssessmentMasterServiceImpl is executed");
 		AssessmentMaster assMaster= new AssessmentMaster();
 		
 		assMaster.setAssessmentId(assessmentDto.getAssessmentId());
@@ -86,16 +87,19 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 	
 	@Override
 	public List<Map<String, Object>> retriveModuleTypeList() {
+		logger.info("retriveModuleTypeList method of AssessmentMasterServiceImpl is executed");
 		return assessmentMasterRepository.retriveModuleTypeList();
 	}
 
 	@Override
 	public List<Map<String, Object>> retriveSubModuleList() {
+		logger.info("retriveSubModuleList method of AssessmentMasterServiceImpl is executed");
 		return assessmentMasterRepository.retriveSubModuleList();
 	}
 
 	@Override
 	public List<Map<String, Object>> retriveScheduleForList() {
+		logger.info("retriveScheduleForList method of AssessmentMasterServiceImpl is executed");
 
 		return assessmentMasterRepository.retriveScheduleForList();
 	}
@@ -105,6 +109,7 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 	// For Module based Questions uplaod
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadExcelData(MultipartFile file) {
+		logger.info("uploadExcelData method of AssessmentMasterServiceImpl is executed");
 		Map<String, Object> responseMap = new HashMap<>();
 		try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
 			Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet

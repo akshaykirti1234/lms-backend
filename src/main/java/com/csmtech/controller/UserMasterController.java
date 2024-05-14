@@ -24,7 +24,7 @@ import com.csmtech.service.UserMasterService;
 @CrossOrigin("*")
 public class UserMasterController {
 	
-	Logger logger=LoggerFactory.getLogger(UserMasterController.class);
+	private static final Logger logger=LoggerFactory.getLogger(UserMasterController.class);
 	
 	@Autowired
 	private UserMasterService userMasterService;

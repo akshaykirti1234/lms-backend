@@ -1,19 +1,17 @@
 package com.csmtech.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
+import com.csmtech.dto.TopicMasterDto;
 import com.csmtech.entity.TopicMaster;
 
 public interface TopicMasterService {
 
-	/***
-	 * @author akshaykirti.muduli
-	 */
-	TopicMaster getTopicByUserIdAndScheduleId(Integer userId, Integer scheduleForId);
+	TopicMaster saveTopic(TopicMasterDto topicDto);
 
-	/***
-	 * @author akshaykirti.muduli
-	 */
-	TopicMaster saveRecordedTopic(MultipartFile file, Integer topicId);
+	List<TopicMaster> viewTopicData();
 
+	void deleteTopic(Integer topicId);
+
+	TopicMaster getTopicById(Integer topicId);
 }

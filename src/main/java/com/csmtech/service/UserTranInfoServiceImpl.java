@@ -16,13 +16,14 @@ import com.csmtech.repository.UserTranInfoRepository;
 @Service
 public class UserTranInfoServiceImpl implements UserTranInfoService {
 
-	Logger logger = LoggerFactory.getLogger(UserTranInfoService.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserTranInfoService.class);
 
 	@Autowired
 	private UserTranInfoRepository userTranInfoRepository;
 
 	@Override
 	public ResponseEntity<?> saveUserInfo(UserTranInfoDto userTranInfoDto) {
+		logger.info("saveUserInfo method of UserTranInfoServiceImpl is executed");
 		try {
 			// Validate userTranInfoDto
 			if (userTranInfoDto == null || userTranInfoDto.getUserId() == null || userTranInfoDto.getSessionId() == null

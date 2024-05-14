@@ -3,6 +3,8 @@ package com.csmtech.service;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,13 @@ import com.csmtech.repository.SessionAssessmentSettingRepository;
 @Service
 public class SessionAssessmentSettingServiceImpl implements SessionAssessmentSettingService {
 
+	private static final Logger logger=LoggerFactory.getLogger(SessionAssessmentSettingServiceImpl.class);
 	@Autowired
 	private SessionAssessmentSettingRepository sessionAssessmentSettingRepository;
 	
 	@Override
 	public SessionAssessmentSetting saveSessionAssessmentSetting(SessionAssessmentSettingDto sessionAssessmentSettingDto) {
+		logger.info("saveSessionAssessmentSetting method of SessionAssessmentSettingServiceImpl is executed");
 		
 		SessionAssessmentSetting sessionAssessmentSetting=null;
 		
@@ -60,27 +64,32 @@ public class SessionAssessmentSettingServiceImpl implements SessionAssessmentSet
 
 	@Override
 	public List<Map<String, Object>> getSessionAssessmentSetting() {
+		logger.info("getSessionAssessmentSetting method of SessionAssessmentSettingServiceImpl is executed");
 		return sessionAssessmentSettingRepository.getSessionAssessmentSetting();
 	}
 
 	@Override
 	public Map<String, Object> getSessionAssessmentSettingById(Integer sessionAssessmentSettingId) {
+		logger.info("getSessionAssessmentSettingById method of SessionAssessmentSettingServiceImpl is executed");
 		return sessionAssessmentSettingRepository.getSessionAssessmentSettingById(sessionAssessmentSettingId) ;
 	}
 
 	@Override
 	public void deleteSessionAssessmentSetting(Integer sessionAssessmentSettingId) {
+		logger.info("deleteSessionAssessmentSetting method of SessionAssessmentSettingServiceImpl is executed");
 		sessionAssessmentSettingRepository.deleteSessionAssessmentSetting(sessionAssessmentSettingId);
 		
 	}
 
 	@Override
 	public void updateSessionAssessmentSetting(Integer assessmentSettingId, Integer noOfQuestions , Double passingPercentage) {
+		logger.info("updateSessionAssessmentSetting method of SessionAssessmentSettingServiceImpl is executed");
 		sessionAssessmentSettingRepository.updateSessionAssessmentSetting(assessmentSettingId, noOfQuestions ,passingPercentage);
 	}
 
 	@Override
 	public List<Map<String, Object>> getSessionforAssessmentSetting(Integer scheduleForId) {
+		logger.info("getSessionforAssessmentSetting method of SessionAssessmentSettingServiceImpl is executed");
 		return sessionAssessmentSettingRepository.getSessionforAssessmentSetting(scheduleForId);
 	}
 

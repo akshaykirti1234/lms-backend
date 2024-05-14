@@ -11,7 +11,7 @@ import com.csmtech.repository.UserMasterRepository;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 	
-	Logger logger=LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+	private static final Logger logger=LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 	
 	@Autowired
 	private UserMasterRepository repo;

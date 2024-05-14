@@ -36,7 +36,7 @@ import com.csmtech.util.OTPService;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -61,6 +61,7 @@ public class AuthenticationController {
 	@SuppressWarnings({ "unused", "rawtypes" })
 	@PostMapping("/generate-token")
 	public ResponseEntity generateToken(@RequestBody LoginRequestDto authRequest) throws Exception {
+		logger.info("generateToken method of AuthenticationController is executed");
 
 		Boolean validateCaptcha = captchaValidation(authRequest);
 
@@ -78,19 +79,19 @@ public class AuthenticationController {
 		UserMaster getalldata = null;
 		getalldata = service.findByEmail(authRequest.getEmail());
 		try {
-			log.info("inside try method of authentication");
+			logger.info("inside try method of authentication");
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-			log.info("afteer auth");
+			logger.info("afteer auth");
 		} catch (Exception ex) {
-			log.info("exception in authenticating user !!" + ex.getMessage());
+			logger.info("exception in authenticating user !!" + ex.getMessage());
 			ex.printStackTrace();
 			JSONObject response = new JSONObject();
 			response.put(CommonConstant.STATUS_KEY, 500);
 			response.put(CommonConstant.RESULT, CommonConstant.INVALID_USERNAME_PASSWORD);
 			return ResponseEntity.ok(response.toString());
 		}
-		log.info(" :: Execution end tookan return");
+		logger.info(" :: Execution end tookan return");
 		JSONObject response = new JSONObject();
 		response.put(CommonConstant.STATUS_KEY, 200);
 		response.put("userId", getalldata.getUserId());
@@ -119,7 +120,7 @@ public class AuthenticationController {
 
 	@GetMapping("/checkEmail/{email}")
 	public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
-		log.info("inside checkEmail method of AuthenticationController");
+		logger.info("inside checkEmail method of AuthenticationController");
 		boolean emailExists = service.findByEmail(email) != null;
 		if (emailExists) {
 			String otp = otpService.generateOTP(email);
@@ -129,6 +130,7 @@ public class AuthenticationController {
 
 	@PostMapping("/verify-otp")
 	public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
+		logger.info("verifyOTP method of AuthenticationController is executed");
 		Map<String, Object> response = new HashMap<>();
 		if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
 			response.put("isValid", true);
@@ -143,7 +145,7 @@ public class AuthenticationController {
 
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ForgotPasswordDto dto) {
-		log.info("inside changePassword method of AuthenticationController");
+		logger.info("inside changePassword method of AuthenticationController is executed");
 		UserMaster us = service.findByEmail(dto.getEmail());
 		us.setNormalPassword(dto.getPassword());
 		us.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));

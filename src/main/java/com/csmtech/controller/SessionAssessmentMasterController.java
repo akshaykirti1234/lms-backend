@@ -26,7 +26,7 @@ import com.csmtech.service.SessionAssessmentMasterService;
 @RestController
 @RequestMapping("/api/sessionAssessment")
 public class SessionAssessmentMasterController {
-	Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
+	private static final  Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
 
 	@Autowired
 	private SessionAssessmentMasterService sessionAssessmentMasterService;
@@ -39,6 +39,7 @@ public class SessionAssessmentMasterController {
 
 	@GetMapping("/getQuestionarBySessionId/{sessionId}")
 	public ResponseEntity<?> getQuestionarBySessionId(@PathVariable Integer sessionId) {
+		logger.info("getQuestionarBySessionId method of SessionAssessmentMasterController is executed");
 		System.out.println(sessionId);
 		return sessionAssessmentMasterService.getQuestionarBySessionId(sessionId);
 	}

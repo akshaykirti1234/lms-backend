@@ -24,7 +24,7 @@ import com.csmtech.service.TechnologyService;
 @CrossOrigin("*")
 public class TechnologyController {
 	
-	Logger logger=LoggerFactory.getLogger(TechnologyController.class);
+	private static final Logger logger=LoggerFactory.getLogger(TechnologyController.class);
 	
 	@Autowired
 	private TechnologyService technologyService;

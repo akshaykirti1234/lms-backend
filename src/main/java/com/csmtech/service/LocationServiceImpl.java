@@ -17,7 +17,7 @@ import com.csmtech.repository.LocationRepository;
 @Service
 public class LocationServiceImpl implements LocationService {
 	
-	Logger logger=LoggerFactory.getLogger(LocationServiceImpl.class);
+	private static final Logger logger=LoggerFactory.getLogger(LocationServiceImpl.class);
 	
 	@Autowired
 	private LocationRepository locationRepository;

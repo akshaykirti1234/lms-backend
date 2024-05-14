@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.csmtech.repository.SessionAssessmentMasterRepository;
 
 @Service
 public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
+	
+	private static final Logger logger=LoggerFactory.getLogger(AssesmentExcelUploadImpl.class);
 
 	@Autowired
 	private AssessmentMasterRepository assessmentMasterRepository;
@@ -37,6 +41,7 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadExcelSessionExcelData(MultipartFile file, Integer moduleId,
 			Integer submoduleId, Integer scheduleForId, Integer sessionId) {
+		logger.info("uploadExcelSessionExcelData method of AssesmentExcelUploadImpl is executed");
 		Map<String, Object> response = new HashMap<>();
 		try {
 			// Load Excel file
@@ -182,6 +187,7 @@ public class AssesmentExcelUploadImpl implements AssesmentExcelUpload {
 	@Override
 	public ResponseEntity<Map<String, Object>> uploadExcelSessionExcelData(MultipartFile file, Integer moduleId,
 			Integer submoduleId, Integer scheduleForId) {
+		logger.info("uploadExcelSessionExcelData method of AssesmentExcelUploadImpl is executed");
 		Map<String, Object> response = new HashMap<>();
 		try {
 			// Load Excel file

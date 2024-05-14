@@ -14,7 +14,7 @@ import com.csmtech.repository.ModuleMasterRepository;
 @Service
 public class ModuleMasterServiceImpl implements ModuleMasterService {
 	
-	Logger logger=LoggerFactory.getLogger(ModuleMasterServiceImpl.class);
+	private static final Logger logger=LoggerFactory.getLogger(ModuleMasterServiceImpl.class);
 
 	@Autowired
 	private ModuleMasterRepository moduleMasterRepository;

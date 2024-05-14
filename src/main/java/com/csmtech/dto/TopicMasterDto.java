@@ -12,7 +12,7 @@ public class TopicMasterDto {
 
 	private String videoPath;
 
-	private Integer userMaster;
+	private Integer userId;
 
 	private Integer scheduleForMaster;
 
