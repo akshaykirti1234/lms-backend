@@ -25,4 +25,10 @@ public interface TopicMasterRepository extends JpaRepository<TopicMaster, Intege
 	@Query("from TopicMaster where topicId=:topicId")
 	TopicMaster getTopicById(Integer topicId);
 
+	/***
+	 * @author akshaykirti.muduli
+	 */
+	@Query("from TopicMaster where userMaster.userId = :userId and scheduleForMaster.scheduleForId = :scheduleForId ORDER BY topicId DESC")
+	TopicMaster getTopicByUserIdAndScheduleId(Integer userId, Integer scheduleForId);
+
 }

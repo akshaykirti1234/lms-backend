@@ -99,6 +99,8 @@ public class FileController {
 				|| fileFormat.equals("flv") || fileFormat.equals("mpeg") || fileFormat.equals("mkv")
 				|| fileFormat.equals("webm") || fileFormat.equals("3gp")) {
 			folderName = "VIDEO";
+		} else if (fileFormat.equals("mp3") || fileFormat.equals("wav")) {
+			folderName = "AUDIO";
 		} else {
 			folderName = "DOCUMENT";
 		}
@@ -123,6 +125,10 @@ public class FileController {
 				contentType = "application/vnd.ms-powerpoint";
 			} else if (fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("avi")) {
 				contentType = "video/mp4"; // Adjust as needed based on the video format
+			} else if (fileExtension.equalsIgnoreCase("mp3")) {
+				contentType = "audio/mpeg";
+			} else if (fileExtension.equalsIgnoreCase("wav")) {
+				contentType = "audio/wav";
 			} else if (fileFormat.equalsIgnoreCase("doc")) {
 				contentType = "application/msword";
 			} else if (fileFormat.equalsIgnoreCase("docx")) {

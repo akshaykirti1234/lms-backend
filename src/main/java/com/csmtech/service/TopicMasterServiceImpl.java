@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.csmtech.dto.TopicMasterDto;
 import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.TopicMaster;
 import com.csmtech.entity.UserMaster;
 import com.csmtech.repository.TopicMasterRepository;
+import com.csmtech.util.EmailServiceUtil;
+import com.csmtech.util.FileUpload;
 
 @Service
 public class TopicMasterServiceImpl implements TopicMasterService {
@@ -20,6 +24,9 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 
 	@Autowired
 	private TopicMasterRepository topicMasterRepository;
+
+	@Autowired
+	private EmailServiceUtil emailServiceUtil;
 
 	@Override
 	public TopicMaster saveTopic(TopicMasterDto topicDto) {
@@ -59,6 +66,39 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 	public TopicMaster getTopicById(Integer topicId) {
 		logger.info("getTopicById method of TopicMasterServiceImpl is executed");
 		return topicMasterRepository.getTopicById(topicId);
+	}
+
+	/***
+	 * @author akshaykirti.muduli
+	 */
+	@Override
+	public TopicMaster getTopicByUserIdAndScheduleId(Integer userId, Integer scheduleForId) {
+		return topicMasterRepository.getTopicByUserIdAndScheduleId(userId, scheduleForId);
+	}
+
+	/***
+	 * @author akshaykirti.muduli
+	 */
+	@Override
+	@Transactional
+	public TopicMaster saveRecordedTopic(MultipartFile file, Integer topicId) {
+		try {
+			String uploadFile = FileUpload.uploadFile(file);
+
+			TopicMaster topicMaster = topicMasterRepository.findById(topicId)
+					.orElseThrow(() -> new RuntimeException("Topic not found"));
+			topicMaster.setVideoPath(uploadFile);
+
+			TopicMaster saveTopicMaster = topicMasterRepository.save(topicMaster);
+			emailServiceUtil.sendRecording(saveTopicMaster.getReferTo(), saveTopicMaster.getVideoPath());
+
+			return saveTopicMaster;
+		} catch (Exception e) {
+			// Log the exception
+			// You can use any logging framework or System.out.println
+			System.out.println("Exception occurred: " + e.getMessage());
+			throw new RuntimeException("Failed to save recorded topic and send email", e);
+		}
 	}
 
 }
