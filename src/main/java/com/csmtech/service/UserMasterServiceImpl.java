@@ -47,6 +47,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 
 	@Override
 	public ResponseEntity<?> loginValidate(UserMasterDTO userMasterDTO) {
+		logger.info("loginValidate method of UserMasterServiceImpl is executed");
 		String emailId = userMasterDTO.getEmailId();
 		String password = userMasterDTO.getPassword();
 
@@ -65,6 +66,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 
 	@Override
 	public ResponseEntity<?> getAllUsers() {
+		logger.info("getAllUsers method of UserMasterServiceImpl is executed");
 		try {
 			List<Object> userList = userMasterRepository.getAllUsers();
 			return new ResponseEntity<>(userList, HttpStatus.OK);
@@ -78,6 +80,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 
 	@Override
 	public UserMaster saveUserMaster(UserMasterDTO userMasterDto) {
+		logger.info("saveUserMaster method of UserMasterServiceImpl is executed");
 
 		Location location = new Location();
 		location.setLocationId(userMasterDto.getLocation());
@@ -121,21 +124,25 @@ public class UserMasterServiceImpl implements UserMasterService {
 
 	@Override
 	public List<Map<String, Object>> getUseMasterList() {
+		logger.info("getUseMasterList method of UserMasterServiceImpl is executed");
 		return userMasterRepository.getUseMasterList();
 	}
 
 	@Override
 	public void deleteUserMaster(Integer userId) {
+		logger.info("deleteUserMaster method of UserMasterServiceImpl is executed");
 		userMasterRepository.deleteUserMaster(userId);
 	}
 
 	@Override
 	public Map<String, Object> getUserMasterById(Integer userId) {
+		logger.info("getUserMasterById method of UserMasterServiceImpl is executed");
 		return userMasterRepository.getUserMasterById(userId);
 	}
 
 	@Override
 	public List<Map<String, Object>> gettEmailList() {
+		logger.info("gettEmailList method of UserMasterServiceImpl is executed");
 		return userMasterRepository.getEmailList();
 	}
 
@@ -166,6 +173,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 	@Transactional
 
 	public ResponseEntity<Map<String, Object>> uploadUserData(MultipartFile file) {
+		logger.info("uploadUserData method of UserMasterServiceImpl is executed");
 
 		Map<String, Object> response = new HashedMap<>();
 
@@ -463,6 +471,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 	// Update Password
 	@Override
 	public ResponseEntity<?> updatePassword(String passwordPayload) {
+		logger.info("updatePassword method of UserMasterServiceImpl is executed");
 		Map<String, String> passwordData;
 		try {
 			passwordData = objectMapper.readValue(passwordPayload, Map.class);

@@ -27,6 +27,7 @@ public class SessionResultStatusController {
 
 	@PostMapping("/getSessionResult/{userId}")
 	public List<SessionResultStatus> getSessionResult(@PathVariable("userId") Integer userId) {
+		logger.info("getSessionResult method of SessionResultStatusController is executed");
 		System.out.println(userId);
 		List<SessionResultStatus> response = sessionResultStatusService.getSessionResultStatus(userId);
 		System.out.println(response);
@@ -35,6 +36,7 @@ public class SessionResultStatusController {
 	
 	@PostMapping("/getSessionResultBySessionIdUserId/{sessionId}/{userId}")
 	public List<SessionResultStatus> getSessionResultBySessionIdUserId(@PathVariable("sessionId") Integer sessionId,@PathVariable("userId") Integer userId) {
+		logger.info("getSessionResultBySessionIdUserId method of SessionResultStatusController is executed");
 		System.out.println(userId);
 		List<SessionResultStatus> response = sessionResultStatusService.getSessionResultBySessionIdUserId(sessionId,userId);
 		System.out.println(response);

@@ -22,7 +22,7 @@ import com.csmtech.repository.SessionMasterRepository;
 @Service
 public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
-	Logger logger = LoggerFactory.getLogger(ScheduleForMasterServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleForMasterServiceImpl.class);
 
 	@Autowired
 	private ScheduleForMasterRepository scheduleForMasterRepository;
@@ -148,6 +148,7 @@ public class ScheduleForMasterServiceImpl implements ScheduleForMasterService {
 
 	@Override
 	public ResponseEntity<List<ScheduleForMaster>> getScheduleBySubModuleId(Integer submoduleId) {
+		logger.info("getScheduleBySubModuleId method of ScheduleForMasterServiceImpl is executed");
 		List<ScheduleForMaster> scheduleForList = scheduleForMasterRepository.getScheduleBySubModuleId(submoduleId);
 		if (scheduleForList.isEmpty()) {
 			return ResponseEntity.notFound().build();

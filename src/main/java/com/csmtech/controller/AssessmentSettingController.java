@@ -41,12 +41,14 @@ public class AssessmentSettingController {
 	
 	@GetMapping("/scheduleForAssessmentSetting/{submoduleId}")
 		public ResponseEntity<List<Map<String,Object>>> getScheduleforAssessmentSetting(@PathVariable Integer submoduleId){
+		logger.info("getScheduleforAssessmentSetting method of AssessmentSettingController is executed");
 			List<Map<String,Object>> sheduleList=assessmentSettingService.getScheduleforAssessmentSetting(submoduleId);
 			return ResponseEntity.ok().body(sheduleList);
 		}
 	
 	@PostMapping("/assessmentSetting")
 	public ResponseEntity<AssessmentSetting> saveAssessmentSetting(@RequestBody AssessmentSettingDto assessmentSettingDto){
+		logger.info("saveAssessmentSetting method of AssessmentSettingController is executed");
 		AssessmentSetting assessmentSetting  =assessmentSettingService.saveAssessmentSetting(assessmentSettingDto);
 		return ResponseEntity.ok().body(assessmentSetting);
 		
@@ -54,6 +56,7 @@ public class AssessmentSettingController {
 	
 	@GetMapping("/assessmentSetting")
 	public ResponseEntity<List<Map<String,Object>>> getAssessmentSetting(){
+		logger.info("getAssessmentSetting method of AssessmentSettingController is executed");
 		List<Map<String,Object>> assessmentSetting  =assessmentSettingService.getAssessmentSetting();
 		return ResponseEntity.ok().body(assessmentSetting);
 	
@@ -63,6 +66,7 @@ public class AssessmentSettingController {
 	
 	@GetMapping("/assessmentSetting/{assessmentSettingId}")
 	public ResponseEntity<Map<String,Object>> getAssessmentSettingById(@PathVariable("assessmentSettingId") Integer assessmentSettingId){
+		logger.info("getAssessmentSettingById method of AssessmentSettingController is executed");
 		Map<String,Object> assessmentSetting  =assessmentSettingService.getAssessmentSettingById(assessmentSettingId);
 		return ResponseEntity.ok().body(assessmentSetting);
 	
@@ -70,6 +74,7 @@ public class AssessmentSettingController {
 	
 	@PutMapping("/assessmentSetting/{assessmentSettingId}")
 	public ResponseEntity<Map<String,Object>> updateAssessmentSetting(@PathVariable("assessmentSettingId") Integer assessmentSettingId, @RequestBody AssessmentSettingScheduleDto scheduleDto ){
+		logger.info("updateAssessmentSetting method of AssessmentSettingController is executed");
 	    Integer noOfQuestions=scheduleDto.getNumberOfQuestions();
 	    Double passingPercentage = scheduleDto.getPassingPercentage();
 	    assessmentSettingService.updateAssessmentSetting(assessmentSettingId, noOfQuestions , passingPercentage);
@@ -84,6 +89,7 @@ public class AssessmentSettingController {
 	
 	@DeleteMapping("/assessmentSetting/{assessmentSettingId}")
 	public ResponseEntity<Map<String,Object>> deleteAssessmentSetting(@PathVariable("assessmentSettingId") Integer assessmentSettingId){
+		logger.info("deleteAssessmentSetting method of AssessmentSettingController is executed");
 		assessmentSettingService.deleteAssessmentSetting(assessmentSettingId);
 		
 		Map<String,Object> response =new HashMap<>();

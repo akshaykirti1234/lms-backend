@@ -23,6 +23,7 @@ public class UserTranInfoServiceImpl implements UserTranInfoService {
 
 	@Override
 	public ResponseEntity<?> saveUserInfo(UserTranInfoDto userTranInfoDto) {
+		logger.info("saveUserInfo method of UserTranInfoServiceImpl is executed");
 		try {
 			// Validate userTranInfoDto
 			if (userTranInfoDto == null || userTranInfoDto.getUserId() == null || userTranInfoDto.getSessionId() == null

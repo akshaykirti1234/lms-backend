@@ -61,6 +61,7 @@ public class AuthenticationController {
 	@SuppressWarnings({ "unused", "rawtypes" })
 	@PostMapping("/generate-token")
 	public ResponseEntity generateToken(@RequestBody LoginRequestDto authRequest) throws Exception {
+		logger.info("generateToken method of AuthenticationController is executed");
 
 		Boolean validateCaptcha = captchaValidation(authRequest);
 
@@ -129,6 +130,7 @@ public class AuthenticationController {
 
 	@PostMapping("/verify-otp")
 	public ResponseEntity<?> verifyOTP(@RequestBody OtpCheckDto dto) {
+		logger.info("verifyOTP method of AuthenticationController is executed");
 		Map<String, Object> response = new HashMap<>();
 		if (otpService.verifyOTP(dto.getEmail(), dto.getOtp())) {
 			response.put("isValid", true);
@@ -143,7 +145,7 @@ public class AuthenticationController {
 
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ForgotPasswordDto dto) {
-		logger.info("inside changePassword method of AuthenticationController");
+		logger.info("inside changePassword method of AuthenticationController is executed");
 		UserMaster us = service.findByEmail(dto.getEmail());
 		us.setNormalPassword(dto.getPassword());
 		us.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));

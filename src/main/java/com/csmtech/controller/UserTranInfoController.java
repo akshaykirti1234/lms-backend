@@ -25,6 +25,7 @@ public class UserTranInfoController {
 
 	@PostMapping("/saveUserInfoForm")
 	public ResponseEntity<?> saveUserInfo(@RequestBody UserTranInfoDto userTranInfoDto) {
+		logger.info("saveUserInfo method of UserTranInfoController is executed");
 		return userTranInfoService.saveUserInfo(userTranInfoDto);
 	}
 
