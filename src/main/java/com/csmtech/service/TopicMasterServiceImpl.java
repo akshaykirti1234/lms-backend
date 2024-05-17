@@ -40,7 +40,7 @@ public class TopicMasterServiceImpl implements TopicMasterService {
 		userMaster.setUserId(topicDto.getUserId());
 
 		ScheduleForMaster scheduleForMaster = new ScheduleForMaster();
-		scheduleForMaster.setScheduleForId(1);
+		scheduleForMaster.setScheduleForId(7);
 
 		topic.setUserMaster(userMaster);
 		topic.setScheduleForMaster(scheduleForMaster);

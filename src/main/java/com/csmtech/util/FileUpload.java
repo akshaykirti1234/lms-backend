@@ -12,7 +12,7 @@ public class FileUpload {
 		try {
 			// Ensure the target directory exists
 //            File uploadDir = new File("d:/UploadFile/");
-			File uploadDir = new File("D://LMS_ACTUAL_FILE/AUDIO/");
+			File uploadDir = new File("D://LMS_ACTUAL_FILE/VIDEO/");
 			uploadDir.mkdirs(); // Create directories if they don't exist
 
 			// Sanitize the file name to prevent directory traversal
