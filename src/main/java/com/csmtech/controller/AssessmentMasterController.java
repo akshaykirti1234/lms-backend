@@ -37,8 +37,13 @@ public class AssessmentMasterController {
 	@GetMapping("/getAllScheduleNames")
 	public ResponseEntity<?> getAllScheduleNames() {
 		logger.info("getAllScheduleNames method of AssessmentMasterController is executed");
+		try {
 		List<ScheduleForMaster> scheduleForMasters = scheduleForMasterService.getAllScheduleForm();
 		return new ResponseEntity<>(scheduleForMasters, HttpStatus.OK);
+	} catch (Exception e) {
+        logger.error("Unexpected error occurred while retrieving schedule names", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+    }
 	}
 
 	@PostMapping(value = "/assessmentSave")
@@ -58,8 +63,13 @@ public class AssessmentMasterController {
 	@GetMapping("/viewAssessment")
 	public ResponseEntity<List<Map<String, Object>>> viewAssessmentData() {
 		logger.info("viewAssessmentData method of AssessmentMasterController is executed");
+		try {
 		List<Map<String, Object>> assessmentData = assessmentMasterService.viewAssessmentData();
 		return ResponseEntity.ok().body(assessmentData);
+		} catch (Exception e) {
+			logger.info("Exception occured in viewAssessmentData method of AssessmentMasterController:"+e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 
 	}
 
@@ -67,17 +77,27 @@ public class AssessmentMasterController {
 	public ResponseEntity<Map<String, Object>> deleteAssessment(@PathVariable("id") Integer id) {
 		logger.info("deleteAssessment method of AssessmentMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
+		try {
 		assessmentMasterService.deleteAssessment(id);
 		response.put("status", "deleted");
 		return ResponseEntity.ok().body(response);
+		} catch (Exception ex) {
+			logger.error("Error occurred while deleting assessment with ID " + id, ex);
+	        response.put("error", "Internal Server Error");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
 	}
 
 	@GetMapping("edit/{id}")
 	public ResponseEntity<Map<String, Object>> getAssessmentById(@PathVariable("id") Integer id) {
 		logger.info("getAssessmentById method of AssessmentMasterController is executed");
+		try {
 		Map<String, Object> update = assessmentMasterService.getAssessmentById(id);
-		System.err.println(update);
 		return ResponseEntity.ok().body(update);
+		} catch (Exception e) {
+			logger.info("Exception occured in getAssessmentById method of AssessmentMasterController:"+e.getMessage());
+			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 	
 	
