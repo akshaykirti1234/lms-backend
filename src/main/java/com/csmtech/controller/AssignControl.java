@@ -31,15 +31,25 @@ public class AssignControl {
 
 	@GetMapping("/getAllSubModules")
 	public ResponseEntity<?> getAllSubModules() {
+		try {
 		logger.info("getAllSubModules method of AssignControl is executed");
 		List<SubModule> subModulesList = subModuleService.getAllSubModules();
 		return new ResponseEntity<>(subModulesList, HttpStatus.OK);
+		} catch (Exception e) {
+			 logger.error("An error occurred while retrieving all sub-modules.", e);
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve sub-modules.");
+		}
 	}
 
 	@GetMapping("/getAllScheduleForm")
 	public ResponseEntity<?> getAllScheduleForm() {
+		try {
 		logger.info("getAllScheduleForm method of AssignControl is executed");
 		List<ScheduleForMaster> scheduleForMasters = scheduleForMasterService.getAllScheduleForm();
 		return new ResponseEntity<>(scheduleForMasters, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("An error occurred while retrieving all schedule forms.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve schedule forms.");
+		}
 	}
 }

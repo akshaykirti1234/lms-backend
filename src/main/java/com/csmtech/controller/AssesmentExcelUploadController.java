@@ -84,35 +84,48 @@ public class AssesmentExcelUploadController {
 			headers1.setContentDispositionFormData("attachment", "QuestionList.xlsx");
 
 			return new ResponseEntity<>(outputStream.toByteArray(), headers1, HttpStatus.OK);
-		}
+		} catch (IOException e) {
+	        logger.error("Error generating Excel file", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    } catch (Exception e) {
+	        logger.error("Unexpected error occurred while generating Excel file", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
 	}
-
+	
 	@PostMapping("/uploadExcelSessionExcel")
 	public ResponseEntity<?> uploadExcelSession(@RequestParam("file") MultipartFile file,
-			@RequestParam("moduleId") Integer moduleId, @RequestParam("subModuleId") Integer submoduleId,
-			@RequestParam("scheduleId") Integer scheduleForId,
-			@RequestParam(name = "sessionId", required = false) Integer sessionId) {
-		logger.info("uploadExcelSession method of AssesmentExcelUploadController is executed");
-		if (file.isEmpty()) {
-			return ResponseEntity.badRequest().body("Please select a file to upload.");
-		}
+	        @RequestParam("moduleId") Integer moduleId, @RequestParam("subModuleId") Integer submoduleId,
+	        @RequestParam("scheduleId") Integer scheduleForId,
+	        @RequestParam(name = "sessionId", required = false) Integer sessionId) throws IOException {
+	    logger.info("uploadExcelSession method of AssesmentExcelUploadController is executed");
+	    if (file.isEmpty()) {
+	        return ResponseEntity.badRequest().body("Please select a file to upload.");
+	    }
 
-		// Pass the additional parameters to the service method
-		ResponseEntity<Map<String, Object>> response = null;
-		if (sessionId != null) {
-			response = assesmentExcelUpload.uploadExcelSessionExcelData(file, moduleId, submoduleId, scheduleForId,
-					sessionId);
-		} else {
-			response = assesmentExcelUpload.uploadExcelSessionExcelData(file, moduleId, submoduleId, scheduleForId);
-		}
+	    try {
+	        // Pass the additional parameters to the service method
+	        ResponseEntity<Map<String, Object>> response;
+	        if (sessionId != null) {
+	            response = assesmentExcelUpload.uploadExcelSessionExcelData(file, moduleId, submoduleId, scheduleForId, sessionId);
+	        } else {
+	            response = assesmentExcelUpload.uploadExcelSessionExcelData(file, moduleId, submoduleId, scheduleForId);
+	        }
 
-		if (response != null && response.getBody() != null) {
-			return ResponseEntity.ok().body(response.getBody());
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload Excel data.");
-		}
-
+	        if (response != null && response.getBody() != null) {
+	            return ResponseEntity.ok().body(response.getBody());
+	        } else {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload Excel data.");
+	        }
+	    } catch (IllegalArgumentException e) {
+	        logger.error("Invalid arguments provided", e);
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid arguments provided.");
+	    } catch (Exception e) {
+	        logger.error("Unexpected error", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+	    }
 	}
+
 }
 
 
