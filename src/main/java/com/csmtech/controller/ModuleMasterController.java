@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -94,9 +95,14 @@ public class ModuleMasterController {
 	@GetMapping("/module")
 	public ResponseEntity<List<ModuleMaster>> getModule() {
 		logger.info("getModule method of ModuleMasterController is executed");
+		try {
 		List<ModuleMaster> moduleMasterList = moduleMasterService.getModuleMaster();
 
 		return ResponseEntity.ok().body(moduleMasterList);
+		}catch (Exception e) {
+			logger.error("Exception caught in getModule method: ", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+		}
 
 	}
 
@@ -111,11 +117,19 @@ public class ModuleMasterController {
 	@DeleteMapping("/module/{moduleId}")
 	public ResponseEntity<Map<String, Object>> deleteModule(@PathVariable("moduleId") Integer moduleId) {
 		logger.info("deleteModule method of ModuleMasterController is executed");
+        Map<String, Object> errorResponse = new HashMap<>();
+
+		try {
 		moduleMasterService.deleteModuleById(moduleId);
 		Map<String, Object> response = new HashMap<>();
 		response.put("status", 200);
 		response.put("deleted", "module is deleted successfuly");
 		return ResponseEntity.ok().body(response);
+		}catch (Exception e) {
+			logger.error("Exception caught in deleteModule method: ", e);
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+		}
 	}
 
 	@PostMapping("/setlogo")
@@ -124,6 +138,7 @@ public class ModuleMasterController {
 		logger.info("setTempFile method of ModuleMasterController is executed");
 		Map<String, Object> response = new HashMap<>();
 		File f1 = null;
+		try {
 		String fileNameType = file.getOriginalFilename();
 		if (fileNameType != null) {
 			String[] fileArray = fileNameType.split("[.]");
@@ -151,6 +166,13 @@ public class ModuleMasterController {
 		}
 
 		return ResponseEntity.ok().body(response);
+		}catch (Exception e) {
+			  logger.error("Exception caught in setTempFile method: ", e);
+	            response.put("status", 500);
+	            response.put("message", e.getMessage());
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+		
 
 	}
 
@@ -158,7 +180,8 @@ public class ModuleMasterController {
 	public ResponseEntity<?> downloadDocument(HttpServletResponse response, @PathVariable("fileName") String fileName)
 			throws Exception {
 		logger.info("downloadDocument method of ModuleMasterController is executed");
-
+	     Map<String, Object> errorResponse = new HashMap<>();
+     try {
 		String filePath = "";
 		String fileFormat = "";
 		filePath = actualFilePath;
@@ -195,6 +218,12 @@ public class ModuleMasterController {
 
 		return ResponseEntity.ok().headers(headers).contentLength(file.length())
 				.contentType(MediaType.parseMediaType(contentType)).body(resource);
+     }catch (Exception e) {
+    	 logger.error("Exception caught in downloadDocument method: ", e);
+    
+         errorResponse.put("error", e.getMessage());
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	}
 	}
 
 }

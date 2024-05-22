@@ -14,6 +14,6 @@ public class TopicMasterDto {
 
 	private Integer userId;
 
-	private Integer scheduleForMaster;
+	private Integer scheduleForId;
 
 }

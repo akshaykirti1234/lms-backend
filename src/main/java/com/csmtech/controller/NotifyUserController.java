@@ -35,7 +35,15 @@ public class NotifyUserController {
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<?> getMethodName() {
 		logger.info("getMethodName method of NotifyUserController is executed");
+        Map<String, Object> errorResponse = new HashMap<>();
+
+		try {
 		return userMasterService.getAllUsers();
+		}catch (Exception e) {
+			logger.error("Exception caught in getAllUsers method: ", e);
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+		}
 	}
 
 	@PostMapping("/send")
