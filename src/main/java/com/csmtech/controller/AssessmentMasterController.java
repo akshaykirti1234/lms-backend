@@ -100,5 +100,13 @@ public class AssessmentMasterController {
 		}
 	}
 	
+	//Getting Questionar for Schedule
+	@GetMapping("/getQuestionarByScheduleId/{scheduleId}")
+	public ResponseEntity<?> getQuestionarByScheduleId(@PathVariable(name="scheduleId") Integer scheduleId) {
+		logger.info("getQuestionarByScheduleId method of AssessmentMasterController is executed");
+		System.out.println(scheduleId);
+		return assessmentMasterService.getQuestionarByScheduleId(scheduleId);
+	}
+	
 	
 }
