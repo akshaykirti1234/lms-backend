@@ -58,4 +58,7 @@ public interface AssessmentMasterRepository extends JpaRepository<AssessmentMast
 			+ " WHERE ss.DELETEDFLAG = 0", nativeQuery = true)
 	List<Map<String, Object>> retriveSessionList();
 
+	@Query(nativeQuery = true, value = "SELECT * FROM assessmentmaster WHERE SCHEDULEFORID = ?1 AND DELETEDFLAG = 0 ORDER BY RAND() LIMIT ?2")
+	List<AssessmentMaster> getQuestionarByScheduleId(Integer scheduleId, Integer noOfQuestion);
+
 }

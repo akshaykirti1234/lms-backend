@@ -31,6 +31,8 @@ public interface AssessmentMasterService {
 
 	ResponseEntity<Map<String, Object>> uploadExcelData(MultipartFile file);
 
+	ResponseEntity<?> getQuestionarByScheduleId(Integer scheduleId);
+
 	//List<Map<String, Object>> retriveSessionList();
 
 	
