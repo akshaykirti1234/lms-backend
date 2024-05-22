@@ -43,34 +43,55 @@ public class ScheduleController {
 	private TechnologyService technologyService;
 	@Autowired
 	private AuthorService authorService;
-
+	
 	@GetMapping("/getAllScheduleForm")
-	public ResponseEntity<?> getAllScheduleForm() {
-		logger.info("getAllScheduleForm method of ScheduleController is executed");
-		List<ScheduleForMaster> scheduleForMasters = scheduleForMasterService.getAllScheduleForm();
-		return new ResponseEntity<>(scheduleForMasters, HttpStatus.OK);
-	}
+    public ResponseEntity<?> getAllScheduleForm() {
+        logger.info("getAllScheduleForm method of ScheduleController is executed");
+        try {
+            List<ScheduleForMaster> scheduleForMasters = scheduleForMasterService.getAllScheduleForm();
+            return new ResponseEntity<>(scheduleForMasters, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Exception occurred in getAllScheduleForm method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while fetching schedule forms", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	@GetMapping("/getAllTechnologies")
-	public ResponseEntity<?> getAllTechnologies() {
-		logger.info("getAllTechnologies method of ScheduleController is executed");
-		List<Technology> technologyList = technologyService.getAllTechnologies();
-		return new ResponseEntity<>(technologyList, HttpStatus.OK);
-	}
+    @GetMapping("/getAllTechnologies")
+    public ResponseEntity<?> getAllTechnologies() {
+        logger.info("getAllTechnologies method of ScheduleController is executed");
+        try {
+            List<Technology> technologyList = technologyService.getAllTechnologies();
+            return new ResponseEntity<>(technologyList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Exception occurred in getAllTechnologies method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while fetching technologies", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	@GetMapping("/getAllSubModules")
-	public ResponseEntity<?> getAllSubModules() {
-		logger.info("getAllSubModules method of ScheduleController is executed");
-		List<SubModule> subModulesList = subModuleService.getAllSubModules();
-		return new ResponseEntity<>(subModulesList, HttpStatus.OK);
-	}
+    @GetMapping("/getAllSubModules")
+    public ResponseEntity<?> getAllSubModules() {
+        logger.info("getAllSubModules method of ScheduleController is executed");
+        try {
+            List<SubModule> subModulesList = subModuleService.getAllSubModules();
+            return new ResponseEntity<>(subModulesList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Exception occurred in getAllSubModules method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while fetching sub-modules", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	@GetMapping("/getAllAutohors")
-	public ResponseEntity<?> getAllAutohors() {
-		logger.info("getAllAutohors method of ScheduleController is executed");
-		List<Author> authorsList = authorService.getAllAuthors();
-		return new ResponseEntity<>(authorsList, HttpStatus.OK);
-	}
+    @GetMapping("/getAllAutohors")
+    public ResponseEntity<?> getAllAutohors() {
+        logger.info("getAllAutohors method of ScheduleController is executed");
+        try {
+            List<Author> authorsList = authorService.getAllAuthors();
+            return new ResponseEntity<>(authorsList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Exception occurred in getAllAutohors method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while fetching authors", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    
+}
 
 	@SuppressWarnings("unused")
 	@PostMapping("/saveScheduleForm")
@@ -90,18 +111,28 @@ public class ScheduleController {
 	}
 
 	@PutMapping("updateScheduleFor/{scheduleForId}")
-	public ResponseEntity<?> updateScheduleFor(@PathVariable Integer scheduleForId) {
-		logger.info("updateScheduleFor method of ScheduleController is executed");
-		ResponseEntity<?> response = scheduleForMasterService.updateScheduleFor(scheduleForId);
-		return response;
-	}
+    public ResponseEntity<?> updateScheduleFor(@PathVariable Integer scheduleForId) {
+        logger.info("updateScheduleFor method of ScheduleController is executed");
+        try {
+            ResponseEntity<?> response = scheduleForMasterService.updateScheduleFor(scheduleForId);
+            return response;
+        } catch (Exception e) {
+            logger.error("Exception occurred in updateScheduleFor method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while updating schedule", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	@DeleteMapping("deleteScheduleFor/{scheduleForId}")
-	public ResponseEntity<?> deleteScheduleFor(@PathVariable Integer scheduleForId) {
-		logger.info("deleteScheduleFor method of ScheduleController is executed");
-		ResponseEntity<?> response = scheduleForMasterService.deleteScheduleFor(scheduleForId);
-		System.err.println(response.getBody());
-		return response;
-	}
+    @DeleteMapping("deleteScheduleFor/{scheduleForId}")
+    public ResponseEntity<?> deleteScheduleFor(@PathVariable Integer scheduleForId) {
+        logger.info("deleteScheduleFor method of ScheduleController is executed");
+        try {
+            ResponseEntity<?> response = scheduleForMasterService.deleteScheduleFor(scheduleForId);
+            System.err.println(response.getBody());
+            return response;
+        } catch (Exception e) {
+            logger.error("Exception occurred in deleteScheduleFor method: {}", e.getMessage(), e);
+            return new ResponseEntity<>("An error occurred while deleting schedule", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

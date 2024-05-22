@@ -26,66 +26,77 @@ import com.csmtech.service.SessionAssessmentMasterService;
 @RestController
 @RequestMapping("/api/sessionAssessment")
 public class SessionAssessmentMasterController {
-	private static final  Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterController.class);
 
-	@Autowired
-	private SessionAssessmentMasterService sessionAssessmentMasterService;
+    @Autowired
+    private SessionAssessmentMasterService sessionAssessmentMasterService;
 
-	@GetMapping("/getApi")
-	public ResponseEntity<String> getApi() {
-		return ResponseEntity.ok().body("Hii Assessment Setting is working");
+    @GetMapping("/getApi")
+    public ResponseEntity<String> getApi() {
+        return ResponseEntity.ok().body("Hii Assessment Setting is working");
+    }
 
-	}
+    @GetMapping("/getQuestionarBySessionId/{sessionId}")
+    public ResponseEntity<?> getQuestionarBySessionId(@PathVariable Integer sessionId) {
+        logger.info("getQuestionarBySessionId method of SessionAssessmentMasterController is executed");
+        try {
+            return sessionAssessmentMasterService.getQuestionarBySessionId(sessionId);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching questions by session ID {}", sessionId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-	@GetMapping("/getQuestionarBySessionId/{sessionId}")
-	public ResponseEntity<?> getQuestionarBySessionId(@PathVariable Integer sessionId) {
-		logger.info("getQuestionarBySessionId method of SessionAssessmentMasterController is executed");
-		System.out.println(sessionId);
-		return sessionAssessmentMasterService.getQuestionarBySessionId(sessionId);
-	}
+    @PostMapping(value = "/assessmentSessionSave")
+    public ResponseEntity<?> saveAssessmentSession(@RequestBody SessionAssessmentMasterDto assessmentSessionDto) {
+        logger.info("saveAssessmentSession method of SessionAssessmentMasterController is executed");
+        try {
+            SessionAssessmentMaster assessmentSesM = sessionAssessmentMasterService.saveAssessmentSession(assessmentSessionDto);
+            return ResponseEntity.ok().body(assessmentSesM);
+        } catch (Exception e) {
+            logger.error("Exception occurred in saveAssessmentSession method of SessionAssessmentMasterController: {}", e.getMessage(), e);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "An error occurred while saving the assessment session");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
 
-	@PostMapping(value = "/assessmentSessionSave")
-	public ResponseEntity<SessionAssessmentMaster> saveAssessmentSession(
-			@RequestBody SessionAssessmentMasterDto assessmentSessionDto) {
-		logger.info("saveAssessmentSession method of SessionAssessmentMasterController is executed");
-		try {
-			SessionAssessmentMaster assesmentSesM = sessionAssessmentMasterService
-					.saveAssessmentSession(assessmentSessionDto);
-			// System.out.println(assessmentSessionDto);
+    @GetMapping("/viewAssessmentForSession")
+    public ResponseEntity<?> viewAssessmentForSessionData() {
+        logger.info("viewAssessmentForSessionData method of AssessmentMasterController is executed");
+        try {
+            List<Map<String, Object>> assessmentSessData = sessionAssessmentMasterService.viewAssessmentForSessionData();
+            return ResponseEntity.ok().body(assessmentSessData);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching assessment data", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-			return ResponseEntity.ok().body(assesmentSesM);
-		} catch (Exception e) {
-			logger.info("Exception occured in saveAssessmentSession method of SessionAssessmentMasterController:"
-					+ e.getMessage());
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+    @DeleteMapping("deleteAssSession/{id}")
+    public ResponseEntity<?> deleteAssessmentSession(@PathVariable("id") Integer id) {
+        logger.info("deleteAssessmentSession method of AssessmentMasterController is executed");
+        try {
+            sessionAssessmentMasterService.deleteAssessmentSession(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "deleted");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            logger.error("Error occurred while deleting assessment session with ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-	}
-
-	@GetMapping("/viewAssessmentForSession")
-	public ResponseEntity<List<Map<String, Object>>> viewAssessmentForSessionData() {
-		logger.info("viewAssessmentForSessionData method of AssessmentMasterController is executed");
-		List<Map<String, Object>> assessmentSessData = sessionAssessmentMasterService.viewAssessmentForSessionData();
-		return ResponseEntity.ok().body(assessmentSessData);
-
-	}
-
-	@DeleteMapping("deleteAssSession/{id}")
-	public ResponseEntity<Map<String, Object>> deleteAssessmentSession(@PathVariable("id") Integer id) {
-		logger.info("deleteAssessmentSession method of AssessmentMasterController is executed");
-		Map<String, Object> responseSe = new HashMap<>();
-		sessionAssessmentMasterService.deleteAssessmentSession(id);
-		responseSe.put("status", "deleted");
-		return ResponseEntity.ok().body(responseSe);
-	}
-
-	@GetMapping("editAssessmentSession/{id}")
-	public ResponseEntity<Map<String, Object>> getAssessmentSessionById(@PathVariable("id") Integer id) {
-		logger.info("getAssessmentById method of AssessmentMasterController is executed");
-		Map<String, Object> updateSes = sessionAssessmentMasterService.getAssessmentSessionById(id);
-		System.err.println(updateSes);
-		return ResponseEntity.ok().body(updateSes);
-	}
-
+    @GetMapping("editAssessmentSession/{id}")
+    public ResponseEntity<?> getAssessmentSessionById(@PathVariable("id") Integer id) {
+        logger.info("getAssessmentById method of AssessmentMasterController is executed");
+        try {
+            Map<String, Object> updateSes = sessionAssessmentMasterService.getAssessmentSessionById(id);
+            return ResponseEntity.ok().body(updateSes);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching assessment session by ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 }
