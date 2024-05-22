@@ -92,12 +92,18 @@ public class SessionMasterController {
 		return new ResponseEntity<>(sm , HttpStatus.CREATED);
 	}
 
-	@GetMapping("/session-master")
-	public List<Map<String, Object>> getAllSessionList() {
-		logger.info("getAllSessionList method of SessionMasterController is executed");
-		return sessionService.getAllSessionMaster();
-	}
-
+	 @GetMapping("/session-master")
+	    public ResponseEntity<List<Map<String, Object>>> getAllSessionList() {
+	        logger.info("getAllSessionList method of SessionMasterController is executed");
+	        try {
+	            List<Map<String, Object>> sessions = sessionService.getAllSessionMaster();
+	            return new ResponseEntity<>(sessions, HttpStatus.OK);
+	        } catch (Exception e) {
+	            logger.error("Error occurred while fetching session list", e);
+	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	 }
+	 
 	@DeleteMapping("/session-master/{id}")
 	public ResponseEntity<Map<String, Object>> deleteSessionByid(@PathVariable("id") Integer id) throws SessionNotFoundException {
 		logger.info("deleteSessionByid method of SessionMasterController is executed");
@@ -115,38 +121,63 @@ public class SessionMasterController {
 
 	@GetMapping("/check-is-last-session/{id}")
 	public ResponseEntity<Map<String, Object>> checkIsLastSession(@PathVariable("id") Integer id) {
-		logger.info("checkIsLastSession method of SessionMasterController is executed");
-		Map<String, Object> response = new HashMap<>();
-		response.put("isLastSession", sessionService.checkIsLastSession(id));
-		response.put("checkBoxValidation", sessionService.checkBoxValidation(id));
-		return ResponseEntity.ok(response);
+	    logger.info("checkIsLastSession method of SessionMasterController is executed");
+	    Map<String, Object> response = new HashMap<>();
+	    try {
+	        response.put("isLastSession", sessionService.checkIsLastSession(id));
+	        response.put("checkBoxValidation", sessionService.checkBoxValidation(id));
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        logger.error("Error occurred while checking session", e);
+	        response.put("error", "An error occurred while processing your request");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	    }
 	}
+
 
 	@GetMapping("/submodule/{id}")
-	public List<Map<String, Object>> getScheduleForBySubModId(@PathVariable("id") Integer id) {
-		logger.info("getScheduleForBySubModId method of SessionMasterController is executed");
-		return scheduleForMasterService.getScheduleForBySubModuleId(id);
+    public ResponseEntity<?> getScheduleForBySubModId(@PathVariable("id") Integer id) {
+        logger.info("getScheduleForBySubModId method of SessionMasterController is executed");
+        try {
+            List<Map<String, Object>> result = scheduleForMasterService.getScheduleForBySubModuleId(id);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching schedule for submodule with id {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-	}
+    @GetMapping("/getScheduleBySubModuleId/{submoduleId}")
+    public ResponseEntity<?> getScheduleBySubModuleId(@PathVariable Integer submoduleId) {
+        logger.info("getScheduleBySubModuleId method of SessionMasterController is executed");
+        try {
+            return scheduleForMasterService.getScheduleBySubModuleId(submoduleId);
+        } catch (Exception e) {
+            logger.error("Error occurred while getting schedule by submodule id {}", submoduleId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-	// Get ScheduleList By SubModuleId Using JPQL
-	@GetMapping("/getScheduleBySubModuleId/{submoduleId}")
-	public ResponseEntity<?> getScheduleBySubModuleId(@PathVariable Integer submoduleId) {
-		logger.info("getScheduleBySubModuleId method of SessionMasterController is executed");
-		return scheduleForMasterService.getScheduleBySubModuleId(submoduleId);
-	}
+    @GetMapping("/getSessionByScheduleId/{scheduleId}")
+    public ResponseEntity<?> getSessionByScheduleId(@PathVariable Integer scheduleId) {
+        logger.info("getSessionByScheduleId method of SessionMasterController is executed");
+        try {
+            return sessionService.getSessionByScheduleId(scheduleId);
+        } catch (Exception e) {
+            logger.error("Error occurred while getting session by schedule id {}", scheduleId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 
-	@GetMapping("/getSessionByScheduleId/{scheduleId}")
-	public ResponseEntity<?> getSessionByScheduleId(@PathVariable Integer scheduleId) {
-		logger.info("getSessionByScheduleId method of SessionMasterController is executed");
-		return sessionService.getSessionByScheduleId(scheduleId);
-	}
-
-	@GetMapping("/getSessionByscheduleForIdAndUserId/{scheduleId}/{userId}")
-	public ResponseEntity<?> getSessionByscheduleForIdAndUserId(@PathVariable Integer scheduleId,
-			@PathVariable Integer userId) {
-		logger.info("getSessionByScheduleId method of SessionMasterController is executed");
-		return sessionService.getSessionByscheduleForIdAndUserId(scheduleId, userId);
-	}
-
+    @GetMapping("/getSessionByscheduleForIdAndUserId/{scheduleId}/{userId}")
+    public ResponseEntity<?> getSessionByscheduleForIdAndUserId(@PathVariable Integer scheduleId,
+                                                                 @PathVariable Integer userId) {
+        logger.info("getSessionByScheduleId method of SessionMasterController is executed");
+        try {
+            return sessionService.getSessionByscheduleForIdAndUserId(scheduleId, userId);
+        } catch (Exception e) {
+            logger.error("Error occurred while getting session by schedule id {} and user id {}", scheduleId, userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 }
