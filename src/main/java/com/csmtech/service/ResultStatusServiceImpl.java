@@ -2,6 +2,8 @@ package com.csmtech.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ public class ResultStatusServiceImpl implements ResultStatusService {
 	@Autowired
 	ResultStatusRepository resultStatusRepository;
 	
+	private static final Logger logger=LoggerFactory.getLogger(ResultStatusServiceImpl.class);
+	
 	@Override
 	public List<ResultStatus> getFinalResultByScheduleIdUserId(Integer scheduleForId, Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		logger.info("getFinalResultByScheduleIdUserId method of ResultStatusServiceImpl is executed");// TODO Auto-generated method stub
+		return resultStatusRepository.getFinalResultByScheduleIdUserId(scheduleForId,userId);
 
+}
 }
