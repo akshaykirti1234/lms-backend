@@ -8,4 +8,6 @@ public interface ResultStatusService {
 
 	List<ResultStatus> getFinalResultByScheduleIdUserId(Integer scheduleForId, Integer userId);
 
+	ResultStatus getResultStatusByScheduleIdUserId(Integer scheduleForId, Integer userId);
+
 }

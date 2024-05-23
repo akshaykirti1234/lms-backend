@@ -20,8 +20,14 @@ public class ResultStatusServiceImpl implements ResultStatusService {
 	
 	@Override
 	public List<ResultStatus> getFinalResultByScheduleIdUserId(Integer scheduleForId, Integer userId) {
-		logger.info("getFinalResultByScheduleIdUserId method of ResultStatusServiceImpl is executed");// TODO Auto-generated method stub
+		logger.info("getFinalResultByScheduleIdUserId method of ResultStatusServiceImpl is executed");
 		return resultStatusRepository.getFinalResultByScheduleIdUserId(scheduleForId,userId);
 
 }
+
+	@Override
+	public ResultStatus getResultStatusByScheduleIdUserId(Integer scheduleForId, Integer userId) {
+		logger.info("getResultStatusByScheduleIdUserId method of ResultStatusServiceImpl is executed");
+		return resultStatusRepository.getResultStatusByScheduleIdUserId(scheduleForId,userId);
+	}
 }

@@ -15,4 +15,8 @@ public interface ResultStatusRepository extends JpaRepository<ResultStatus, Inte
 	@Query(value = "select * FROM resultstatus WHERE SCHEDULEFORID = :scheduleForId and USERID = :userId", nativeQuery = true)
 	List<ResultStatus> getFinalResultByScheduleIdUserId(Integer scheduleForId, Integer userId);
 
+	
+	@Query(value="select * FROM resultstatus WHERE SCHEDULEFORID = :scheduleForId and USERID = :userId and STATUSOFRESULT=1", nativeQuery = true)
+	ResultStatus getResultStatusByScheduleIdUserId(Integer scheduleForId, Integer userId);
+
 }

@@ -35,4 +35,18 @@ public class ResultStatusController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
         }
     }
+	
+	@GetMapping("getResultStatus/{scheduleForId}/{userId}")
+	public ResponseEntity<?> getResultStatusByScheduleIdUserId(@PathVariable("scheduleForId") Integer scheduleForId, @PathVariable("userId") Integer userId){
+		logger.info("getResultStatusByScheduleIdUserId method of ResultStatusController is executed");
+		try {
+			ResultStatus resultStatus=resultStatusService.getResultStatusByScheduleIdUserId(scheduleForId,userId);
+			return ResponseEntity.ok(resultStatus);
+		} catch (Exception e) {
+            logger.error("Error occurred while fetching session result for scheduleForId {} and userId {}", scheduleForId, userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+		
+	}
+	
 }
