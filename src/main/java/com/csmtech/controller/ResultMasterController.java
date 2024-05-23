@@ -18,7 +18,7 @@ import com.csmtech.service.ResultMasterService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/Result")
+@RequestMapping("/api/result")
 public class ResultMasterController {
 	
 private static final Logger logger = LoggerFactory.getLogger(ResultMasterController.class);
