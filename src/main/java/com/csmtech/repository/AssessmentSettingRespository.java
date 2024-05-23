@@ -47,7 +47,13 @@ public interface AssessmentSettingRespository extends JpaRepository<AssessmentSe
 	List<Map<String, Object>> getScheduleforAssessmentSetting(Integer submoduleId);
 
 
-    AssessmentSetting findFirst1ByScheduleForMaster_scheduleForId(Integer scheduleId);
+     AssessmentSetting findFirst1ByScheduleForMaster_scheduleForId(Integer scheduleId);
+
+
+     @Query(value = "SELECT * FROM assessmentsetting s "
+ 			+ "WHERE s.SCHEDULEFORID = :scheduleForId AND s.DELETEDFLAG = false "
+ 			+ "ORDER BY s.ASSESSMENTSETTINGID DESC LIMIT 1", nativeQuery = true)
+     AssessmentSetting findByScheduleForId(Integer scheduleForId);
 
    
 }

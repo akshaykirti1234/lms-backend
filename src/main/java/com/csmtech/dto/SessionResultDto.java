@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class SessionResultDto {
 	private Integer userId;
-	private Integer sessionAssessmentMasterId;
+	private Integer questionId;
 	private String option;
 }

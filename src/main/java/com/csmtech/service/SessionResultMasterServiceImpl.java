@@ -55,7 +55,7 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 		for (SessionResultDto value : responsePayload) {
 			// Retrieve sessionAssessmentMaster from repository
 			SessionAssessmentMaster sessionAssessmentMaster = sessionAssessmentMasterRepository
-					.findById(value.getSessionAssessmentMasterId())
+					.findById(value.getQuestionId())
 					.orElseThrow(() -> new RuntimeException("Session Assessment Master not found"));
 
 			// get userId and sessionId
@@ -76,7 +76,7 @@ public class SessionResultMasterServiceImpl implements SessionResultMasterServic
 		for (SessionResultDto value : responsePayload) {
 			// Retrieve sessionAssessmentMaster from repository
 			SessionAssessmentMaster sessionAssessmentMaster = sessionAssessmentMasterRepository
-					.findById(value.getSessionAssessmentMasterId())
+					.findById(value.getQuestionId())
 					.orElseThrow(() -> new RuntimeException("Session Assessment Master not found"));
 
 			// Create UserMaster object with userId
