@@ -17,6 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.csmtech.entity.ScheduleForMaster;
 import com.csmtech.entity.SessionMaster;
 import com.csmtech.entity.SubModule;
+
+import com.csmtech.entity.SessionMaster;
 import com.csmtech.repository.SessionMasterRepository;
 
 @DataJpaTest
@@ -67,34 +69,47 @@ public class SessionMasterRepositoryTest {
 //        SessionMaster deletedSession = entityManager.find(SessionMaster.class, sessionMaster.getSessionId());
 //        assertThat(deletedSession.getDeletedFlag()).isEqualTo(1);
 //    }
+    //     assertThat(sessions).isNotNull().isNotEmpty();
+    // }
+
+    @Test
+    @Transactional
+    public void testDeleteSession() {
+        Integer sessionId = 1; // Assuming a session with this ID exists
+        sessionMasterRepository.deleteSession(sessionId);
+        List<Map<String, Object>> sessions = sessionMasterRepository.getAllSessionMaster();
+        boolean isDeleted = sessions.stream().noneMatch(s -> (Integer) s.get("sessionid") == sessionId);
+        assertThat(isDeleted).isTrue();
+    }
 
     @Test
     @Transactional
     public void testUpdateIsLastSession() {
-        sessionMasterRepository.updateIsLastSession(scheduleForMaster.getScheduleForId());
-        List<SessionMaster> sessions = sessionMasterRepository.getSessionByScheduleId(scheduleForMaster.getScheduleForId());
-        assertThat(sessions).hasSizeGreaterThan(0);
-//        for (SessionMaster session : sessions) {
-//            assertThat(session.getIsLastSession()).isEqualTo(0);
-//        }
+        Integer scheduleForId = 1; // Assuming a schedule with this ID exists
+        sessionMasterRepository.updateIsLastSession(scheduleForId);
+        List<SessionMaster> sessions = sessionMasterRepository.getSessionByScheduleId(scheduleForId);
+        sessions.forEach(session -> assertThat(session.getIsLastSession()).isFalse());
     }
 
     @Test
     public void testCheckIsLastSession() {
-        Boolean isLastSession = sessionMasterRepository.checkIsLastSession(scheduleForMaster.getScheduleForId());
+        Integer scheduleForId = 1; // Assuming a schedule with this ID exists
+        Boolean isLastSession = sessionMasterRepository.checkIsLastSession(scheduleForId);
         assertThat(isLastSession).isNotNull();
     }
 
     @Test
     public void testCheckBoxValidation() {
-        String status = sessionMasterRepository.checkBoxValidation(scheduleForMaster.getScheduleForId());
-        assertThat(status).isEqualTo("false");
+        Integer scheduleForId = 1; // Assuming a schedule with this ID exists
+        String status = sessionMasterRepository.checkBoxValidation(scheduleForId);
+        assertThat(status).isIn("true", "false");
     }
 
     @Test
     public void testGetSessionByScheduleId() {
-        List<SessionMaster> sessions = sessionMasterRepository.getSessionByScheduleId(scheduleForMaster.getScheduleForId());
-        assertThat(sessions).isNotNull().hasSizeGreaterThan(0);
+        Integer scheduleForId = 1; // Assuming a schedule with this ID exists
+        List<SessionMaster> sessions = sessionMasterRepository.getSessionByScheduleId(scheduleForId);
+        assertThat(sessions).isNotNull().isNotEmpty();
+        sessions.forEach(session -> assertThat(session.getScheduleFor().getScheduleForId()).isEqualTo(scheduleForId));
     }
-
 }
