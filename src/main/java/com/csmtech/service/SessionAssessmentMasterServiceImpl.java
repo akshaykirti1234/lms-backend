@@ -256,4 +256,10 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 		}
 		return ""; // Return empty string if cell is null
 	}
+
+	@Override
+	public Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id) {
+		logger.info("checkIfSessionQsnPreparedForScheduleId method of SessionAssessmentMasterServiceImpl is executed");
+		return sessionAssessmentMasterRepository.checkIfSessionQsnPreparedForScheduleId(id);
+	}
 }
