@@ -99,4 +99,16 @@ public class SessionAssessmentMasterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
         }
     }
+    
+    @GetMapping("/check-session-questions/{id}")
+    public ResponseEntity<?> checkIfSessionQsnPreparedForScheduleId(@PathVariable("id") Integer id){
+    	logger.info("checkIfSessionQsnPreparedForScheduleId method of AssessmentMasterController is executed");
+    	try {
+           Map<String, Object> result = sessionAssessmentMasterService.checkIfSessionQsnPreparedForScheduleId(id);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching assessment session by ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+        }
+    }
 }
