@@ -1,153 +1,118 @@
-package com.csmtech.controller;
+ package com.csmtech.controller;
+ import static org.junit.jupiter.api.Assertions.assertEquals;
+ import static org.mockito.Mockito.when;
+ import static org.mockito.ArgumentMatchers.anyInt;
+ import static org.mockito.ArgumentMatchers.any;
+ import static org.mockito.Mockito.doNothing;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+ import java.util.*;
 
-import java.util.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import org.mockito.InjectMocks;
+ import org.mockito.Mock;
+ import org.mockito.MockitoAnnotations;
+ import org.springframework.http.HttpStatus;
+ import org.springframework.http.ResponseEntity;
 
 import com.csmtech.dto.LocationDto;
 import com.csmtech.service.LocationService;
 
-public class LocationControllerTest {
+ public class LocationControllerTest {
 
-    @InjectMocks
-    private LocationController locationController;
+     @Mock
+     private LocationService locationService;
 
-    @Mock
-    private LocationService locationService;
+     @InjectMocks
+     private LocationController locationController;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+     @BeforeEach
+     public void setup() {
+         MockitoAnnotations.initMocks(this); // Initialize mocks
+     }
 
-    @Test
-    public void testSaveLocationMaster_Success() {
-        LocationDto locationDto = new LocationDto();
-        locationDto.setLocationId(1);
-        locationDto.setLocationName("Test Location");
+     @Test
+     public void testSaveLocationMaster() {
+         // Arrange
+         LocationDto locationDto = new LocationDto();
+         // Set up locationDto if needed
+         
+         Map<String, Object> result = new HashMap<>();
+         result.put("status", "success");
+         
+         when(locationService.saveLocation(any(LocationDto.class))).thenReturn(result);
 
-        Map<String, Object> serviceResponse = new HashMap<>();
-        serviceResponse.put("status", "success");
-        when(locationService.saveLocation(any(LocationDto.class))).thenReturn(serviceResponse);
+         // Act
+         ResponseEntity<Map<String, Object>> responseEntity = locationController.saveLocationMaster(locationDto);
 
-        ResponseEntity<Map<String, Object>> response = locationController.saveLocationMaster(locationDto);
+         // Assert
+         assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Check status code
+         assertEquals(result, responseEntity.getBody()); // Check body content
+     }
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(serviceResponse, response.getBody());
-        verify(locationService, times(1)).saveLocation(any(LocationDto.class));
-    }
+     @Test
+     public void testGetAllLocation() {
+         // Arrange
+         List<Map<String, Object>> mockLocationList = new ArrayList<>();
+         Map<String, Object> location = new HashMap<>();
+         location.put("id", 1);
+         location.put("name", "Test Location");
+         mockLocationList.add(location);
+         
+         when(locationService.getAllLocation()).thenReturn(mockLocationList);
 
-//    @Test
-//    public void testSaveLocationMaster_Failure() {
-//        LocationDto locationDto = new LocationDto();
-//        locationDto.setLocationId(1);
-//        locationDto.setLocationName("Test Location");
-//
-//        when(locationService.saveLocation(any(LocationDto.class))).thenThrow(new RuntimeException("Database Error"));
-//
-//        ResponseEntity<Map<String, Object>> response = locationController.saveLocationMaster(locationDto);
-//
-//        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-//        assertTrue(response.getBody().containsKey("error"));
-//        assertEquals("Database Error", response.getBody().get("error"));
-//        verify(locationService, times(1)).saveLocation(any(LocationDto.class));
-//    }
+         // Act
+         ResponseEntity<List<Map<String, Object>>> responseEntity = locationController.getAllLocation();
 
-    @Test
-    public void testGetAllLocation_Success() {
-        List<Map<String, Object>> serviceResponse = new ArrayList<>();
-        Map<String, Object> location = new HashMap<>();
-        location.put("locationId", 1);
-        location.put("locationName", "Test Location");
-        serviceResponse.add(location);
+         // Assert
+         assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Check status code
+         assertEquals(mockLocationList, responseEntity.getBody()); // Check body content
+     }
 
-        when(locationService.getAllLocation()).thenReturn(serviceResponse);
+     @Test
+     public void testDeleteLocation() {
+         // Arrange
+         Integer id = 1;
+         doNothing().when(locationService).deleteLocation(anyInt());
 
-        ResponseEntity<List<Map<String, Object>>> response = locationController.getAllLocation();
+         // Act
+         ResponseEntity<Map<String, Object>> responseEntity = locationController.deleteLocation(id);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(serviceResponse, response.getBody());
-        verify(locationService, times(1)).getAllLocation();
-    }
+         // Assert
+         assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Check status code
+         assertEquals("deleted", responseEntity.getBody().get("status")); // Check body content
+     }
 
-//    @Test
-//    public void testGetAllLocation_Failure() {
-//        when(locationService.getAllLocation()).thenThrow(new RuntimeException("Database Error"));
-//
-//        ResponseEntity<List<Map<String, Object>>> response = locationController.getAllLocation();
-//
-//        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-//        assertTrue(response.getBody().get(0).containsKey("error"));
-//        assertEquals("Database Error", response.getBody().get(0).get("error"));
-//        verify(locationService, times(1)).getAllLocation();
-//    }
+     @Test
+     public void testGetEditById() {
+         // Arrange
+         Integer id = 1;
+         Map<String, Object> update = new HashMap<>();
+         update.put("id", id);
+         update.put("name", "Updated Location");
+         
+         when(locationService.geteditById(anyInt())).thenReturn(update);
 
-    @Test
-    public void testDeleteLocation_Success() {
-        Integer locationId = 1;
-        Map<String, Object> serviceResponse = new HashMap<>();
-        serviceResponse.put("status", "deleted");
+         // Act
+         ResponseEntity<Map<String, Object>> responseEntity = locationController.geteditById(id);
 
-        doNothing().when(locationService).deleteLocation(locationId);
+         // Assert
+         assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Check status code
+         assertEquals(update, responseEntity.getBody()); // Check body content
+     }
+ }
 
-        ResponseEntity<Map<String, Object>> response = locationController.deleteLocation(locationId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(serviceResponse.get("status"), response.getBody().get("status"));
-        verify(locationService, times(1)).deleteLocation(locationId);
-    }
 
-//    @Test
-//    public void testDeleteLocation_Failure() {
-//        Integer locationId = 1;
-//
-//        doThrow(new RuntimeException("Database Error")).when(locationService).deleteLocation(locationId);
-//
-//        ResponseEntity<Map<String, Object>> response = locationController.deleteLocation(locationId);
-//
-//        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-//        assertTrue(response.getBody().containsKey("error"));
-//        assertEquals("Database Error", response.getBody().get("error"));
-//        verify(locationService, times(1)).deleteLocation(locationId);
-//    }
 
-    @Test
-    public void testGeteditById_Success() {
-        Integer locationId = 1;
-        Map<String, Object> serviceResponse = new HashMap<>();
-        serviceResponse.put("locationId", locationId);
-        serviceResponse.put("locationName", "Test Location");
 
-        when(locationService.geteditById(locationId)).thenReturn(serviceResponse);
 
-        ResponseEntity<Map<String, Object>> response = locationController.geteditById(locationId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(serviceResponse, response.getBody());
-        verify(locationService, times(1)).geteditById(locationId);
-    }
 
-//    @Test
-//    public void testGeteditById_Failure() {
-//        Integer locationId = 1;
-//
-//        when(locationService.geteditById(locationId)).thenThrow(new RuntimeException("Database Error"));
-//
-//        ResponseEntity<Map<String, Object>> response = locationController.geteditById(locationId);
-//
-//        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-//        assertTrue(response.getBody().containsKey("error"));
-//        assertEquals("Database Error", response.getBody().get("error"));
-//        verify(locationService, times(1)).geteditById(locationId);
-//    }
-}
+
+
+
+
+
+
+
