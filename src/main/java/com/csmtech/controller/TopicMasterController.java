@@ -93,10 +93,11 @@ public class TopicMasterController {
         logger.info("getTopicByUserIdAndScheduleId method of TopicMasterController is executed");
         try {
             TopicMaster topicMaster = topicMasterService.getTopicByUserIdAndScheduleId(userId, scheduleForId);
-            if (topicMaster == null || topicMaster.getTopicId() == null) {
-                return new ResponseEntity<>("Topic not found for userId: " + userId + " and scheduleForId: " + scheduleForId, HttpStatus.NOT_FOUND);
+            if (topicMaster != null) {
+                return ResponseEntity.ok(topicMaster);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            return new ResponseEntity<>(topicMaster, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("An error occurred while retrieving the topic: {}", e.getMessage());
             return new ResponseEntity<>("An error occurred while retrieving the topic: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
