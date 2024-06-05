@@ -40,7 +40,7 @@ import com.csmtech.service.ModuleMasterService;
 @RestController
 @CrossOrigin("*")
 public class ModuleMasterController {
-	private static final  Logger logger=LoggerFactory.getLogger(ModuleMasterController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ModuleMasterController.class);
 
 	@Value("${actuallogofile.path}")
 	private String actualFilePath;
@@ -81,7 +81,9 @@ public class ModuleMasterController {
 						Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						Files.delete(srcFile.toPath());
 					} catch (IOException e) {
-						logger.info("IOException occured while delete file inside saveModuleMaster method of ModuleMasterController:"+e.getMessage());
+						logger.info(
+								"IOException occured while delete file inside saveModuleMaster method of ModuleMasterController:"
+										+ e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -96,12 +98,12 @@ public class ModuleMasterController {
 	public ResponseEntity<List<ModuleMaster>> getModule() {
 		logger.info("getModule method of ModuleMasterController is executed");
 		try {
-		List<ModuleMaster> moduleMasterList = moduleMasterService.getModuleMaster();
+			List<ModuleMaster> moduleMasterList = moduleMasterService.getModuleMaster();
 
-		return ResponseEntity.ok().body(moduleMasterList);
-		}catch (Exception e) {
+			return ResponseEntity.ok().body(moduleMasterList);
+		} catch (Exception e) {
 			logger.error("Exception caught in getModule method: ", e);
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
 		}
 
 	}
@@ -117,18 +119,18 @@ public class ModuleMasterController {
 	@DeleteMapping("/module/{moduleId}")
 	public ResponseEntity<Map<String, Object>> deleteModule(@PathVariable("moduleId") Integer moduleId) {
 		logger.info("deleteModule method of ModuleMasterController is executed");
-        Map<String, Object> errorResponse = new HashMap<>();
+		Map<String, Object> errorResponse = new HashMap<>();
 
 		try {
-		moduleMasterService.deleteModuleById(moduleId);
-		Map<String, Object> response = new HashMap<>();
-		response.put("status", 200);
-		response.put("deleted", "module is deleted successfuly");
-		return ResponseEntity.ok().body(response);
-		}catch (Exception e) {
+			moduleMasterService.deleteModuleById(moduleId);
+			Map<String, Object> response = new HashMap<>();
+			response.put("status", 200);
+			response.put("deleted", "module is deleted successfuly");
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
 			logger.error("Exception caught in deleteModule method: ", e);
-            errorResponse.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+			errorResponse.put("error", e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 		}
 	}
 
@@ -139,40 +141,46 @@ public class ModuleMasterController {
 		Map<String, Object> response = new HashMap<>();
 		File f1 = null;
 		try {
-		String fileNameType = file.getOriginalFilename();
-		if (fileNameType != null) {
-			String[] fileArray = fileNameType.split("[.]");
-			if (fileArray.length > 1) {
-				File folder = new File(tempPath);
-	            if (!folder.exists()) {
-	                folder.mkdirs();
-	            }
-	            f1 = new File(folder.getPath() + "/" + fileNameType);
-				try (FileOutputStream fos = new FileOutputStream(f1);
-						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+			if (file.isEmpty()) {
+				throw new Exception("File is empty");
+			}
+			String fileNameType = file.getOriginalFilename();
+			if (fileNameType != null) {
+				String[] fileArray = fileNameType.split("[.]");
+				if (fileArray.length > 1) {
+					File folder = new File(tempPath);
+					if (!folder.exists()) {
+						folder.mkdirs();
+					}
+					f1 = new File(folder.getPath() + "/" + fileNameType);
+					try (FileOutputStream fos = new FileOutputStream(f1);
+							BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
-					byte[] bytes = file.getBytes();
-					bos.write(bytes);
+						byte[] bytes = file.getBytes();
+						bos.write(bytes);
 
-					response.put("status", 200);
-					response.put("fileName", f1.getName());
+						response.put("status", 200);
+						response.put("fileName", f1.getName());
+						
 
-				} catch (Exception e) {
-					logger.info("IOException occured inside setTempFile method of ModuleMasterController:"+e.getMessage());
-					response.put("status", 500);
-					response.put("message", e.getMessage());
+					} catch (Exception e) {
+						logger.info("IOException occured inside setTempFile method of ModuleMasterController:"
+								+ e.getMessage());
+						response.put("status", 500);
+						response.put("message", e.getMessage());
+						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+					}
 				}
 			}
-		}
 
-		return ResponseEntity.ok().body(response);
-		}catch (Exception e) {
-			  logger.error("Exception caught in setTempFile method: ", e);
-	            response.put("status", 500);
-	            response.put("message", e.getMessage());
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			
+		} catch (Exception e) {
+			logger.error("Exception caught in setTempFile method: ", e);
+			response.put("status", 500);
+			response.put("message", e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
-		
+		return ResponseEntity.ok().body(response);
 
 	}
 
@@ -180,50 +188,50 @@ public class ModuleMasterController {
 	public ResponseEntity<?> downloadDocument(HttpServletResponse response, @PathVariable("fileName") String fileName)
 			throws Exception {
 		logger.info("downloadDocument method of ModuleMasterController is executed");
-	     Map<String, Object> errorResponse = new HashMap<>();
-     try {
-		String filePath = "";
-		String fileFormat = "";
-		filePath = actualFilePath;
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("content-disposition", "inline;filename=" + fileName);
-		int lastDotIndex = fileName.lastIndexOf('.');
-		if (lastDotIndex != -1) {
-			fileFormat = fileName.substring(lastDotIndex + 1);
-		} else {
-			throw new Exception("No file format found");
+		Map<String, Object> errorResponse = new HashMap<>();
+		try {
+			String filePath = "";
+			String fileFormat = "";
+			filePath = actualFilePath;
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("content-disposition", "inline;filename=" + fileName);
+			int lastDotIndex = fileName.lastIndexOf('.');
+			if (lastDotIndex != -1) {
+				fileFormat = fileName.substring(lastDotIndex + 1);
+			} else {
+				throw new Exception("No file format found");
+			}
+
+			File file = new File(filePath + "/" + fileName);
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+			String contentType = "";
+			if (null != fileName && fileName.contains(".")) {
+				String fileExtension = fileName.split("\\.")[1];
+
+				if (fileExtension.equalsIgnoreCase("png"))
+					contentType = "image/png";
+				else if (fileExtension.equalsIgnoreCase("jpg") || fileExtension.equalsIgnoreCase("jpeg")
+						|| fileExtension.equalsIgnoreCase("jfif"))
+					contentType = "image/jpeg";
+				else if (fileExtension.equalsIgnoreCase("gif"))
+					contentType = "image/gif";
+				else if (fileExtension.equalsIgnoreCase("bmp"))
+					contentType = "image/bmp";
+				else if (fileExtension.equalsIgnoreCase("svg"))
+					contentType = "image/svg+xml";
+				else if (fileExtension.equalsIgnoreCase("tiff") || fileExtension.equalsIgnoreCase("tif"))
+					contentType = "image/tiff";
+
+			}
+
+			return ResponseEntity.ok().headers(headers).contentLength(file.length())
+					.contentType(MediaType.parseMediaType(contentType)).body(resource);
+		} catch (Exception e) {
+			logger.error("Exception caught in downloadDocument method: ", e);
+
+			errorResponse.put("error", e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 		}
-
-		File file = new File(filePath + "/" + fileName);
-		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-		String contentType = "";
-		if (null != fileName && fileName.contains(".")) {
-			String fileExtension = fileName.split("\\.")[1];
-
-			if (fileExtension.equalsIgnoreCase("png"))
-				contentType = "image/png";
-			else if (fileExtension.equalsIgnoreCase("jpg") || fileExtension.equalsIgnoreCase("jpeg")
-					|| fileExtension.equalsIgnoreCase("jfif"))
-				contentType = "image/jpeg";
-			else if (fileExtension.equalsIgnoreCase("gif"))
-				contentType = "image/gif";
-			else if (fileExtension.equalsIgnoreCase("bmp"))
-				contentType = "image/bmp";
-			else if (fileExtension.equalsIgnoreCase("svg"))
-				contentType = "image/svg+xml";
-			else if (fileExtension.equalsIgnoreCase("tiff") || fileExtension.equalsIgnoreCase("tif"))
-				contentType = "image/tiff";
-
-		}
-
-		return ResponseEntity.ok().headers(headers).contentLength(file.length())
-				.contentType(MediaType.parseMediaType(contentType)).body(resource);
-     }catch (Exception e) {
-    	 logger.error("Exception caught in downloadDocument method: ", e);
-    
-         errorResponse.put("error", e.getMessage());
-         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-	}
 	}
 
 }
