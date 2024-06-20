@@ -31,8 +31,8 @@ import com.csmtech.repository.SessionAssessmentSettingRepository;
 
 @Service
 public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMasterService {
-	private static final Logger logger=LoggerFactory.getLogger(SessionAssessmentMasterServiceImpl.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SessionAssessmentMasterServiceImpl.class);
+
 	@Autowired
 	private SessionAssessmentMasterRepository sessionAssessmentMasterRepository;
 	@Autowired
@@ -44,12 +44,22 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 		SessionAssessmentSetting sessionSessionAssessmentSetting = sessionAssessmentSettingRepository
 				.findFirst1BySessionMaster_SessionId(sessionId);
 
-		Integer noOfQuestion = sessionSessionAssessmentSetting.getNumberOfQuestion();
-		System.err.println(sessionId + " " + noOfQuestion);
-		List<SessionAssessmentMaster> assessmentMastersList = sessionAssessmentMasterRepository
-				.getQuestionarBySessionId(sessionId, noOfQuestion);
+//		System.err.println(sessionSessionAssessmentSetting);
 
-		if (assessmentMastersList.isEmpty()) {
+		Integer noOfQuestion = null;
+
+		if (sessionSessionAssessmentSetting != null) {
+			noOfQuestion = sessionSessionAssessmentSetting.getNumberOfQuestion();
+		}
+//		System.err.println(sessionId + " " + noOfQuestion);
+
+		List<SessionAssessmentMaster> assessmentMastersList = null;
+
+		if (sessionId != null && noOfQuestion != null) {
+			assessmentMastersList = sessionAssessmentMasterRepository.getQuestionarBySessionId(sessionId, noOfQuestion);
+		}
+
+		if (assessmentMastersList == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for session ID: " + sessionId);
 		} else {
 			return ResponseEntity.ok(assessmentMastersList);
