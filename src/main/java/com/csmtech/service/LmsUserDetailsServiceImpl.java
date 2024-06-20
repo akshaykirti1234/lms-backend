@@ -29,8 +29,6 @@ public class LmsUserDetailsServiceImpl implements UserDetailsService {
 
 		UserMaster entity = repo.getUserByEmail(username);
 
-		logger.info(entity.toString());
-
 		logger.info(":: execution end of loadUserByUsername method return to controller");
 
 		return new org.springframework.security.core.userdetails.User(entity.getEmailId(), entity.getPassword(),
