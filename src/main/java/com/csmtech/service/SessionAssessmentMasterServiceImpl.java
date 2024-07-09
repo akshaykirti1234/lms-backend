@@ -268,7 +268,7 @@ public class SessionAssessmentMasterServiceImpl implements SessionAssessmentMast
 	}
 
 	@Override
-	public Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id) {
+	public Long checkIfSessionQsnPreparedForScheduleId(Integer id) {
 		logger.info("checkIfSessionQsnPreparedForScheduleId method of SessionAssessmentMasterServiceImpl is executed");
 		return sessionAssessmentMasterRepository.checkIfSessionQsnPreparedForScheduleId(id);
 	}

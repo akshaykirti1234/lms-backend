@@ -33,6 +33,6 @@ public interface SessionAssessmentMasterService {
 
 	ResponseEntity<Map<String, Object>> uploadSessionExcelData(MultipartFile file);
 
-	Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id);
+	Long checkIfSessionQsnPreparedForScheduleId(Integer id);
 
 }

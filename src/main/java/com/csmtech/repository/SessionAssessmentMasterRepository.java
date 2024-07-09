@@ -85,21 +85,19 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 			+ " WHERE ss.DELETEDFLAG = 0", nativeQuery = true)
 	List<Map<String, Object>> retriveSessionList();
 
-	
-	@Query(value="SELECT \r\n"
-			+ "    CASE\r\n"
-			+ "        WHEN \r\n"
-			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) != \r\n"
-			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
-			+ "            AND \r\n"
-			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) > \r\n"
-			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
-			+ "        THEN 'false'\r\n"
-			+ "        WHEN \r\n"
-			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) = \r\n"
-			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
-			+ "        THEN 'true'\r\n"
-			+ "    END AS result;" , nativeQuery = true)
-	Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id);
+//	@Query(value = "SELECT \r\n" + "    CASE\r\n" + "        WHEN \r\n"
+//			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) != \r\n"
+//			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
+//			+ "            AND \r\n"
+//			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) > \r\n"
+//			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
+//			+ "        THEN 'false'\r\n" + "        WHEN \r\n"
+//			+ "            (SELECT NOOFSESSION FROM scheduleformaster WHERE SCHEDULEFORID = :id) = \r\n"
+//			+ "            (SELECT COUNT(DISTINCT sessionid) FROM sessionassessmentmaster WHERE SCHEDULEFORID = :id)\r\n"
+//			+ "        THEN 'true'\r\n" + "    END AS result;", nativeQuery = true)
+//	Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id);
+
+	@Query(value = "SELECT count(SESSIONASSESSMENTSETTINGID) FROM lms_db.sessionassessmentsetting where SCHEDULEFORID = :id and DELETEDFLAG = false", nativeQuery = true)
+	Long checkIfSessionQsnPreparedForScheduleId(Integer id);
 
 }

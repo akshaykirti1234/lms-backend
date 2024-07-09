@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.csmtech.dto.AssessmentMasterDto;
 import com.csmtech.entity.AssessmentMaster;
 import com.csmtech.entity.AssessmentSetting;
-import com.csmtech.entity.SessionAssessmentMaster;
 import com.csmtech.repository.AssessmentMasterRepository;
 import com.csmtech.repository.AssessmentSettingRespository;
 import com.csmtech.repository.ScheduleForMasterRepository;
@@ -44,12 +43,12 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 
 	@Autowired
 	AssessmentSettingRespository assessmentSettingRespository;
-	
+
 	@Override
 	public AssessmentMaster saveAssessment(AssessmentMasterDto assessmentDto) {
 		logger.info("saveAssessment method of AssessmentMasterServiceImpl is executed");
-		AssessmentMaster assMaster= new AssessmentMaster();
-		
+		AssessmentMaster assMaster = new AssessmentMaster();
+
 		assMaster.setAssessmentId(assessmentDto.getAssessmentId());
 		assMaster.setModuleId(assessmentDto.getModuleId());
 		assMaster.setSubmoduleId(assessmentDto.getSubmoduleId());
@@ -64,7 +63,6 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 		assMaster.setUpdatedBy(1);
 		return assessmentMasterRepository.save(assMaster);
 	}
-	
 
 	@Override
 	public List<Map<String, Object>> viewAssessmentData() {
@@ -86,11 +84,8 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 		return assessmentMasterRepository.updateAssessment(id);
 	}
 
-	
-	
 	// For upload excel
-	
-	
+
 	@Override
 	public List<Map<String, Object>> retriveModuleTypeList() {
 		logger.info("retriveModuleTypeList method of AssessmentMasterServiceImpl is executed");
@@ -109,8 +104,6 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 
 		return assessmentMasterRepository.retriveScheduleForList();
 	}
-
-
 
 	// For Module based Questions uplaod
 	@Override
@@ -174,7 +167,6 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 		}
 	}
 
-
 	// Method to find ID from list based on name
 	private int findIdFromList(String name, List<Map<String, Object>> list, String nameKey, String idKey) {
 		for (Map<String, Object> item : list) {
@@ -203,17 +195,22 @@ public class AssessmentMasterServiceImpl implements AssessmentMasterService {
 		return ""; // Return empty string if cell is null
 	}
 
-
 	@Override
 	public ResponseEntity<?> getQuestionarByScheduleId(Integer scheduleId) {
 		logger.info("getQuestionarByScheduleId method of AssessmentMasterServiceImpl is executed");
-		AssessmentSetting assessmentSetting =
-				assessmentSettingRespository.findFirst1ByScheduleForMaster_scheduleForId(scheduleId);
+		AssessmentSetting assessmentSetting = assessmentSettingRespository
+				.findFirst1ByScheduleForMaster_scheduleForId(scheduleId);
+		if (assessmentSetting == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for session ID: " + scheduleId);
+		}
 
 		Integer noOfQuestion = assessmentSetting.getNumberOfQuestion();
+		if (noOfQuestion == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for session ID: " + scheduleId);
+		}
 		System.err.println(scheduleId + " " + noOfQuestion);
-		List<AssessmentMaster> assessmentMastersList = assessmentMasterRepository
-				.getQuestionarByScheduleId(scheduleId, noOfQuestion);
+		List<AssessmentMaster> assessmentMastersList = assessmentMasterRepository.getQuestionarByScheduleId(scheduleId,
+				noOfQuestion);
 
 		if (assessmentMastersList.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for session ID: " + scheduleId);
