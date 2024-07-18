@@ -15,33 +15,40 @@ import com.csmtech.entity.AssessmentMaster;
 @Repository
 public interface AssessmentMasterRepository extends JpaRepository<AssessmentMaster, Integer> {
 
-	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
-			+ "					 FROM assessmentmaster a\r\n"
-			+ "			            INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
-			+ "			             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
-			+ "			            INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
-			+ "                        \r\n"
-			+ "					 WHERE a.DELETEDFLAG = 0 order by a.ASSESSMENTMASTERID  desc", nativeQuery = true)
+//	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
+//			+ "					 FROM assessmentmaster a\r\n"
+//			+ "			            INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
+//			+ "			             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
+//			+ "			            INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
+//			+ "                        \r\n"
+//			+ "					 WHERE a.DELETEDFLAG = 0 order by a.ASSESSMENTMASTERID  desc", nativeQuery = true)
+	@Query(value = "SELECT a.ASSESSMENTMASTERID, mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID, sb.SUBMODULENAME, sf.SCHEDULEFOR, sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2, a.OPTION3, a.OPTION4, a.ANSWER "
+			+ "FROM assessmentmaster a " + "INNER JOIN modulemaster mo ON a.MODULEID = mo.MODULEID "
+			+ "INNER JOIN submodulemaster sb ON a.SUBMODULEID = sb.SUBMODULEID "
+			+ "INNER JOIN scheduleformaster sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID " + "WHERE a.DELETEDFLAG = 0 "
+			+ "ORDER BY a.ASSESSMENTMASTERID DESC", nativeQuery = true)
 	List<Map<String, Object>> getAllAssesmentdata();
 
 	@Transactional
 	@Modifying
 	@Query(value = "update assessmentmaster set DELETEDFLAG=1 where ASSESSMENTMASTERID=:id", nativeQuery = true)
 	void deleteAssessment(Integer id);
-	
-	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
-			+ "			 FROM assessmentmaster a\r\n"
-			+ "             INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
-			+ "             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
-			+ "             INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
-			+ "			 WHERE a.ASSESSMENTMASTERID = :id ", nativeQuery = true)
+
+//	@Query(value = "SELECT a.ASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID ,sb.SUBMODULENAME ,sf.SCHEDULEFOR,sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2,a.OPTION3,a.OPTION4,a.ANSWER\r\n"
+//			+ "			 FROM assessmentmaster a\r\n"
+//			+ "             INNER JOIN modulemaster mo ON a.MODULEID=mo.MODULEID \r\n"
+//			+ "             INNER JOIN submodulemaster sb ON a.SUBMODULEID=sb.SUBMODULEID\r\n"
+//			+ "             INNER JOIN SCHEDULEFORMASTER sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
+//			+ "			 WHERE a.ASSESSMENTMASTERID = :id ", nativeQuery = true)
+	@Query(value = "SELECT a.ASSESSMENTMASTERID, mo.MODULEID, mo.MODULENAME, sb.SUBMODULEID, sb.SUBMODULENAME, sf.SCHEDULEFOR, sf.SCHEDULEFORID, a.QUESTION, a.OPTION1, a.OPTION2, a.OPTION3, a.OPTION4, a.ANSWER "
+			+ "FROM assessmentmaster a " + "INNER JOIN modulemaster mo ON a.MODULEID = mo.MODULEID "
+			+ "INNER JOIN submodulemaster sb ON a.SUBMODULEID = sb.SUBMODULEID "
+			+ "INNER JOIN scheduleformaster sf ON a.SCHEDULEFORID = sf.SCHEDULEFORID "
+			+ "WHERE a.ASSESSMENTMASTERID = :id", nativeQuery = true)
 	Map<String, Object> updateAssessment(Integer id);
-    
-	
-	
-	
+
 	// For upload Excel
-	
+
 	@Query(value = "SELECT m.MODULEID, m.MODULENAME" + " FROM modulemaster m"
 			+ " WHERE m.DELETEDFLAG = 0", nativeQuery = true)
 	List<Map<String, Object>> retriveModuleTypeList();

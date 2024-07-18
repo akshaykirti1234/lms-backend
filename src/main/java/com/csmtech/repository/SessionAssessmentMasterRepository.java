@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.csmtech.entity.SessionAssessmentMaster;
@@ -30,27 +31,41 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 	@Query(value = "update sessionmaster set DELETEDFLAG=1 where sessionid=:id", nativeQuery = true)
 	void deleteSession(Integer id);
 
-	@Query(value = "select ISLASTSESSION \r\n" + "from SESSIONMASTER\r\n"
-			+ "where SCHEDULEFORID=:id and DELETEDFLAG=0\r\n" + "ORDER BY ISLASTSESSION desc\r\n"
-			+ "LIMIT 1 ;", nativeQuery = true)
+//	@Query(value = "select ISLASTSESSION \r\n" + "from SESSIONMASTER\r\n"
+//			+ "where SCHEDULEFORID=:id and DELETEDFLAG=0\r\n" + "ORDER BY ISLASTSESSION desc\r\n"
+//			+ "LIMIT 1 ;", nativeQuery = true)
+	@Query(value = "select ISLASTSESSION " + "from sessionmaster " + "where SCHEDULEFORID = :id and DELETEDFLAG = 0 "
+			+ "ORDER BY ISLASTSESSION desc " + "LIMIT 1", nativeQuery = true)
 	Boolean checkIsLastSession(Integer id);
 
-	@Query(value = "select if(\r\n" + "(select SUM(NOOFSESSION)\r\n" + "FROM SCHEDULEFORMASTER\r\n"
-			+ "WHERE SCHEDULEFORID =:id and DELETEDFLAG = 0)\r\n" + "=\r\n" + "(select count(SESSIONID)\r\n"
-			+ "from SESSIONMASTER\r\n" + "where SCHEDULEFORID =:id and DELETEDFLAG = 0)+1\r\n"
-			+ ", 'true', 'false') Status;\r\n" + "", nativeQuery = true)
-	String checkBoxValidation(Integer id);
+//	@Query(value = "select if(\r\n" + "(select SUM(NOOFSESSION)\r\n" + "FROM SCHEDULEFORMASTER\r\n"
+//			+ "WHERE SCHEDULEFORID =:id and DELETEDFLAG = 0)\r\n" + "=\r\n" + "(select count(SESSIONID)\r\n"
+//			+ "from SESSIONMASTER\r\n" + "where SCHEDULEFORID =:id and DELETEDFLAG = 0)+1\r\n"
+//			+ ", 'true', 'false') Status;\r\n" + "", nativeQuery = true)
+//	String checkBoxValidation(Integer id);
+	@Query(value = "select if(" + "(select SUM(NOOFSESSION) " + "FROM scheduleformaster "
+			+ "WHERE SCHEDULEFORID = :id and DELETEDFLAG = 0) " + "= " + "(select count(SESSIONID) "
+			+ "from sessionmaster " + "where SCHEDULEFORID = :id and DELETEDFLAG = 0) + 1, "
+			+ "'true', 'false') as Status", nativeQuery = true)
+	String checkBoxValidation(@Param("id") Integer id);
 
 	@Query("From SessionMaster where scheduleFor.scheduleForId = :scheduleId and DELETEDFLAG = 0")
 	List<SessionMaster> getSessionByScheduleId(Integer scheduleId);
 
-	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
-			+ "			 FROM sessionassessmentmaster sa\r\n"
-			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
-			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
-			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
-			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
-			+ "			 WHERE sa.DELETEDFLAG = 0 order by sa.SESSIONASSESSMENTMASTERID  desc", nativeQuery = true)
+//	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
+//			+ "			 FROM sessionassessmentmaster sa\r\n"
+//			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
+//			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
+//			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
+//			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
+//			+ "			 WHERE sa.DELETEDFLAG = 0 order by sa.SESSIONASSESSMENTMASTERID  desc", nativeQuery = true)
+//	List<Map<String, Object>> viewAssessmentForSessionData();
+	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID, mo.MODULEID, mo.MODULENAME, sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID, sb.SUBMODULENAME, sf.SCHEDULEFOR, sf.SCHEDULEFORID, sa.QUESTION, sa.OPTION1, sa.OPTION2, sa.OPTION3, sa.OPTION4, sa.ANSWER "
+			+ "FROM sessionassessmentmaster sa " + "INNER JOIN modulemaster mo ON sa.MODULEID = mo.MODULEID "
+			+ "INNER JOIN submodulemaster sb ON sa.SUBMODULEID = sb.SUBMODULEID "
+			+ "INNER JOIN scheduleformaster sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID "
+			+ "INNER JOIN sessionmaster sm ON sa.SESSIONID = sm.SESSIONID " + "WHERE sa.DELETEDFLAG = 0 "
+			+ "ORDER BY sa.SESSIONASSESSMENTMASTERID DESC", nativeQuery = true)
 	List<Map<String, Object>> viewAssessmentForSessionData();
 
 	@Transactional
@@ -58,14 +73,21 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 	@Query(value = "update sessionassessmentmaster set DELETEDFLAG=1 where SESSIONASSESSMENTMASTERID=:id", nativeQuery = true)
 	void deleteAssessmentSession(Integer id);
 
-	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
-			+ "			 FROM sessionassessmentmaster sa\r\n"
-			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
-			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
-			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
-			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
-			+ "			 WHERE sa.SESSIONASSESSMENTMASTERID = :id", nativeQuery = true)
-	Map<String, Object> getAssessmentSessionById(Integer id);
+//	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID , mo.MODULEID, mo.MODULENAME , sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID ,sb.SUBMODULENAME , sf.SCHEDULEFOR,sf.SCHEDULEFORID,  sa.QUESTION, sa.OPTION1, sa.OPTION2,sa.OPTION3,sa.OPTION4,sa.ANSWER\r\n"
+//			+ "			 FROM sessionassessmentmaster sa\r\n"
+//			+ "             INNER JOIN modulemaster mo ON sa.MODULEID=mo.MODULEID \r\n"
+//			+ "             INNER JOIN submodulemaster sb ON sa.SUBMODULEID=sb.SUBMODULEID\r\n"
+//			+ "             INNER JOIN SCHEDULEFORMASTER sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID \r\n"
+//			+ "             INNER JOIN sessionmaster sm ON sa.SESSIONID=sm.SESSIONID\r\n"
+//			+ "			 WHERE sa.SESSIONASSESSMENTMASTERID = :id", nativeQuery = true)
+//	Map<String, Object> getAssessmentSessionById(Integer id);
+	@Query(value = "SELECT sa.SESSIONASSESSMENTMASTERID, mo.MODULEID, mo.MODULENAME, sm.SESSIONID, sm.SESSIONNAME, sb.SUBMODULEID, sb.SUBMODULENAME, sf.SCHEDULEFOR, sf.SCHEDULEFORID, sa.QUESTION, sa.OPTION1, sa.OPTION2, sa.OPTION3, sa.OPTION4, sa.ANSWER "
+			+ "FROM sessionassessmentmaster sa " + "INNER JOIN modulemaster mo ON sa.MODULEID = mo.MODULEID "
+			+ "INNER JOIN submodulemaster sb ON sa.SUBMODULEID = sb.SUBMODULEID "
+			+ "INNER JOIN scheduleformaster sf ON sa.SCHEDULEFORID = sf.SCHEDULEFORID "
+			+ "INNER JOIN sessionmaster sm ON sa.SESSIONID = sm.SESSIONID "
+			+ "WHERE sa.SESSIONASSESSMENTMASTERID = :id", nativeQuery = true)
+	Map<String, Object> getAssessmentSessionById(@Param("id") Integer id);
 
 	// For upload Excel
 
@@ -97,7 +119,7 @@ public interface SessionAssessmentMasterRepository extends JpaRepository<Session
 //			+ "        THEN 'true'\r\n" + "    END AS result;", nativeQuery = true)
 //	Map<String, Object> checkIfSessionQsnPreparedForScheduleId(Integer id);
 
-	@Query(value = "SELECT count(SESSIONASSESSMENTSETTINGID) FROM lms_db.sessionassessmentsetting where SCHEDULEFORID = :id and DELETEDFLAG = false", nativeQuery = true)
+	@Query(value = "SELECT count(SESSIONASSESSMENTSETTINGID) FROM sessionassessmentsetting where SCHEDULEFORID = :id and DELETEDFLAG = false", nativeQuery = true)
 	Long checkIfSessionQsnPreparedForScheduleId(Integer id);
 
 }
